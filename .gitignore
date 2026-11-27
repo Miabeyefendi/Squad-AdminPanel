@@ -10,5 +10,3 @@ key.salt
 *.pem
 # internal planning notes
 docs/guides/
-# internal planning notes
-docs/guides/

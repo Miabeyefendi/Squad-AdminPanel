@@ -37,6 +37,16 @@
 
 ---
 
+## 🎬 实际演示
+
+<div align="center">
+  <img src="./screenshots/demo.gif" width="92%" alt="Squad Admin Panel 动态导览:总览、记分板、小队与聊天、玩家卡片、地图控制、Smart Shuffle、插件、权限和记录">
+  <br/>
+  <sub><b>面板导览</b> · 九个页面,演示数据</sub>
+</div>
+
+---
+
 ## ✨ 功能亮点
 
 - **实时记分板** - 两队并排:击杀、击倒、死亡、K/D、复活、误杀、伤害、小队编号
@@ -149,6 +159,22 @@ abf5f817f06184f7f3319e8dbababece23f6ce736a587100d44790624d2d5cd7
     <img src="./screenshots/automatic-rules-light.png" width="100%" alt="Automatic server rules with plain language summaries"/><br/>
     <sub><b>规则</b> · 每条都说明会做什么</sub>
   </td>
+</tr>
+<tr>
+  <td align="center" width="50%"><img src="./screenshots/player-card-dark.png" width="100%" alt="Player card with match numbers, warning history, notes and the kick and ban buttons"/><br/><sub><b>玩家卡片</b> · 历史、备注、操作</sub></td>
+  <td align="center" width="50%"><img src="./screenshots/overview-light.png" width="100%" alt="Overview page in the light theme"/><br/><sub><b>浅色主题</b> · 跟随系统</sub></td>
+</tr>
+<tr>
+  <td align="center" width="50%"><img src="./screenshots/logs-dark.png" width="100%" alt="Server logs: kills with weapon, filtered by period, with CSV export"/><br/><sub><b>日志</b> · 任意时段,CSV 导出</sub></td>
+  <td align="center" width="50%"><img src="./screenshots/delete-records-dark.png" width="100%" alt="Deleting records: warning banner and a preview of what would be removed"/><br/><sub><b>安全删除</b> · 先预览</sub></td>
+</tr>
+<tr>
+  <td align="center" width="50%"><img src="./screenshots/smart-shuffle-settings-dark.png" width="100%" alt="Smart Shuffle settings grouped by topic"/><br/><sub><b>Shuffle 设置</b> · 分组显示</sub></td>
+  <td align="center" width="50%"><img src="./screenshots/ranks-dark.png" width="100%" alt="Default permissions of admin, senior mod and junior mod side by side"/><br/><sub><b>等级</b> · 默认权限并排</sub></td>
+</tr>
+<tr>
+  <td align="center" width="50%"><img src="./screenshots/phone-overview-dark.png" width="55%" alt="The overview page on a phone"/><br/><sub><b>手机端</b> · 总览</sub></td>
+  <td align="center" width="50%"><img src="./screenshots/phone-players-dark.png" width="55%" alt="Squad lists on a phone"/><br/><sub><b>手机端</b> · 小队</sub></td>
 </tr>
 </table>
 

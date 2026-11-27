@@ -37,6 +37,16 @@
 
 ---
 
+## 🎬 В действии
+
+<div align="center">
+  <img src="./screenshots/demo.gif" width="92%" alt="Анимированный обзор Squad Admin Panel: сводка, таблица, отряды и чат, карточка игрока, карты, Smart Shuffle, плагины, права и записи">
+  <br/>
+  <sub><b>Обзор панели</b> · девять экранов, демо-данные</sub>
+</div>
+
+---
+
 ## ✨ Главное
 
 - **Живая таблица** - обе команды рядом: убийства, нокауты, смерти, K/D, реанимации, тимкиллы, урон, номера отрядов
@@ -149,6 +159,22 @@ abf5f817f06184f7f3319e8dbababece23f6ce736a587100d44790624d2d5cd7
     <img src="./screenshots/automatic-rules-light.png" width="100%" alt="Automatic server rules with plain language summaries"/><br/>
     <sub><b>Правила</b> · каждое говорит, что сделает</sub>
   </td>
+</tr>
+<tr>
+  <td align="center" width="50%"><img src="./screenshots/player-card-dark.png" width="100%" alt="Player card with match numbers, warning history, notes and the kick and ban buttons"/><br/><sub><b>Карточка игрока</b> · история, заметки, действия</sub></td>
+  <td align="center" width="50%"><img src="./screenshots/overview-light.png" width="100%" alt="Overview page in the light theme"/><br/><sub><b>Светлая тема</b> · как в системе</sub></td>
+</tr>
+<tr>
+  <td align="center" width="50%"><img src="./screenshots/logs-dark.png" width="100%" alt="Server logs: kills with weapon, filtered by period, with CSV export"/><br/><sub><b>Журналы</b> · любой период, CSV</sub></td>
+  <td align="center" width="50%"><img src="./screenshots/delete-records-dark.png" width="100%" alt="Deleting records: warning banner and a preview of what would be removed"/><br/><sub><b>Безопасное удаление</b> · сначала предпросмотр</sub></td>
+</tr>
+<tr>
+  <td align="center" width="50%"><img src="./screenshots/smart-shuffle-settings-dark.png" width="100%" alt="Smart Shuffle settings grouped by topic"/><br/><sub><b>Настройки Shuffle</b> · по группам</sub></td>
+  <td align="center" width="50%"><img src="./screenshots/ranks-dark.png" width="100%" alt="Default permissions of admin, senior mod and junior mod side by side"/><br/><sub><b>Ранги</b> · права рядом</sub></td>
+</tr>
+<tr>
+  <td align="center" width="50%"><img src="./screenshots/phone-overview-dark.png" width="55%" alt="The overview page on a phone"/><br/><sub><b>На телефоне</b> · сводка</sub></td>
+  <td align="center" width="50%"><img src="./screenshots/phone-players-dark.png" width="55%" alt="Squad lists on a phone"/><br/><sub><b>На телефоне</b> · отряды</sub></td>
 </tr>
 </table>
 

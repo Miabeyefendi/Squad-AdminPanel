@@ -37,6 +37,16 @@
 
 ---
 
+## 🎬 En acción
+
+<div align="center">
+  <img src="./screenshots/demo.gif" width="92%" alt="Recorrido animado por Squad Admin Panel: resumen, marcador, escuadras y chat, ficha de jugador, mapas, Smart Shuffle, plugins, permisos e historial">
+  <br/>
+  <sub><b>Recorrido por el panel</b> · nueve pantallas, datos de demo</sub>
+</div>
+
+---
+
 ## ✨ Lo más destacado
 
 - **Marcador en vivo** - los dos equipos lado a lado: bajas, derribos, muertes, K/D, reanimaciones, fuego amigo, daño y número de escuadra
@@ -149,6 +159,22 @@ Nombres y cifras son de la demo. Las banderas y los mapas son dibujos propios; n
     <img src="./screenshots/automatic-rules-light.png" width="100%" alt="Automatic server rules with plain language summaries"/><br/>
     <sub><b>Reglas</b> · cada una dice qué hará</sub>
   </td>
+</tr>
+<tr>
+  <td align="center" width="50%"><img src="./screenshots/player-card-dark.png" width="100%" alt="Player card with match numbers, warning history, notes and the kick and ban buttons"/><br/><sub><b>Ficha de jugador</b> · historial, notas, acciones</sub></td>
+  <td align="center" width="50%"><img src="./screenshots/overview-light.png" width="100%" alt="Overview page in the light theme"/><br/><sub><b>Tema claro</b> · sigue al sistema</sub></td>
+</tr>
+<tr>
+  <td align="center" width="50%"><img src="./screenshots/logs-dark.png" width="100%" alt="Server logs: kills with weapon, filtered by period, with CSV export"/><br/><sub><b>Registros</b> · cualquier periodo, CSV</sub></td>
+  <td align="center" width="50%"><img src="./screenshots/delete-records-dark.png" width="100%" alt="Deleting records: warning banner and a preview of what would be removed"/><br/><sub><b>Borrado seguro</b> · vista previa primero</sub></td>
+</tr>
+<tr>
+  <td align="center" width="50%"><img src="./screenshots/smart-shuffle-settings-dark.png" width="100%" alt="Smart Shuffle settings grouped by topic"/><br/><sub><b>Ajustes de Shuffle</b> · grupo a grupo</sub></td>
+  <td align="center" width="50%"><img src="./screenshots/ranks-dark.png" width="100%" alt="Default permissions of admin, senior mod and junior mod side by side"/><br/><sub><b>Rangos</b> · permisos lado a lado</sub></td>
+</tr>
+<tr>
+  <td align="center" width="50%"><img src="./screenshots/phone-overview-dark.png" width="55%" alt="The overview page on a phone"/><br/><sub><b>En el móvil</b> · resumen</sub></td>
+  <td align="center" width="50%"><img src="./screenshots/phone-players-dark.png" width="55%" alt="Squad lists on a phone"/><br/><sub><b>En el móvil</b> · escuadras</sub></td>
 </tr>
 </table>
 

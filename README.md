@@ -37,6 +37,16 @@
 
 ---
 
+## 🎬 See it in action
+
+<div align="center">
+  <img src="./screenshots/demo.gif" width="92%" alt="Animated tour of Squad Admin Panel: overview, scoreboard, squads and chat, player card, map control, Smart Shuffle, plugins, staff and records">
+  <br/>
+  <sub><b>A tour of the panel</b> · nine screens, demo data</sub>
+</div>
+
+---
+
 ## ✨ Highlights
 
 - **Live scoreboard** - both teams side by side: kills, downs, deaths, K/D, revives, teamkills, damage, squad numbers
@@ -151,6 +161,22 @@ All names and numbers below come from the built-in demo. The flags and map pictu
     <img src="./screenshots/automatic-rules-light.png" width="100%" alt="Automatic server rules with plain language summaries"/><br/>
     <sub><b>Rules</b> · each says what it will do</sub>
   </td>
+</tr>
+<tr>
+  <td align="center" width="50%"><img src="./screenshots/player-card-dark.png" width="100%" alt="Player card with match numbers, warning history, notes and the kick and ban buttons"/><br/><sub><b>Player card</b> · history, notes, actions</sub></td>
+  <td align="center" width="50%"><img src="./screenshots/overview-light.png" width="100%" alt="Overview page in the light theme"/><br/><sub><b>Light theme</b> · follows your system</sub></td>
+</tr>
+<tr>
+  <td align="center" width="50%"><img src="./screenshots/logs-dark.png" width="100%" alt="Server logs: kills with weapon, filtered by period, with CSV export"/><br/><sub><b>Logs</b> · any period, CSV export</sub></td>
+  <td align="center" width="50%"><img src="./screenshots/delete-records-dark.png" width="100%" alt="Deleting records: warning banner and a preview of what would be removed"/><br/><sub><b>Safe deleting</b> · preview before anything goes</sub></td>
+</tr>
+<tr>
+  <td align="center" width="50%"><img src="./screenshots/smart-shuffle-settings-dark.png" width="100%" alt="Smart Shuffle settings grouped by topic"/><br/><sub><b>Shuffle settings</b> · one group at a time</sub></td>
+  <td align="center" width="50%"><img src="./screenshots/ranks-dark.png" width="100%" alt="Default permissions of admin, senior mod and junior mod side by side"/><br/><sub><b>Ranks</b> · defaults side by side</sub></td>
+</tr>
+<tr>
+  <td align="center" width="50%"><img src="./screenshots/phone-overview-dark.png" width="55%" alt="The overview page on a phone"/><br/><sub><b>On a phone</b> · overview</sub></td>
+  <td align="center" width="50%"><img src="./screenshots/phone-players-dark.png" width="55%" alt="Squad lists on a phone"/><br/><sub><b>On a phone</b> · squads</sub></td>
 </tr>
 </table>
 
