@@ -1,0 +1,21 @@
+{
+  "name": "squad-admin-panel",
+  "version": "0.5.0",
+  "private": true,
+  "author": "Miabeyefendi",
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/unit/core.test.mjs tests/integration/panel.test.mjs tests/integration/security.test.mjs tests/integration/permissions.test.mjs tests/integration/features.test.mjs tests/integration/ui-data.test.mjs",
+    "demo": "node tests/integration/demo.mjs"
+  },
+  "description": "Free and open source web admin panel for Squad game servers, running as a SquadJS plugin.",
+  "license": "AGPL-3.0",
+  "keywords": [
+    "squad",
+    "squadjs",
+    "squadjs-plugin",
+    "admin-panel",
+    "rcon",
+    "game-server"
+  ]
+}

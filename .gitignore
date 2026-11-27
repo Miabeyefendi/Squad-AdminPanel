@@ -1,0 +1,14 @@
+releases/
+archive/
+node_modules/
+admin-panel-data/
+*.bak
+.env
+secret.key
+key.salt
+*.enc
+*.pem
+# internal planning notes
+docs/guides/
+# internal planning notes
+docs/guides/

@@ -1,0 +1,173 @@
+[
+ {
+  "id": "default",
+  "name": "Default",
+  "stomped": 11.2,
+  "moved": 50,
+  "kept": 84,
+  "options": {
+   "autoShuffle": false,
+   "lockMode": 2
+  }
+ },
+ {
+  "id": "strict",
+  "name": "Strict",
+  "stomped": 10.7,
+  "moved": 33,
+  "kept": 42,
+  "options": {
+   "autoShuffle": false,
+   "lockMode": 2,
+   "keepParties": true,
+   "maxPartySize": 2,
+   "historyRounds": 8,
+   "historyHours": 12,
+   "fewerMoves": 0.1
+  }
+ },
+ {
+  "id": "tight",
+  "name": "Tight",
+  "stomped": 11.7,
+  "moved": 22,
+  "kept": 65,
+  "options": {
+   "autoShuffle": false,
+   "lockMode": 2,
+   "keepParties": true,
+   "maxPartySize": 3,
+   "historyRounds": 8,
+   "historyHours": 12,
+   "fewerMoves": 0.3
+  }
+ },
+ {
+  "id": "balanced",
+  "name": "Balanced",
+  "stomped": 12.5,
+  "moved": 18,
+  "kept": 85,
+  "options": {
+   "autoShuffle": false,
+   "lockMode": 2,
+   "keepParties": true,
+   "maxPartySize": 4,
+   "historyRounds": 8,
+   "historyHours": 12,
+   "fewerMoves": 0.3
+  }
+ },
+ {
+  "id": "steady",
+  "name": "Steady",
+  "stomped": 13.1,
+  "moved": 15,
+  "kept": 86,
+  "options": {
+   "autoShuffle": false,
+   "lockMode": 2,
+   "keepParties": true,
+   "maxPartySize": 4,
+   "historyRounds": 8,
+   "historyHours": 12,
+   "fewerMoves": 0.6
+  }
+ },
+ {
+  "id": "calm",
+  "name": "Calm",
+  "stomped": 14.2,
+  "moved": 13,
+  "kept": 86,
+  "options": {
+   "autoShuffle": false,
+   "lockMode": 2,
+   "keepParties": true,
+   "maxPartySize": 4,
+   "historyRounds": 8,
+   "historyHours": 12,
+   "fewerMoves": 1
+  }
+ },
+ {
+  "id": "squads",
+  "name": "Squads",
+  "stomped": 14.6,
+  "moved": 12,
+  "kept": 89,
+  "options": {
+   "autoShuffle": false,
+   "lockMode": 2,
+   "keepParties": true,
+   "maxPartySize": 6,
+   "historyRounds": 8,
+   "historyHours": 12,
+   "fewerMoves": 1
+  }
+ },
+ {
+  "id": "relaxed",
+  "name": "Relaxed",
+  "stomped": 16.6,
+  "moved": 11,
+  "kept": 90,
+  "options": {
+   "autoShuffle": false,
+   "lockMode": 2,
+   "keepParties": true,
+   "maxPartySize": 6,
+   "historyRounds": 8,
+   "historyHours": 12,
+   "fewerMoves": 2
+  }
+ },
+ {
+  "id": "easy",
+  "name": "Easy",
+  "stomped": 19,
+  "moved": 9,
+  "kept": 90,
+  "options": {
+   "autoShuffle": false,
+   "lockMode": 2,
+   "keepParties": true,
+   "maxPartySize": 6,
+   "historyRounds": 8,
+   "historyHours": 12,
+   "fewerMoves": 4
+  }
+ },
+ {
+  "id": "together",
+  "name": "Together",
+  "stomped": 21.7,
+  "moved": 9,
+  "kept": 99,
+  "options": {
+   "autoShuffle": false,
+   "lockMode": 2,
+   "keepParties": true,
+   "maxPartySize": 0,
+   "historyRounds": 8,
+   "historyHours": 12,
+   "fewerMoves": 2
+  }
+ },
+ {
+  "id": "light",
+  "name": "Light",
+  "stomped": 24,
+  "moved": 8,
+  "kept": 99,
+  "options": {
+   "autoShuffle": false,
+   "lockMode": 2,
+   "keepParties": true,
+   "maxPartySize": 0,
+   "historyRounds": 8,
+   "historyHours": 12,
+   "fewerMoves": 4
+  }
+ }
+]
