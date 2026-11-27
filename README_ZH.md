@@ -1,9 +1,6 @@
 <div align="center">
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="./assets/logo-dark.svg">
-  <img src="./assets/logo.svg" width="120" alt="Squad Admin Panel">
-</picture>
+<img src="./assets/banner.png" width="92%" alt="Squad Admin Panel: free and open source web admin panel for Squad servers">
 
 # Squad Admin Panel
 
@@ -93,7 +90,7 @@
 <details>
 <summary><b>关于发布文件</b></summary>
 
-压缩包是本仓库 `src/squadjs/` 的原样副本,并在 `admin-panel/` 中加入了 `LICENSE` 和 `NOTICE`。没有编译、压缩或打包。
+压缩包是本仓库 `src/squadjs/` (tag `v0.5.0`) 的原样副本,并在 `admin-panel/` 中加入了 `LICENSE` 和 `NOTICE`。没有编译、压缩或打包。
 
 `Squad-AdminPanel-v0.5.0.zip` 的 SHA-256:
 
@@ -117,7 +114,7 @@ abf5f817f06184f7f3319e8dbababece23f6ce736a587100d44790624d2d5cd7
 
 ## 🖼️ 截图
 
-截图中的名称和数据来自演示模式。旗帜和地图图案由面板自行绘制,不包含任何游戏图片。
+名称和数据来自演示模式。截图中的地图和阵营图片不包含在下载文件中,而是放入面板的图片文件夹后显示的(见"致谢")。没有这些图片时,面板使用自己绘制的图案。
 
 <table>
 <tr>
@@ -271,6 +268,7 @@ Squad 既不通过 RCON 发送,也不写入服务器日志。
 
 - Team Silver Sphere 的 [**SquadJS**](https://github.com/Team-Silver-Sphere/SquadJS)(Boost Software License),本插件运行的框架。
 - [**Smart Shuffle**](https://github.com/Miabeyefendi/Squad-SmartShuffle),我的队伍平衡插件,附带其 LICENSE 和 NOTICE。
+- 截图中的图片:地图来自 [Squad Wiki Pipeline](https://github.com/Squad-Wiki/squad-wiki-pipeline-map-data)(CC BY-SA 4.0,已缩小),阵营旗帜来自 [SquadCalc](https://github.com/sh4rkman/SquadCalc)。Squad 游戏内容归 Offworld Industries 所有。
 
 ---
 

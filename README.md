@@ -1,9 +1,6 @@
 <div align="center">
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="./assets/logo-dark.svg">
-  <img src="./assets/logo.svg" width="120" alt="Squad Admin Panel">
-</picture>
+<img src="./assets/banner.png" width="92%" alt="Squad Admin Panel: free and open source web admin panel for Squad servers">
 
 # Squad Admin Panel
 
@@ -95,7 +92,7 @@ First time with SquadJS? The [tutorial](./docs/SETUP.md#-installation) starts fr
 <details>
 <summary><b>About the release file</b></summary>
 
-The zip is a plain copy of `src/squadjs/` from this repository with `LICENSE` and `NOTICE` added inside `admin-panel/`. Nothing is compiled, minified or bundled.
+The zip is a plain copy of `src/squadjs/` (tag `v0.5.0`) from this repository with `LICENSE` and `NOTICE` added inside `admin-panel/`. Nothing is compiled, minified or bundled.
 
 `Squad-AdminPanel-v0.5.0.zip` SHA-256:
 
@@ -119,7 +116,7 @@ For access from your own computer or for several admins, see [remote access](./d
 
 ## 🖼️ Screenshots
 
-All names and numbers below come from the built-in demo. The flags and map pictures are drawn by the panel; no game images are included.
+Names and numbers come from the built-in demo. The map and faction pictures in these screenshots are not part of the download: they were added through the panel's picture folder (see [Credits](#-credits)). Without them the panel draws its own.
 
 <table>
 <tr>
@@ -277,6 +274,7 @@ Contributions are welcome. Read [CONTRIBUTING.md](./CONTRIBUTING.md) and [CODE_O
 
 - [**SquadJS**](https://github.com/Team-Silver-Sphere/SquadJS) by Team Silver Sphere (Boost Software License) - the framework this plugin runs in; it provides RCON, log reading and the layer list.
 - [**Smart Shuffle**](https://github.com/Miabeyefendi/Squad-SmartShuffle) - my team balance plugin, included in `admin-panel/smart-shuffle/` with its own [LICENSE](./src/squadjs/admin-panel/smart-shuffle/LICENSE) and [NOTICE](./src/squadjs/admin-panel/smart-shuffle/NOTICE).
+- Pictures seen in the screenshots: map images from the [Squad Wiki Pipeline](https://github.com/Squad-Wiki/squad-wiki-pipeline-map-data) (CC BY-SA 4.0, resized), faction flags from [SquadCalc](https://github.com/sh4rkman/SquadCalc). Squad game content belongs to Offworld Industries.
 
 ---
 

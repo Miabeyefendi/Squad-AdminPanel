@@ -1,9 +1,6 @@
 <div align="center">
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="./assets/logo-dark.svg">
-  <img src="./assets/logo.svg" width="120" alt="Squad Admin Panel">
-</picture>
+<img src="./assets/banner.png" width="92%" alt="Squad Admin Panel: free and open source web admin panel for Squad servers">
 
 # Squad Admin Panel
 
@@ -95,7 +92,7 @@
 <details>
 <summary><b>Sürüm dosyası hakkında</b></summary>
 
-Zip, bu depodaki `src/squadjs/` klasörünün düz kopyasıdır, `admin-panel/` içine `LICENSE` ve `NOTICE` eklenmiştir. Derleme, küçültme ya da paketleme yoktur.
+Zip, bu depodaki `src/squadjs/` (tag `v0.5.0`) klasörünün düz kopyasıdır, `admin-panel/` içine `LICENSE` ve `NOTICE` eklenmiştir. Derleme, küçültme ya da paketleme yoktur.
 
 `Squad-AdminPanel-v0.5.0.zip` SHA-256:
 
@@ -119,7 +116,7 @@ Başka bilgisayardan ya da birden fazla admin için: [uzaktan giriş](./docs/KUR
 
 ## 🖼️ Ekran görüntüleri
 
-Tüm isim ve sayılar demodandır. Bayraklar ve harita desenleri panelin kendi çizimidir, oyun görseli yoktur.
+İsim ve sayılar demodandır. Görüntülerdeki harita ve faction resimleri indirmeye dahil değildir: panelin resim klasörüne sonradan eklenmiştir (bkz. Emeği geçenler). Onlar yoksa panel kendi çizimlerini gösterir.
 
 <table>
 <tr>
@@ -273,6 +270,7 @@ Katkılar açıktır. Önce [CONTRIBUTING.md](./CONTRIBUTING.md) ve [CODE_OF_CON
 
 - [**SquadJS**](https://github.com/Team-Silver-Sphere/SquadJS), Team Silver Sphere (Boost Software License) - eklentinin içinde çalıştığı altyapı; RCON, log okuma ve layer listesi ondan gelir.
 - [**Smart Shuffle**](https://github.com/Miabeyefendi/Squad-SmartShuffle) - kendi takım dengeleme eklentim, `admin-panel/smart-shuffle/` içinde kendi LICENSE ve NOTICE dosyalarıyla.
+- Ekran görüntülerindeki resimler: harita görselleri [Squad Wiki Pipeline](https://github.com/Squad-Wiki/squad-wiki-pipeline-map-data) (CC BY-SA 4.0, küçültülmüş), faction bayrakları [SquadCalc](https://github.com/sh4rkman/SquadCalc). Squad oyun içeriği Offworld Industries'e aittir.
 
 ---
 

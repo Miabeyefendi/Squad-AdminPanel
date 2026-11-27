@@ -1,9 +1,6 @@
 <div align="center">
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="./assets/logo-dark.svg">
-  <img src="./assets/logo.svg" width="120" alt="Squad Admin Panel">
-</picture>
+<img src="./assets/banner.png" width="92%" alt="Squad Admin Panel: free and open source web admin panel for Squad servers">
 
 # Squad Admin Panel
 
@@ -93,7 +90,7 @@
 <details>
 <summary><b>О файле релиза</b></summary>
 
-Архив - это копия `src/squadjs/` из репозитория с `LICENSE` и `NOTICE` внутри `admin-panel/`. Без сборки и минификации.
+Архив - это копия `src/squadjs/` (tag `v0.5.0`) из репозитория с `LICENSE` и `NOTICE` внутри `admin-panel/`. Без сборки и минификации.
 
 SHA-256 файла `Squad-AdminPanel-v0.5.0.zip`:
 
@@ -117,7 +114,7 @@ abf5f817f06184f7f3319e8dbababece23f6ce736a587100d44790624d2d5cd7
 
 ## 🖼️ Скриншоты
 
-Имена и числа взяты из демо. Флаги и узоры карт нарисованы самой панелью; игровых изображений нет.
+Имена и числа взяты из демо. Изображения карт и фракций на этих снимках не входят в загрузку: они добавлены в папку изображений панели (см. "Благодарности"). Без них панель рисует свои.
 
 <table>
 <tr>
@@ -271,6 +268,7 @@ Squad не передаёт их по RCON и не пишет в лог.
 
 - [**SquadJS**](https://github.com/Team-Silver-Sphere/SquadJS) от Team Silver Sphere (Boost Software License) - основа, в которой работает плагин.
 - [**Smart Shuffle**](https://github.com/Miabeyefendi/Squad-SmartShuffle) - мой плагин баланса, включён со своими LICENSE и NOTICE.
+- Изображения на снимках: карты из [Squad Wiki Pipeline](https://github.com/Squad-Wiki/squad-wiki-pipeline-map-data) (CC BY-SA 4.0, уменьшены), флаги фракций из [SquadCalc](https://github.com/sh4rkman/SquadCalc). Игровой контент Squad принадлежит Offworld Industries.
 
 ---
 

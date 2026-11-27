@@ -1,9 +1,6 @@
 <div align="center">
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="./assets/logo-dark.svg">
-  <img src="./assets/logo.svg" width="120" alt="Squad Admin Panel">
-</picture>
+<img src="./assets/banner.png" width="92%" alt="Squad Admin Panel: free and open source web admin panel for Squad servers">
 
 # Squad Admin Panel
 
@@ -93,7 +90,7 @@
 <details>
 <summary><b>Sobre el archivo de la versión</b></summary>
 
-El zip es una copia de `src/squadjs/` con `LICENSE` y `NOTICE` dentro de `admin-panel/`. No hay compilación ni código minificado.
+El zip es una copia de `src/squadjs/` (tag `v0.5.0`) con `LICENSE` y `NOTICE` dentro de `admin-panel/`. No hay compilación ni código minificado.
 
 SHA-256 de `Squad-AdminPanel-v0.5.0.zip`:
 
@@ -117,7 +114,7 @@ El acceso remoto se explica en el [tutorial](./docs/SETUP.md#remote-access-and-m
 
 ## 🖼️ Capturas
 
-Nombres y cifras son de la demo. Las banderas y los mapas son dibujos propios; no se incluyen imágenes del juego.
+Nombres y cifras son de la demo. Las imágenes de mapas y facciones de estas capturas no vienen en la descarga: se añadieron en la carpeta de imágenes del panel (ver Créditos). Sin ellas el panel dibuja las suyas.
 
 <table>
 <tr>
@@ -271,6 +268,7 @@ Lee [CONTRIBUTING.md](./CONTRIBUTING.md) y [CODE_OF_CONDUCT.md](./CODE_OF_CONDUC
 
 - [**SquadJS**](https://github.com/Team-Silver-Sphere/SquadJS) de Team Silver Sphere (Boost Software License), la base donde corre el plugin.
 - [**Smart Shuffle**](https://github.com/Miabeyefendi/Squad-SmartShuffle), mi plugin de equilibrio, incluido con su LICENSE y NOTICE.
+- Imágenes de las capturas: mapas de [Squad Wiki Pipeline](https://github.com/Squad-Wiki/squad-wiki-pipeline-map-data) (CC BY-SA 4.0, redimensionados) y banderas de [SquadCalc](https://github.com/sh4rkman/SquadCalc). El contenido del juego Squad pertenece a Offworld Industries.
 
 ---
 
