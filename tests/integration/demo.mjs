@@ -1,5 +1,5 @@
 // The panel on a fake server, for looking at it in a browser.
-// By default it is a real first run: sign in with admin / admin and set your own name and password.
+// By default it is a real first run: sign in with admin / admin (the panel warns until it is changed).
 // With --ranks (or SA_DEMO_RANKS=1) it has one account per rank instead: demo (owner), ada, sam and
 // jim, all with the password demo-panel-password. Test values for this local demo only.
 // --art=<folder> (or SA_DEMO_ART) shows the pictures of that folder's maps/ and factions/ subfolders.

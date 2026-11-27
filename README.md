@@ -9,7 +9,7 @@
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-A78BFA?style=for-the-badge&logo=gnu&logoColor=white)](./LICENSE)
 [![Version](https://img.shields.io/github/v/release/Miabeyefendi/Squad-AdminPanel?style=for-the-badge&color=F59E0B&label=version)](https://github.com/Miabeyefendi/Squad-AdminPanel/releases/latest)
 [![Platform](https://img.shields.io/badge/SquadJS_plugin-1E293B?style=for-the-badge&logo=nodedotjs&logoColor=white)](#-installation)
-[![Status](https://img.shields.io/badge/status-beta-F59E0B?style=for-the-badge)](#-roadmap)
+[![Status](https://img.shields.io/badge/status-active-22C55E?style=for-the-badge)](#-roadmap)
 [![Author](https://img.shields.io/badge/by-Miabeyefendi-0EA5E9?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Miabeyefendi)
 
 **English** · [Türkçe](./README_TR.md) · [Español](./README_ES.md) · [简体中文](./README_ZH.md) · [Русский](./README_RU.md)
@@ -30,7 +30,7 @@
 
 </div>
 
-> **Beta.** Tested with automated tests, with real SquadJS against an emulated game, and over real RCON on an empty Squad v10.6.3 server (version 0.1.0). It has **not yet been tested on a live match with players.** Check the first kicks and bans in game.
+> **Not yet tested with players.** Tested with automated tests, with real SquadJS against an emulated game, and over real RCON on an empty Squad v10.6.3 server (an earlier build). Check the first kicks and bans in game.
 
 ---
 
@@ -77,7 +77,7 @@
 
 ### Install
 
-1. Download `Squad-AdminPanel-v0.5.0.zip` from the [releases page](https://github.com/Miabeyefendi/Squad-AdminPanel/releases/latest).
+1. Download `Squad-AdminPanel-v1.0.0.zip` from the [releases page](https://github.com/Miabeyefendi/Squad-AdminPanel/releases/latest).
 2. Extract `admin-panel.js` and the `admin-panel` folder into `squad-server/plugins/` of SquadJS.
 3. Add this line to the `plugins` list in `config.json`:
 
@@ -92,12 +92,12 @@ First time with SquadJS? The [tutorial](./docs/SETUP.md#-installation) starts fr
 <details>
 <summary><b>About the release file</b></summary>
 
-The zip is a plain copy of `src/squadjs/` (tag `v0.5.0`) from this repository with `LICENSE` and `NOTICE` added inside `admin-panel/`. Nothing is compiled, minified or bundled.
+The zip is a plain copy of `src/squadjs/` (tag `v1.0.0`) from this repository with `LICENSE` and `NOTICE` added inside `admin-panel/`. Nothing is compiled, minified or bundled.
 
-`Squad-AdminPanel-v0.5.0.zip` SHA-256:
+`Squad-AdminPanel-v1.0.0.zip` SHA-256:
 
 ```
-abf5f817f06184f7f3319e8dbababece23f6ce736a587100d44790624d2d5cd7
+9cf84697641ca8b24a64681ff4c1b4b67df51955f268ac01ba61393f52e95d98
 ```
 
 </details>
@@ -107,8 +107,8 @@ abf5f817f06184f7f3319e8dbababece23f6ce736a587100d44790624d2d5cd7
 ## 🚀 Quick Start
 
 1. **On the machine that runs SquadJS**, open `http://127.0.0.1:8170`.
-2. Sign in with `admin` / `admin`. The panel makes you set your own name and password before anything else.
-3. Do this **before** putting any proxy or tunnel in front of the panel. The first account is meant to work from the server itself only.
+2. Sign in with `admin` / `admin`. You are in. A warning stays at the top until you set your own password under **My account**.
+3. Change it **before** putting any proxy or tunnel in front of the panel. While it is `admin` / `admin`, it works from the server itself only.
 
 For access from your own computer or for several admins, see [remote access](./docs/SETUP.md#remote-access-and-more-admins).
 

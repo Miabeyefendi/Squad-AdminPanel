@@ -8,9 +8,9 @@ All notable changes to **Squad-AdminPanel** are recorded here. The format follow
 
 ---
 
-## [0.5.0] - 2026-11-27
+## [1.0.0] - 2026-11-27
 
-First public release (beta).
+First release. Not yet tested on a live match with players.
 
 ### Added
 
@@ -22,9 +22,10 @@ First public release (beta).
 - Automatic rules: teamkills, players without a squad, squad leader without the SL kit, small locked squads, chat filter, name filter.
 - Manager for other SquadJS plugins and their settings.
 - Own flag drawings and map patterns, with optional own pictures from the data folder.
+- First sign in with `admin` / `admin`, from the server itself only, with a warning until the password is changed.
 
 ### Security
 
 - Salted scrypt password hashes, brute force protection, AES-256-GCM encrypted data, strict Content-Security-Policy, cross-site and host name checks, no-index headers.
 
-[0.5.0]: https://github.com/Miabeyefendi/Squad-AdminPanel/releases/tag/v0.5.0
+[1.0.0]: https://github.com/Miabeyefendi/Squad-AdminPanel/releases/tag/v1.0.0

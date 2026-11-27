@@ -9,7 +9,7 @@
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-A78BFA?style=for-the-badge&logo=gnu&logoColor=white)](./LICENSE)
 [![Version](https://img.shields.io/github/v/release/Miabeyefendi/Squad-AdminPanel?style=for-the-badge&color=F59E0B&label=version)](https://github.com/Miabeyefendi/Squad-AdminPanel/releases/latest)
 [![Platform](https://img.shields.io/badge/SquadJS_plugin-1E293B?style=for-the-badge&logo=nodedotjs&logoColor=white)](#-kurulum)
-[![Status](https://img.shields.io/badge/status-beta-F59E0B?style=for-the-badge)](#-yol-haritası)
+[![Status](https://img.shields.io/badge/status-active-22C55E?style=for-the-badge)](#-yol-haritası)
 [![Author](https://img.shields.io/badge/by-Miabeyefendi-0EA5E9?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Miabeyefendi)
 
 [English](./README.md) · **Türkçe** · [Español](./README_ES.md) · [简体中文](./README_ZH.md) · [Русский](./README_RU.md)
@@ -30,7 +30,7 @@
 
 </div>
 
-> **Deneme sürümü (beta).** Otomatik testlerle, gerçek SquadJS ve sahte oyunla, bir de boş bir Squad v10.6.3 sunucusunda gerçek RCON ile (0.1.0 sürümü) denendi. **Oyunculu gerçek maçta henüz denenmedi.** İlk kick ve banları oyunda kontrol et.
+> **Oyunculu gerçek maçta henüz denenmedi.** Otomatik testlerle, gerçek SquadJS ve sahte oyunla, bir de boş bir Squad v10.6.3 sunucusunda gerçek RCON ile (daha eski bir yapı) denendi. İlk kick ve banları oyunda kontrol et.
 
 **Hiç bilmiyorsan:** [adım adım Türkçe rehber](./docs/KURULUM_TR.md) sıfırdan anlatır.
 
@@ -79,7 +79,7 @@
 
 ### Kur
 
-1. [Sürüm sayfasından](https://github.com/Miabeyefendi/Squad-AdminPanel/releases/latest) `Squad-AdminPanel-v0.5.0.zip` dosyasını indir.
+1. [Sürüm sayfasından](https://github.com/Miabeyefendi/Squad-AdminPanel/releases/latest) `Squad-AdminPanel-v1.0.0.zip` dosyasını indir.
 2. İçindeki `admin-panel.js` ve `admin-panel` klasörünü SquadJS'in `squad-server/plugins/` klasörüne çıkar.
 3. `config.json` içindeki `plugins` listesine ekle:
 
@@ -92,12 +92,12 @@
 <details>
 <summary><b>Sürüm dosyası hakkında</b></summary>
 
-Zip, bu depodaki `src/squadjs/` (tag `v0.5.0`) klasörünün düz kopyasıdır, `admin-panel/` içine `LICENSE` ve `NOTICE` eklenmiştir. Derleme, küçültme ya da paketleme yoktur.
+Zip, bu depodaki `src/squadjs/` (tag `v1.0.0`) klasörünün düz kopyasıdır, `admin-panel/` içine `LICENSE` ve `NOTICE` eklenmiştir. Derleme, küçültme ya da paketleme yoktur.
 
-`Squad-AdminPanel-v0.5.0.zip` SHA-256:
+`Squad-AdminPanel-v1.0.0.zip` SHA-256:
 
 ```
-abf5f817f06184f7f3319e8dbababece23f6ce736a587100d44790624d2d5cd7
+9cf84697641ca8b24a64681ff4c1b4b67df51955f268ac01ba61393f52e95d98
 ```
 
 </details>
@@ -107,8 +107,8 @@ abf5f817f06184f7f3319e8dbababece23f6ce736a587100d44790624d2d5cd7
 ## 🚀 Hızlı başlangıç
 
 1. **SquadJS'in çalıştığı bilgisayarda** `http://127.0.0.1:8170` adresini aç.
-2. `admin` / `admin` ile gir. Panel hemen kendi adını ve parolanı ister.
-3. Bunu panelin önüne proxy ya da tünel koymadan **önce** yap. İlk hesap yalnızca sunucunun kendisinden kullanılmak içindir.
+2. `admin` / `admin` ile gir, panel açılır. **My account** altından kendi parolanı koyana kadar üstte bir uyarı durur.
+3. Panelin önüne proxy ya da tünel koymadan **önce** parolayı değiştir. Parola `admin` / `admin` iken yalnızca sunucunun kendisinden çalışır.
 
 Başka bilgisayardan ya da birden fazla admin için: [uzaktan giriş](./docs/KURULUM_TR.md#başka-adminlerin-ve-uzaktan-giriş).
 

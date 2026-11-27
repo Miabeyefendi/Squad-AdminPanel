@@ -2,7 +2,7 @@
 
 # 📖 Squad Admin Panel Setup Guide
 
-**v0.5.0 · Last updated 2026-11-27**
+**v1.0.0 · Last updated 2026-11-27**
 
 **English** · [Türkçe](./KURULUM_TR.md)
 
@@ -40,7 +40,7 @@ Squad server  <-->  SquadJS  <-->  Admin panel (a SquadJS plugin)  <-->  your br
         RCON + log files
 ```
 
-It is a **beta**. It has not yet been tested on a live match with players.
+It has not yet been tested on a live match with players.
 
 ---
 
@@ -101,13 +101,13 @@ node -e "JSON.parse(require('fs').readFileSync('config.json','utf8')); console.l
 Admin panel on http://127.0.0.1:8170
 ```
 
-**6. First sign in.** On the machine that runs SquadJS open `http://127.0.0.1:8170` and sign in with `admin` / `admin`. The panel asks for your own name and a password of 10 characters or more.
+**6. First sign in.** On the machine that runs SquadJS open `http://127.0.0.1:8170` and sign in with `admin` / `admin`. The panel opens. A warning stays at the top until you press **Change password** and set your own (10 characters or more).
 
 <div align="center">
-<img src="../screenshots/first-password.png" width="70%" alt="First sign in asking for a new user name and password"/>
+<img src="../screenshots/first-password.png" width="92%" alt="The panel after signing in with admin / admin, with a warning and a Change password button at the top"/>
 </div>
 
-Do this **before** you set up any proxy or tunnel. The first account is refused when a request comes from another address, uses another host name or carries proxy headers, but a proxy that hides all of these would look like this machine.
+Change it **before** you set up any proxy or tunnel. While the password is `admin` / `admin`, every request is refused when it comes from another address, uses another host name or carries proxy headers, but a proxy that hides all of these would look like this machine.
 
 ### Remote access and more admins
 
@@ -123,7 +123,7 @@ ssh -L 8170:127.0.0.1:8170 USER@SERVER_IP
 
 **Domain with HTTPS, for several admins.** The panel settings for this are covered by automated tests; it has not been tried with Caddy on a real server.
 
-1. Finish step 6 first. With these settings `admin` / `admin` no longer works anywhere.
+1. Change the first password (step 6). With these settings `admin` / `admin` no longer works anywhere.
 2. Point a DNS A record such as `panel.example.org` to the server. Open ports 80 and 443. Do **not** open 8170.
 3. Install [Caddy](https://caddyserver.com/download) and create a `Caddyfile`:
 

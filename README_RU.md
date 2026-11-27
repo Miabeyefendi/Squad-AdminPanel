@@ -9,7 +9,7 @@
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-A78BFA?style=for-the-badge&logo=gnu&logoColor=white)](./LICENSE)
 [![Version](https://img.shields.io/github/v/release/Miabeyefendi/Squad-AdminPanel?style=for-the-badge&color=F59E0B&label=version)](https://github.com/Miabeyefendi/Squad-AdminPanel/releases/latest)
 [![Platform](https://img.shields.io/badge/SquadJS_plugin-1E293B?style=for-the-badge&logo=nodedotjs&logoColor=white)](#-установка)
-[![Status](https://img.shields.io/badge/status-beta-F59E0B?style=for-the-badge)](#-планы)
+[![Status](https://img.shields.io/badge/status-active-22C55E?style=for-the-badge)](#-планы)
 [![Author](https://img.shields.io/badge/by-Miabeyefendi-0EA5E9?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Miabeyefendi)
 
 [English](./README.md) · [Türkçe](./README_TR.md) · [Español](./README_ES.md) · [简体中文](./README_ZH.md) · **Русский**
@@ -30,7 +30,7 @@
 
 </div>
 
-> **Бета.** Проверено автоматическими тестами, настоящим SquadJS с имитацией игры и настоящим RCON на пустом сервере Squad v10.6.3 (версия 0.1.0). **В матче с игроками ещё не проверялось.**
+> **В матче с игроками ещё не проверялось.** Проверено автоматическими тестами, настоящим SquadJS с имитацией игры и настоящим RCON на пустом сервере Squad v10.6.3 (более ранняя сборка).
 
 ---
 
@@ -77,7 +77,7 @@
 
 ### Установить
 
-1. Скачайте `Squad-AdminPanel-v0.5.0.zip` со [страницы релизов](https://github.com/Miabeyefendi/Squad-AdminPanel/releases/latest).
+1. Скачайте `Squad-AdminPanel-v1.0.0.zip` со [страницы релизов](https://github.com/Miabeyefendi/Squad-AdminPanel/releases/latest).
 2. Распакуйте `admin-panel.js` и папку `admin-panel` в `squad-server/plugins/` SquadJS.
 3. Добавьте в список `plugins` файла `config.json`:
 
@@ -90,12 +90,12 @@
 <details>
 <summary><b>О файле релиза</b></summary>
 
-Архив - это копия `src/squadjs/` (tag `v0.5.0`) из репозитория с `LICENSE` и `NOTICE` внутри `admin-panel/`. Без сборки и минификации.
+Архив - это копия `src/squadjs/` (tag `v1.0.0`) из репозитория с `LICENSE` и `NOTICE` внутри `admin-panel/`. Без сборки и минификации.
 
-SHA-256 файла `Squad-AdminPanel-v0.5.0.zip`:
+SHA-256 файла `Squad-AdminPanel-v1.0.0.zip`:
 
 ```
-abf5f817f06184f7f3319e8dbababece23f6ce736a587100d44790624d2d5cd7
+9cf84697641ca8b24a64681ff4c1b4b67df51955f268ac01ba61393f52e95d98
 ```
 
 </details>
@@ -105,7 +105,7 @@ abf5f817f06184f7f3319e8dbababece23f6ce736a587100d44790624d2d5cd7
 ## 🚀 Быстрый старт
 
 1. **На машине, где работает SquadJS**, откройте `http://127.0.0.1:8170`.
-2. Войдите как `admin` / `admin`. Панель сразу попросит задать свои имя и пароль.
+2. Войдите как `admin` / `admin` - панель откроется. Пока вы не зададите свой пароль в **My account**, сверху висит предупреждение.
 3. Сделайте это **до** настройки прокси или туннеля перед панелью.
 
 Удалённый доступ описан в [руководстве](./docs/SETUP.md#remote-access-and-more-admins).

@@ -46,7 +46,8 @@ const FIRST = ['/api/me', '/api/account', '/api/logout'];
 
 const may = (user, id) => user.perms.has(id);
 const mayStaff = (user) => may(user, 'staff.admins') || may(user, 'staff.manage') || may(user, 'perm.grant');
-const whoAmI = (u) => ({ name: u.name, rank: u.rank, rankName: RANKS[u.rank].name, mustChange: u.mustChange, can: [...u.perms] });
+const whoAmI = (u) => ({ name: u.name, rank: u.rank, rankName: RANKS[u.rank].name, mustChange: u.mustChange,
+  defaultPassword: u.defaultPassword, can: [...u.perms] });
 const signature = (u) => `${u.rank}:${[...u.perms].sort().join(',')}`;
 
 // What of each log a user may read. Sign in records carry network addresses.
@@ -303,6 +304,8 @@ export function createPanelServer(deps) {
     const id = cookie(req);
     const user = id && auth.session(id);
     if (!user) return send(res, 401, { error: 'Sign in first.' });
+    // checked on every request, not only at sign in: admin / admin never works from anywhere else
+    if (user.defaultPassword && !isLocal(req, hostName)) return send(res, 401, { error: 'Sign in first.' });
     if (user.mustChange && !FIRST.includes(where)) {
       return send(res, 403, { error: 'Change your password first.', mustChange: true });
     }

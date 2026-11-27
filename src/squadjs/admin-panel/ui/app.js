@@ -119,6 +119,7 @@ function wireTheme() {
 function showMe() {
   $('#me-name').textContent = S.me.name;
   $('#me-role').textContent = S.me.rankName;
+  $('#firstpw').hidden = !S.me.defaultPassword;
 }
 function applyAccess() {
   gate($('#app'));
@@ -246,6 +247,7 @@ function wireAccount() {
   const signOut = guard(async () => { await api('/api/logout', {}); signedOut(); });
   $('#signout').addEventListener('click', signOut);
   $('#setupout').addEventListener('click', signOut);
+  $('#firstpw-change').addEventListener('click', () => $('#myaccount').click());
   $('#myaccount').addEventListener('click', () => ask({ title: 'My account', text: 'Change your user name, your password or both. Other places where you are signed in are signed out.', ok: 'Save',
     fields: html`<label>User name<input class="field" name="name" maxlength="32" autocomplete="username" value="${S.me.name}" required></label>${passwordField('currentPassword', 'Current password')}<label>New password (empty keeps the old one)<input class="field" type="password" name="newPassword" autocomplete="new-password" maxlength="200"></label><label>New password again<input class="field" type="password" name="repeat" autocomplete="new-password" maxlength="200"></label>`,
     run: async (v) => {

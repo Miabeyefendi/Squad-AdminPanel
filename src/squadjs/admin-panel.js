@@ -69,8 +69,8 @@ export default class AdminPanel extends BasePlugin {
     if (this.store.damaged) this.verbose(1, `${this.store.damaged} log lines could not be read and were skipped.`);
     await ensureDefaultAdmin(vault);
     if (loadUsers(vault).some((u) => u.defaultAccount)) {
-      this.verbose(1, 'The first account (name: admin, password: admin) is still active. Sign in from this machine ' +
-        'and change it now, before any proxy or tunnel is put in front of the panel.');
+      this.verbose(1, 'The panel still has the first password (name: admin, password: admin). It works from this machine ' +
+        'only. Change it before any proxy or tunnel is put in front of the panel.');
     }
 
     this.rules = new Rules({ server: this.server, store: this.store });

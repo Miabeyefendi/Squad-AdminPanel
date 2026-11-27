@@ -74,17 +74,19 @@ test('search engines and crawlers are kept out', async () => {
   assert.equal((await p.raw('/', { 'User-Agent': browser })).status, 200);
 });
 
-test('the first account is admin/admin: forced change before anything else', async () => {
+test('the first account is admin/admin: it opens the panel on this machine and keeps its warning', async () => {
   const p = await panel();
   const first = await p.login('admin', 'admin');
   assert.equal(first.status, 200);
-  assert.equal(first.data.mustChange, true);
-  for (const url of ['/api/state', '/api/logs?kind=chat', '/api/staff', '/api/ranks', '/api/plugins', '/api/events', '/api/layers', '/api/rules']) {
-    const res = await p.req(url, { cookie: first.cookie });
-    assert.equal(res.status, 403, url);
+  assert.deepEqual([first.data.mustChange, first.data.defaultPassword], [false, true]);
+  for (const url of ['/api/state', '/api/staff', '/api/plugins']) {
+    assert.equal((await p.req(url, { cookie: first.cookie })).status, 200, url);
   }
-  assert.equal((await p.post('/api/action/endMatch', {}, first.cookie)).status, 403);
-  assert.equal((await p.post('/api/rules', { teamkill: { enabled: true } }, first.cookie)).status, 403);
+  // the same session is useless as soon as a request looks like it comes from somewhere else
+  for (const headers of [{ 'X-Forwarded-For': '203.0.113.9' }, { 'X-Real-IP': '203.0.113.9' }, { Via: '1.1 proxy' }]) {
+    assert.equal((await p.req('/api/state', { cookie: first.cookie, headers })).status, 401, JSON.stringify(headers));
+  }
+  assert.equal((await p.post('/api/action/endMatch', {}, first.cookie, { 'X-Forwarded-For': '203.0.113.9' })).status, 401);
   assert.deepEqual(p.server.sent, []);
 
   const change = (body) => p.post('/api/account', body, first.cookie);
@@ -92,15 +94,31 @@ test('the first account is admin/admin: forced change before anything else', asy
     assert.equal((await change({ currentPassword: 'admin', name: 'admin', newPassword: bad })).status, 400, bad);
   }
   assert.equal((await change({ currentPassword: 'wrong', name: 'boss', newPassword: GOOD })).status, 403);
-  assert.equal((await change({ currentPassword: 'admin', name: 'boss' })).status, 400);
-  const done = await change({ currentPassword: 'admin', name: 'boss', newPassword: GOOD });
+  // a new name alone does not lift the limit: the password is still the well known one
+  const renamed = await change({ currentPassword: 'admin', name: 'chief' });
+  assert.equal(renamed.status, 200);
+  assert.equal((await renamed.json()).defaultPassword, true);
+  assert.equal((await p.login('chief', 'admin', { 'X-Forwarded-For': '203.0.113.9' })).status, 401);
+
+  const again = await p.login('chief', 'admin');
+  const done = await p.post('/api/account', { currentPassword: 'admin', name: 'boss', newPassword: GOOD }, again.cookie);
   assert.equal(done.status, 200);
+  assert.equal((await done.json()).defaultPassword, false);
   const cookie = done.headers.get('set-cookie').split(';')[0];
-  assert.notEqual(cookie, first.cookie);
   assert.equal((await p.req('/api/state', { cookie })).status, 200);
-  assert.equal((await p.req('/api/me', { cookie: first.cookie })).status, 401);
+  assert.equal((await p.req('/api/me', { cookie: again.cookie })).status, 401);
   assert.equal((await p.login('admin', 'admin')).status, 401);
   assert.equal((await p.login('boss', GOOD)).status, 200);
+});
+
+test('an account file from 0.5 with the forced change no longer forces it', async () => {
+  const p = await panel();
+  const { loadUsers, saveUsers } = await import('../../src/squadjs/admin-panel/auth.js');
+  const vault = openVault(p.dataDir);
+  saveUsers(vault, loadUsers(vault).map((u) => ({ ...u, mustChange: true })));
+  const first = await p.login('admin', 'admin');
+  assert.deepEqual([first.status, first.data.mustChange, first.data.defaultPassword], [200, false, true]);
+  assert.equal((await p.req('/api/state', { cookie: first.cookie })).status, 200);
 });
 
 test('admin/admin does not work through a proxy or under another host name', async () => {

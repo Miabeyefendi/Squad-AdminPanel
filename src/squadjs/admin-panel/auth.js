@@ -13,8 +13,8 @@ import {
 
 const scrypt = promisify(crypto.scrypt);
 
-// The first account. It only works from this machine, and nothing else can be done with it until
-// its password is changed.
+// The first account, admin / admin. It may be kept, but while it has that password it only works
+// from this machine, and the panel keeps saying so.
 export const DEFAULT_NAME = 'admin';
 export const DEFAULT_PASSWORD = 'admin';
 
@@ -119,7 +119,7 @@ export function saveRanks(vault, ranks) {
 
 export async function ensureDefaultAdmin(vault) {
   if (loadUsers(vault).length) return false;
-  saveUsers(vault, [{ name: DEFAULT_NAME, rank: 'owner', hash: await hashPassword(DEFAULT_PASSWORD), mustChange: true, defaultAccount: true }]);
+  saveUsers(vault, [{ name: DEFAULT_NAME, rank: 'owner', hash: await hashPassword(DEFAULT_PASSWORD), defaultAccount: true }]);
   return true;
 }
 
@@ -204,7 +204,9 @@ export class Auth {
   }
 
   describe(user) {
-    return { name: user.name, rank: user.rank, mustChange: !!user.mustChange, perms: effective(user, loadRanks(this.vault)) };
+    // temporary passwords given by an admin must be changed; the first account only gets a warning
+    return { name: user.name, rank: user.rank, mustChange: !!user.mustChange && !user.defaultAccount,
+      defaultPassword: !!user.defaultAccount, perms: effective(user, loadRanks(this.vault)) };
   }
 
   // touch is false for the background event stream: only real requests keep a session alive.
@@ -358,7 +360,7 @@ export class Auth {
       const no = accountBlock(actor, target, 'transfer');
       if (no) fail(no, 403);
       if (user.rank !== 'admin') fail('Ownership can only go to an admin.');
-      if (user.mustChange) fail('That admin has not set their own password yet.');
+      if (user.mustChange || user.defaultAccount) fail('That admin has not set their own password yet.');
       Object.assign(user, { rank: 'owner', grants: [], denies: [] });
       Object.assign(me, { rank: 'admin', grants: [], denies: [] });
       saveUsers(this.vault, users);

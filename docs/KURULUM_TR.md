@@ -2,7 +2,7 @@
 
 # 📖 Squad Admin Panel Rehberi
 
-**v0.5.0 · Son güncelleme 2026-11-27**
+**v1.0.0 · Son güncelleme 2026-11-27**
 
 [English](./SETUP.md) · **Türkçe**
 
@@ -45,7 +45,7 @@ Panel tek başına çalışmaz. **SquadJS** adlı ücretsiz programın içine ek
 
 ### Önce şunu bil
 
-Bu sürüm **deneme (beta)** sürümüdür. Sahte oyunla ve boş bir gerçek sunucuda denendi, **oyunculu gerçek maçta henüz denenmedi.** İlk günlerde kick ve ban gibi işlemlerin oyunda gerçekten olduğunu kontrol et.
+Bu panel sahte oyunla ve boş bir gerçek sunucuda denendi, **oyunculu gerçek maçta henüz denenmedi.** İlk günlerde kick ve ban gibi işlemlerin oyunda gerçekten olduğunu kontrol et.
 
 ---
 
@@ -134,7 +134,7 @@ Takılırsan: [SquadJS'in resmi kurulum belgesi](https://github.com/Team-Silver-
 
 ### Adım 3: Panel dosyalarını kopyala
 
-1. [Panelin son sürüm sayfasından](https://github.com/Miabeyefendi/Squad-AdminPanel/releases/latest) `Squad-AdminPanel-v0.5.0.zip` dosyasını indir.
+1. [Panelin son sürüm sayfasından](https://github.com/Miabeyefendi/Squad-AdminPanel/releases/latest) `Squad-AdminPanel-v1.0.0.zip` dosyasını indir.
 2. Zip'i aç. İçinde **iki şey** var: `admin-panel.js` dosyası ve `admin-panel` klasörü.
 3. İkisini birden şuraya kopyala: `C:\SquadJS\squad-server\plugins\`
 
@@ -150,7 +150,7 @@ C:\SquadJS\squad-server\plugins\
 └── (SquadJS'in kendi eklentileri)
 ```
 
-**Yanlış:** `plugins\Squad-AdminPanel-v0.5.0\admin-panel.js` (araya fazladan klasör girmiş, o klasörü kaldır, içindekileri `plugins` içine taşı).
+**Yanlış:** `plugins\Squad-AdminPanel-v1.0.0\admin-panel.js` (araya fazladan klasör girmiş, o klasörü kaldır, içindekileri `plugins` içine taşı).
 
 ---
 
@@ -210,15 +210,15 @@ Admin panel on http://127.0.0.1:8170
 <img src="../screenshots/sign-in.png" width="70%" alt="Panelin giriş ekranı: ad ve parola kutuları"/>
 </div>
 
-4. Panel hemen yeni ad ve parola ister. Parola **en az 10 karakter** olmalı, adını içermemeli ve "password123" gibi basit olmamalı.
+4. Panel açılır. En üstte `admin / admin` ile girdiğini söyleyen bir uyarı durur.
 
 <div align="center">
-<img src="../screenshots/first-password.png" width="70%" alt="İlk giriş ekranı: yeni kullanıcı adı ve yeni parola kutuları"/>
+<img src="../screenshots/first-password.png" width="92%" alt="admin / admin ile girince açılan panel: üstte uyarı ve Change password butonu"/>
 </div>
 
-5. Yeni parolanı **bir yere yaz.**
+5. Uyarıdaki **Change password** butonuna bas ve kendi parolanı koy: **en az 10 karakter**, içinde adın geçmesin, "password123" gibi basit olmasın. Yeni parolanı **bir yere yaz.**
 
-> ⚠️ Bu adımı, paneli internete açacak herhangi bir şey (proxy, tünel) kurmadan **önce** yap. `admin` / `admin` yalnızca sunucunun kendisinden girilebilir.
+> ⚠️ Parolayı, paneli internete açacak herhangi bir şey (proxy, tünel) kurmadan **önce** değiştir. Parola `admin` / `admin` iken yalnızca sunucunun kendisinden çalışır. Değiştirmeden de kullanabilirsin ama bu bilgisayara erişen herkes panele girebilir.
 
 **Görmen gereken:** Panel açılıyor, üstte **Live** yazıyor, oyuncu sayısı görünüyor. **Kurulum bitti.** 🎉
 
@@ -250,7 +250,7 @@ Adminlerin internetten kendi parolalarıyla girsin istiyorsan bir **alan adı** 
 
 > Panelin bu ayarları testlerle doğrulandı. Caddy ile gerçek bir sunucuda henüz denenmedi.
 
-1. **Önce Adım 6'yı bitirmiş ol.** Bu ayarlardan sonra `admin` / `admin` hiçbir yerden çalışmaz.
+1. **Önce ilk parolayı değiştir** (Adım 6). Bu ayarlardan sonra `admin` / `admin` hiçbir yerden çalışmaz.
 2. Alan adının DNS ayarında bir **A kaydı** aç: `panel` → sunucunun IP adresi.
 3. Sunucunun güvenlik duvarında **80** ve **443** portlarını aç. **8170 portunu AÇMA.**
 4. [Caddy'yi indir](https://caddyserver.com/download). Bir klasöre koy, yanına `Caddyfile` adlı (uzantısız) bir dosya aç:

@@ -9,7 +9,7 @@
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-A78BFA?style=for-the-badge&logo=gnu&logoColor=white)](./LICENSE)
 [![Version](https://img.shields.io/github/v/release/Miabeyefendi/Squad-AdminPanel?style=for-the-badge&color=F59E0B&label=version)](https://github.com/Miabeyefendi/Squad-AdminPanel/releases/latest)
 [![Platform](https://img.shields.io/badge/SquadJS_plugin-1E293B?style=for-the-badge&logo=nodedotjs&logoColor=white)](#-安装)
-[![Status](https://img.shields.io/badge/status-beta-F59E0B?style=for-the-badge)](#-路线图)
+[![Status](https://img.shields.io/badge/status-active-22C55E?style=for-the-badge)](#-路线图)
 [![Author](https://img.shields.io/badge/by-Miabeyefendi-0EA5E9?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Miabeyefendi)
 
 [English](./README.md) · [Türkçe](./README_TR.md) · [Español](./README_ES.md) · **简体中文** · [Русский](./README_RU.md)
@@ -30,7 +30,7 @@
 
 </div>
 
-> **测试版。** 已通过自动化测试、真实 SquadJS 对模拟游戏的测试,以及在空的 Squad v10.6.3 服务器上通过真实 RCON 的测试(0.1.0 版本)。**尚未在有玩家的实际对局中测试。**
+> **尚未在有玩家的实际对局中测试。** 已通过自动化测试、真实 SquadJS 对模拟游戏的测试,以及在空的 Squad v10.6.3 服务器上通过真实 RCON 的测试(较早版本)。
 
 ---
 
@@ -77,7 +77,7 @@
 
 ### 安装步骤
 
-1. 从[发布页面](https://github.com/Miabeyefendi/Squad-AdminPanel/releases/latest)下载 `Squad-AdminPanel-v0.5.0.zip`。
+1. 从[发布页面](https://github.com/Miabeyefendi/Squad-AdminPanel/releases/latest)下载 `Squad-AdminPanel-v1.0.0.zip`。
 2. 将 `admin-panel.js` 和 `admin-panel` 文件夹解压到 SquadJS 的 `squad-server/plugins/`。
 3. 在 `config.json` 的 `plugins` 列表中添加:
 
@@ -90,12 +90,12 @@
 <details>
 <summary><b>关于发布文件</b></summary>
 
-压缩包是本仓库 `src/squadjs/` (tag `v0.5.0`) 的原样副本,并在 `admin-panel/` 中加入了 `LICENSE` 和 `NOTICE`。没有编译、压缩或打包。
+压缩包是本仓库 `src/squadjs/` (tag `v1.0.0`) 的原样副本,并在 `admin-panel/` 中加入了 `LICENSE` 和 `NOTICE`。没有编译、压缩或打包。
 
-`Squad-AdminPanel-v0.5.0.zip` 的 SHA-256:
+`Squad-AdminPanel-v1.0.0.zip` 的 SHA-256:
 
 ```
-abf5f817f06184f7f3319e8dbababece23f6ce736a587100d44790624d2d5cd7
+9cf84697641ca8b24a64681ff4c1b4b67df51955f268ac01ba61393f52e95d98
 ```
 
 </details>
@@ -105,7 +105,7 @@ abf5f817f06184f7f3319e8dbababece23f6ce736a587100d44790624d2d5cd7
 ## 🚀 快速开始
 
 1. **在运行 SquadJS 的机器上**打开 `http://127.0.0.1:8170`。
-2. 使用 `admin` / `admin` 登录。面板会立即要求设置你自己的用户名和密码。
+2. 使用 `admin` / `admin` 登录即可进入面板。在 **My account** 中设置自己的密码之前,顶部会一直显示警告。
 3. 请在面板前配置任何代理或隧道**之前**完成此步骤。
 
 远程访问请参阅[教程](./docs/SETUP.md#remote-access-and-more-admins)。
