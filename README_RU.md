@@ -95,7 +95,7 @@
 SHA-256 файла `Squad-AdminPanel-v1.0.0.zip`:
 
 ```
-9cf84697641ca8b24a64681ff4c1b4b67df51955f268ac01ba61393f52e95d98
+804c8b6210586f9fe7dad42c4ddf0527a5a22f91e4a699e141de704c67c47af5
 ```
 
 </details>
@@ -268,7 +268,7 @@ Squad не передаёт их по RCON и не пишет в лог.
 
 - [**SquadJS**](https://github.com/Team-Silver-Sphere/SquadJS) от Team Silver Sphere (Boost Software License) - основа, в которой работает плагин.
 - [**Smart Shuffle**](https://github.com/Miabeyefendi/Squad-SmartShuffle) - мой плагин баланса, включён со своими LICENSE и NOTICE.
-- Изображения на снимках: карты из [Squad Wiki Pipeline](https://github.com/Squad-Wiki/squad-wiki-pipeline-map-data) (CC BY-SA 4.0, уменьшены), флаги фракций из [SquadCalc](https://github.com/sh4rkman/SquadCalc). Игровой контент Squad принадлежит Offworld Industries.
+- Изображения на снимках: карты из [Squad Wiki Pipeline](https://github.com/Squad-Wiki/squad-wiki-pipeline-map-data) (CC BY-SA 4.0, уменьшены), флаги фракций из [SquadCalc](https://github.com/sh4rkman/SquadCalc). Игровой контент Squad принадлежит Offworld Industries. Пейзажи текущего матча и карты сверху для Black Coast, Harju, Pacific Proving Grounds и Sanxian: [Squad Wiki](https://squad.fandom.com/wiki/Maps) (уменьшены, часть обрезана до 16:9).
 
 ---
 

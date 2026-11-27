@@ -95,7 +95,7 @@ El zip es una copia de `src/squadjs/` (tag `v1.0.0`) con `LICENSE` y `NOTICE` de
 SHA-256 de `Squad-AdminPanel-v1.0.0.zip`:
 
 ```
-9cf84697641ca8b24a64681ff4c1b4b67df51955f268ac01ba61393f52e95d98
+804c8b6210586f9fe7dad42c4ddf0527a5a22f91e4a699e141de704c67c47af5
 ```
 
 </details>
@@ -268,7 +268,7 @@ Lee [CONTRIBUTING.md](./CONTRIBUTING.md) y [CODE_OF_CONDUCT.md](./CODE_OF_CONDUC
 
 - [**SquadJS**](https://github.com/Team-Silver-Sphere/SquadJS) de Team Silver Sphere (Boost Software License), la base donde corre el plugin.
 - [**Smart Shuffle**](https://github.com/Miabeyefendi/Squad-SmartShuffle), mi plugin de equilibrio, incluido con su LICENSE y NOTICE.
-- Imágenes de las capturas: mapas de [Squad Wiki Pipeline](https://github.com/Squad-Wiki/squad-wiki-pipeline-map-data) (CC BY-SA 4.0, redimensionados) y banderas de [SquadCalc](https://github.com/sh4rkman/SquadCalc). El contenido del juego Squad pertenece a Offworld Industries.
+- Imágenes de las capturas: mapas de [Squad Wiki Pipeline](https://github.com/Squad-Wiki/squad-wiki-pipeline-map-data) (CC BY-SA 4.0, redimensionados) y banderas de [SquadCalc](https://github.com/sh4rkman/SquadCalc). El contenido del juego Squad pertenece a Offworld Industries. Imágenes de paisaje de la partida en curso y mapas cenitales de Black Coast, Harju, Pacific Proving Grounds y Sanxian: [Squad Wiki](https://squad.fandom.com/wiki/Maps) (redimensionadas, algunas recortadas a 16:9).
 
 ---
 

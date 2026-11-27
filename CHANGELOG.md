@@ -21,7 +21,7 @@ First release. Not yet tested on a live match with players.
 - Player records, logs by period with CSV export, deletion with preview and retention limits.
 - Automatic rules: teamkills, players without a squad, squad leader without the SL kit, small locked squads, chat filter, name filter.
 - Manager for other SquadJS plugins and their settings.
-- Own flag drawings and map patterns, with optional own pictures from the data folder.
+- Own flag drawings and map patterns, with optional own pictures from the data folder: scenery for the running match (`art/screens`), maps from above (`art/maps`) and flags (`art/factions`).
 - First sign in with `admin` / `admin`, from the server itself only, with a warning until the password is changed.
 
 ### Security

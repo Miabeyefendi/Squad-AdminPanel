@@ -52,7 +52,7 @@ export const S = {
   view: 'overview',
   logs: Object.fromEntries(LOG_KINDS.map((k) => [k, []])),
   // pictures the server owner put in the data folder
-  assets: { maps: [], factions: [] }
+  assets: { maps: [], screens: [], factions: [] }
 };
 // app.js fills these in; pages call them without importing it
 export const app = { show: () => {}, signedOut: () => {}, mustChange: () => {}, afterAction: () => {}, render: () => {} };

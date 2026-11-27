@@ -70,6 +70,7 @@ main>.credit{margin-top:auto;padding-top:12px}
 .halves{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;align-items:start}
 .halves>[hidden]+*{grid-column:1/-1}
 .split{display:grid;grid-template-columns:minmax(0,2fr) minmax(280px,1fr);gap:24px;align-items:start}
+.main-col{gap:24px}
 .toolbar{display:flex;gap:8px 16px;align-items:center;flex-wrap:wrap}
 .rowline{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
 .quick{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
@@ -129,6 +130,9 @@ textarea.field{padding:9px 12px;min-height:80px;resize:vertical;width:100%;line-
 .tag.mini{font-size:11px;padding:0 6px}
 .tag.warnish{color:var(--warnink);border-color:var(--warnink)}
 .pill{display:inline-flex;align-items:center;gap:7px;padding:5px 11px;border-radius:999px;border:1px solid var(--line2);color:var(--soft);font-size:12px;white-space:nowrap}
+.pillbtn{background:var(--inv);color:var(--oninv);border-color:var(--inv);font-weight:600;line-height:inherit}
+.pillbtn:hover{opacity:.88}
+@media (max-width:899px){.top .pill{min-height:36px}}
 .live{width:8px;height:8px;border-radius:50%;background:var(--text);animation:pulse 2s infinite}
 .live.off{animation:none;background:transparent;border:2px solid var(--text)}
 @keyframes pulse{50%{opacity:.25}}
@@ -174,15 +178,16 @@ img.flag.lg{max-width:60px}
 
 /* ---------- overview ---------- */
 /* the picture is always dark, so the hero takes the dark colours in both themes */
-.hero{position:relative;overflow:hidden;border-radius:20px;min-height:300px;display:flex;background:#161618;color:#FAFAFA;--t1:#8FBBFF;--t2:#FF9C9C;--muted:#C4C4CB;--line2:rgba(255,255,255,.35)}
+.hero{position:relative;overflow:hidden;border-radius:20px;min-height:360px;display:flex;background:#161618;color:#FAFAFA;--t1:#8FBBFF;--t2:#FF9C9C;--muted:#C4C4CB;--line2:rgba(255,255,255,.35)}
 .hero>.art{position:absolute;inset:0}
-.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.92) 0%,rgba(0,0,0,.72) 48%,rgba(0,0,0,.25) 100%),linear-gradient(0deg,rgba(0,0,0,.7),rgba(0,0,0,0) 55%)}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.82) 0%,rgba(0,0,0,.52) 45%,rgba(0,0,0,.12) 100%),linear-gradient(0deg,rgba(0,0,0,.72),rgba(0,0,0,0) 60%)}
 .heroin{position:relative;z-index:1;flex:1;display:flex;flex-direction:column;justify-content:space-between;gap:24px;padding:24px;min-width:0}
 .herotop,.herofoot{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
 .herofoot{align-items:flex-end}
 .hero .layer{font-size:36px}
 .hero .pill{color:#FAFAFA;background:rgba(0,0,0,.45)}
 .hero .btn{background:rgba(0,0,0,.45);color:#FAFAFA;border-color:rgba(255,255,255,.5)}
+.hero .heroin{text-shadow:0 1px 3px rgba(0,0,0,.75)}
 .versus{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:24px;align-items:center;max-width:820px}
 .versus>div{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
 .versus .flagline{flex-wrap:nowrap}
@@ -282,7 +287,8 @@ td.c,th.c{text-align:center}
 .nowbar{display:flex;flex-direction:row;flex-wrap:wrap;gap:16px;padding:16px;align-items:stretch}
 .nowone{position:relative;flex:1 1 280px;min-height:96px;border-radius:12px;overflow:hidden;background:#161618;color:#FAFAFA;display:flex;--muted:#C4C4CB}
 .nowone>.art,.preview>.art{position:absolute;inset:0}
-.nowone::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.9),rgba(0,0,0,.35))}
+.nowone::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.84),rgba(0,0,0,.18))}
+.nowone .over{text-shadow:0 1px 3px rgba(0,0,0,.75)}
 .over{position:relative;z-index:1}
 .nowone .over{padding:12px 16px;justify-content:center}
 .nowacts{display:flex;flex-direction:column;gap:8px;justify-content:center}
@@ -358,10 +364,19 @@ td.c,th.c{text-align:center}
 .promo{color:inherit;font-weight:600;text-underline-offset:3px}
 .warnbox{border:2px solid var(--text)}
 .preview-text{margin:0;color:var(--muted);white-space:pre-wrap;overflow-wrap:anywhere}
-.presets{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}
-.presetcard{display:flex;flex-direction:column;gap:12px;padding:16px;border-radius:12px;border:1px solid var(--line)}
+.roundbar{flex-direction:row;flex-wrap:wrap;align-items:center;gap:12px 24px}
+.roundacts{flex:1;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;min-width:min(100%,560px)}
+.roundacts .btn{white-space:normal;line-height:1.2;padding:4px 10px}
+.roundbar .preview-text{flex-basis:100%}
+/* six to a row; a shorter last row stretches, so the box is always full */
+.presets{display:flex;flex-wrap:wrap;gap:12px}
+.presets>.presetcard{flex:1 1 calc((100% - 60px) / 6);min-width:0}
+.presetcard{display:flex;flex-direction:column;gap:12px;padding:14px;border-radius:12px;border:1px solid var(--line)}
 .meter{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 8px;align-items:baseline}
 .meter .bar{grid-column:1/-1}
+.presetcard .btn{margin-top:auto}
+@media (max-width:1200px){.presets>.presetcard{flex-basis:calc((100% - 36px) / 4)}}
+@media (max-width:760px){.presets>.presetcard{flex-basis:calc((100% - 12px) / 2)}.roundacts{grid-template-columns:repeat(2,minmax(0,1fr));min-width:100%}}
 
 /* ---------- rules ---------- */
 .intro{flex-direction:row;flex-wrap:wrap;align-items:center;gap:24px}

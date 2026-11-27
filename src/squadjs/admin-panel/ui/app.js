@@ -190,7 +190,7 @@ function signedOut() {
   S.me = null;
   S.state = null;
   S.view = 'overview';
-  S.assets = { maps: [], factions: [] };
+  S.assets = { maps: [], screens: [], factions: [] };
   LOG_KINDS.forEach((k) => { S.logs[k] = []; });
   // nothing of the last user stays in the page
   rebuild();

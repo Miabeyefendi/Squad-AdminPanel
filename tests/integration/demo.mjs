@@ -2,7 +2,7 @@
 // By default it is a real first run: sign in with admin / admin (the panel warns until it is changed).
 // With --ranks (or SA_DEMO_RANKS=1) it has one account per rank instead: demo (owner), ada, sam and
 // jim, all with the password demo-panel-password. Test values for this local demo only.
-// --art=<folder> (or SA_DEMO_ART) shows the pictures of that folder's maps/ and factions/ subfolders.
+// --art=<folder> (or SA_DEMO_ART) shows the pictures of that folder's maps/, screens/ and factions/ subfolders.
 // All names and numbers are made up. The data is thrown away when the demo stops.
 // Attack strings are not shown here; they are in security.test.mjs.
 import fs from 'node:fs';
@@ -20,7 +20,10 @@ if (process.env.SA_DEMO_RANKS === '1' || process.argv.includes('--ranks')) {
 }
 
 const art = process.argv.find((a) => a.startsWith('--art='))?.slice(6) || process.env.SA_DEMO_ART;
-if (art) fs.cpSync(art, path.join(dataDir, 'art'), { recursive: true });
+for (const kind of ['maps', 'screens', 'factions']) {
+  const from = art && path.join(art, kind);
+  if (from && fs.existsSync(from)) fs.cpSync(from, path.join(dataDir, 'art', kind), { recursive: true });
+}
 
 const server = fakeServer({ perTeam: 43 });
 server.on('error', () => {});

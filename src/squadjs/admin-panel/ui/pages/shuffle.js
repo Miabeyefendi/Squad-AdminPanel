@@ -33,10 +33,10 @@ function control() {
   const s = S.state.shuffle;
   if (!s) return '';
   const can = may('shuffle.switches');
-  return html`<div class="halves">
-      <div class="tile" ${may('shuffle.round') ? '' : html`hidden`}><div class="stack2"><h2>This round</h2><span class="sub xs">These only touch the match that is running.</span></div>
-        <div class="quick"><button class="btn pri tall" data-round="now">Shuffle at round end</button><button class="btn tall" data-round="cancel">Cancel shuffle</button><button class="btn tall" data-round="preview">Preview shuffle</button><button class="btn tall" data-round="unlock">Unlock teams</button></div>
-        <p class="preview-text">${previewText}</p></div>
+  return html`<div class="stackcol">
+      <div class="tile roundbar" ${may('shuffle.round') ? '' : html`hidden`}><div class="stack2"><h2>This round</h2><span class="sub xs">Only the match that is running.</span></div>
+        <div class="roundacts"><button class="btn pri tall" data-round="now">Shuffle at round end</button><button class="btn tall" data-round="cancel">Cancel shuffle</button><button class="btn tall" data-round="preview">Preview shuffle</button><button class="btn tall" data-round="unlock">Unlock teams</button></div>
+        ${previewText ? html`<p class="preview-text">${previewText}</p>` : ''}</div>
       <div class="tile"><h2>Switches</h2><div>${SWITCHES.map(([key, name, help, on, off]) => html`<div class="set"><span class="lbl"><b>${name}</b><span class="sub xs">${help}</span></span><button class="sw" role="switch" aria-checked="${!!s[key]}" aria-label="${name}" data-switch="${s[key] ? off : on}" data-key="${key}" ${can ? '' : html`disabled`}></button></div>`)}</div></div>
     </div>`;
 }

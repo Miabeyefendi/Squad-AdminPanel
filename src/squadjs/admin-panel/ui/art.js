@@ -1,6 +1,7 @@
 // Faction flags and map pictures. The flags are simple drawings made for this panel. The map picture is
-// drawn from the map's name. A server owner can replace either with own files in <dataDir>/art/maps and
-// <dataDir>/art/factions (png, jpg or webp, named after the map or faction ID).
+// drawn from the map's name. A server owner can replace them with own files (png, jpg or webp, named after
+// the map or faction ID): <dataDir>/art/maps for the map seen from above (map picker), art/screens for
+// scenery such as a loading picture (the running and the next match), art/factions for flags.
 import { S, html, trusted } from './core.js';
 
 const NAMES = {
@@ -92,8 +93,11 @@ function drawing(key) {
 
 // "Narva_AAS_v1" and "Black Coast" both find their own picture
 export const mapKey = (layerOrMap) => String(layerOrMap || '').split(/[_]/)[0].replace(/[^A-Za-z0-9]/g, '');
-export function mapArt(key) {
-  const picture = own('maps', key);
+const art = (kind, key) => {
+  const picture = own(kind, key);
   if (picture) return html`<img class="art" src="${picture}" alt="" loading="lazy">`;
   return trusted(drawing(mapKey(key).toLowerCase() || 'unknown'));
-}
+};
+export const mapArt = (key) => art('maps', key);
+// never the view from above: without a scenery file this is the drawing
+export const sceneArt = (key) => art('screens', key);

@@ -113,9 +113,12 @@ test('pictures from the data folder: only listed names, only signed in', async (
   const { base, dataDir, session } = await panel();
   fs.mkdirSync(path.join(dataDir, 'art', 'maps'), { recursive: true });
   fs.writeFileSync(path.join(dataDir, 'art', 'maps', 'Narva.png'), 'png');
+  fs.mkdirSync(path.join(dataDir, 'art', 'screens'), { recursive: true });
+  fs.writeFileSync(path.join(dataDir, 'art', 'screens', 'Narva.jpg'), 'jpg');
   fs.writeFileSync(path.join(dataDir, 'art', 'maps', 'notes.txt'), 'x');
   const root = await session('root');
-  assert.deepEqual((await root.get('/api/assets')).data, { maps: ['Narva.png'], factions: [] });
+  assert.deepEqual((await root.get('/api/assets')).data, { maps: ['Narva.png'], screens: ['Narva.jpg'], factions: [] });
+  assert.equal((await root.raw('/art/screens/Narva.jpg')).headers.get('content-type'), 'image/jpeg');
   const picture = await root.raw('/art/maps/Narva.png');
   assert.equal(picture.status, 200);
   assert.equal(picture.headers.get('content-type'), 'image/png');

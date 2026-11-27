@@ -1,6 +1,6 @@
 // Pick a layer: the maps as pictures on the left, the choice built up on the right.
 import { $, S, api, ask, draw, gate, guard, html, may, plural, post } from '../core.js';
-import { factionName, flag, mapArt, mapKey } from '../art.js';
+import { factionName, flag, mapArt, mapKey, sceneArt } from '../art.js';
 
 let layers = null;
 let mode = ''; // filter of the map list
@@ -32,7 +32,7 @@ function pickMap(name) {
 
 function nowBar() {
   const { server } = S.state;
-  const one = (label, layer, factions) => html`<div class="nowone">${layer ? mapArt(mapKey(layer.id || layer.name)) : ''}<span class="stack2 over"><span class="cap">${label}</span><b>${layer ? layer.name : 'Not set'}</b><span class="line">${factions.map((f) => (f ? flag(f) : ''))}</span></span></div>`;
+  const one = (label, layer, factions) => html`<div class="nowone">${layer ? sceneArt(mapKey(layer.id || layer.name)) : ''}<span class="stack2 over"><span class="cap">${label}</span><b>${layer ? layer.name : 'Not set'}</b><span class="line">${factions.map((f) => (f ? flag(f) : ''))}</span></span></div>`;
   return html`${one('Now playing', server.layer, server.factions)}${one('Next layer', server.next, server.nextFactions)}
     ${may('match.control') ? html`<div class="nowacts"><button class="btn" data-act="endMatch">End match</button><button class="btn" data-act="restartMatch">Restart match</button></div>` : ''}`;
 }

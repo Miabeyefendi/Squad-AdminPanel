@@ -18,8 +18,8 @@ const UI = {
   '/style.css': ['style.css', 'text/css; charset=utf-8'],
   ...Object.fromEntries(SCRIPTS.map((file) => [`/${file}`, [file, 'text/javascript; charset=utf-8']]))
 };
-// pictures the server owner adds to <dataDir>/art/maps and <dataDir>/art/factions
-const ART_KINDS = ['maps', 'factions'];
+// pictures the server owner adds under <dataDir>/art: maps (from above), screens (scenery) and factions
+const ART_KINDS = ['maps', 'screens', 'factions'];
 const ART_FILE = /^[A-Za-z0-9_-]{1,60}\.(png|jpe?g|webp)$/i;
 const ART_TYPES = { png: 'image/png', jpg: 'image/jpeg', jpeg: 'image/jpeg', webp: 'image/webp' };
 const HEADERS = {

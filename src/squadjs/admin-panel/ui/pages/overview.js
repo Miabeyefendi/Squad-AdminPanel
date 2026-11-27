@@ -1,6 +1,6 @@
 // What is happening now and what needs an admin, from top to bottom.
 import { $, S, api, app, byId, clock, commanderOf, draw, elapsed, gate, hasLeaderKit, html, icon, mark, may, messagePlayer, nameClass, plural, rankBadge, shuffleCommand, squadText, teamName, thisMatch } from '../core.js';
-import { flag, mapArt, mapKey } from '../art.js';
+import { flag, mapKey, sceneArt } from '../art.js';
 
 const layerName = (l) => l?.name || 'Unknown';
 const section = (title, body, aside = '') => html`<div class="th"><h2>${title}</h2>${aside}</div>${body}`;
@@ -8,7 +8,7 @@ const section = (title, body, aside = '') => html`<div class="th"><h2>${title}</
 function hero() {
   const { server } = S.state;
   const side = (t) => html`<div class="side${t}"><span class="flagline">${flag(server.factions[t - 1] || teamName(t), 'lg')}<span class="stack2"><span class="cap">${mark(t)}Team ${t}</span><span class="fname">${teamName(t)}</span></span></span><span class="tickets tx${t}" title="Tickets">${server.tickets[t - 1] ?? '-'}</span></div>`;
-  return html`${mapArt(mapKey(server.layer?.id || server.layer?.name))}<div class="heroin">
+  return html`${sceneArt(mapKey(server.layer?.id || server.layer?.name))}<div class="heroin">
     <div class="herotop"><div class="stack2"><span class="cap">Now playing</span><span class="layer">${layerName(server.layer)}</span></div><span class="pill mono" id="ov-time">${elapsed() || 'Match time unknown'}</span></div>
     <div class="versus">${side(1)}<span class="vsx">vs</span>${side(2)}</div>
     <div class="herofoot"><span class="stack2"><span class="cap">Next layer</span><span class="flagline"><b>${server.next ? server.next.name : 'Not set'}</b>${server.nextFactions.map((f) => (f ? flag(f) : ''))}</span></span><button class="btn" data-go="map">${may('map.next') || may('map.now') ? 'Change map' : 'See maps'}</button></div>
@@ -84,7 +84,11 @@ export default {
   shell: () => html`<div class="hero" id="ov-hero"></div>
     <div class="tile kpis" id="ov-stats"></div>
     <div class="split">
-      <div class="tile" id="ov-attention"></div>
+      <div class="stackcol main-col">
+        <div class="tile" id="ov-attention"></div>
+        <div class="tile" id="ov-admin" data-need="log.admin"></div>
+        <div class="tile" id="ov-tk" data-need="kills.view"></div>
+      </div>
       <div class="stackcol">
         <div class="tile" id="ov-commanders"></div>
         <div class="tile" id="ov-quick"><h2>Quick actions</h2><div class="quick">
@@ -95,10 +99,6 @@ export default {
           <button class="btn tall danger" data-act="endMatch" data-need="match.control">End match</button>
         </div></div>
       </div>
-    </div>
-    <div class="halves">
-      <div class="tile" id="ov-admin" data-need="log.admin"></div>
-      <div class="tile" id="ov-tk" data-need="kills.view"></div>
     </div>`,
   wire(root) {
     root.addEventListener('click', (e) => {

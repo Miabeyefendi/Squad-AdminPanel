@@ -97,7 +97,7 @@ Zip, bu depodaki `src/squadjs/` (tag `v1.0.0`) klasörünün düz kopyasıdır, 
 `Squad-AdminPanel-v1.0.0.zip` SHA-256:
 
 ```
-9cf84697641ca8b24a64681ff4c1b4b67df51955f268ac01ba61393f52e95d98
+804c8b6210586f9fe7dad42c4ddf0527a5a22f91e4a699e141de704c67c47af5
 ```
 
 </details>
@@ -270,7 +270,7 @@ Katkılar açıktır. Önce [CONTRIBUTING.md](./CONTRIBUTING.md) ve [CODE_OF_CON
 
 - [**SquadJS**](https://github.com/Team-Silver-Sphere/SquadJS), Team Silver Sphere (Boost Software License) - eklentinin içinde çalıştığı altyapı; RCON, log okuma ve layer listesi ondan gelir.
 - [**Smart Shuffle**](https://github.com/Miabeyefendi/Squad-SmartShuffle) - kendi takım dengeleme eklentim, `admin-panel/smart-shuffle/` içinde kendi LICENSE ve NOTICE dosyalarıyla.
-- Ekran görüntülerindeki resimler: harita görselleri [Squad Wiki Pipeline](https://github.com/Squad-Wiki/squad-wiki-pipeline-map-data) (CC BY-SA 4.0, küçültülmüş), faction bayrakları [SquadCalc](https://github.com/sh4rkman/SquadCalc). Squad oyun içeriği Offworld Industries'e aittir.
+- Ekran görüntülerindeki resimler: harita görselleri [Squad Wiki Pipeline](https://github.com/Squad-Wiki/squad-wiki-pipeline-map-data) (CC BY-SA 4.0, küçültülmüş), faction bayrakları [SquadCalc](https://github.com/sh4rkman/SquadCalc). Squad oyun içeriği Offworld Industries'e aittir. Oynanan maçın manzara görselleri ile Black Coast, Harju, Pacific Proving Grounds ve Sanxian üstten haritaları: [Squad Wiki](https://squad.fandom.com/wiki/Maps) (küçültülmüş, bazıları 16:9 kırpılmış).
 
 ---
 

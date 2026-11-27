@@ -233,7 +233,15 @@ Player records survive restarts and log deletion; by default they are kept for e
 
 ### Flags and map pictures
 
-The panel draws its own flags and map patterns and ships no game images. To use your own, add png, jpg or webp files to `<dataDir>/art/maps` (named after the layer prefix, `Narva.jpg`) and `<dataDir>/art/factions` (`USA.png`). Use only pictures you are allowed to use. They are shown to signed in accounts only.
+The panel draws its own flags and map patterns and ships no game images. To use your own, add png, jpg or webp files, named after the layer prefix (`Narva.jpg`) or the faction (`USA.png`):
+
+| Folder | Where it shows |
+|---|---|
+| `<dataDir>/art/screens` | Behind the running match on Overview, and the running and next match on Map. Wide scenery such as a loading picture, 16:9, up to 2560 px |
+| `<dataDir>/art/maps` | The map picker: the map seen from above |
+| `<dataDir>/art/factions` | Faction flags |
+
+Without a file in `screens` the panel shows its own drawing there, never the map from above. Use only pictures you are allowed to use. They are shown to signed in accounts only.
 
 ---
 

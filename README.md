@@ -97,7 +97,7 @@ The zip is a plain copy of `src/squadjs/` (tag `v1.0.0`) from this repository wi
 `Squad-AdminPanel-v1.0.0.zip` SHA-256:
 
 ```
-9cf84697641ca8b24a64681ff4c1b4b67df51955f268ac01ba61393f52e95d98
+804c8b6210586f9fe7dad42c4ddf0527a5a22f91e4a699e141de704c67c47af5
 ```
 
 </details>
@@ -274,7 +274,7 @@ Contributions are welcome. Read [CONTRIBUTING.md](./CONTRIBUTING.md) and [CODE_O
 
 - [**SquadJS**](https://github.com/Team-Silver-Sphere/SquadJS) by Team Silver Sphere (Boost Software License) - the framework this plugin runs in; it provides RCON, log reading and the layer list.
 - [**Smart Shuffle**](https://github.com/Miabeyefendi/Squad-SmartShuffle) - my team balance plugin, included in `admin-panel/smart-shuffle/` with its own [LICENSE](./src/squadjs/admin-panel/smart-shuffle/LICENSE) and [NOTICE](./src/squadjs/admin-panel/smart-shuffle/NOTICE).
-- Pictures seen in the screenshots: map images from the [Squad Wiki Pipeline](https://github.com/Squad-Wiki/squad-wiki-pipeline-map-data) (CC BY-SA 4.0, resized), faction flags from [SquadCalc](https://github.com/sh4rkman/SquadCalc). Squad game content belongs to Offworld Industries.
+- Pictures seen in the screenshots: map images from the [Squad Wiki Pipeline](https://github.com/Squad-Wiki/squad-wiki-pipeline-map-data) (CC BY-SA 4.0, resized), faction flags from [SquadCalc](https://github.com/sh4rkman/SquadCalc). Squad game content belongs to Offworld Industries. Scenery pictures of the running match and the top-down maps of Black Coast, Harju, Pacific Proving Grounds and Sanxian: [Squad Wiki](https://squad.fandom.com/wiki/Maps) (resized, some cut to 16:9).
 
 ---
 

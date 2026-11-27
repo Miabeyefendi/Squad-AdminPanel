@@ -344,10 +344,15 @@ Teamkill sınırı, squad'sız oyuncu, kitsiz squad lideri, küçük kilitli squ
 
 ### Bayraklar ve harita resimleri
 
-Panel kendi bayraklarını ve harita desenlerini çizer, içinde oyun görseli yoktur. Kendi resimlerini koymak istersen:
+Panel kendi bayraklarını ve harita desenlerini çizer, indirmenin içinde oyun görseli yoktur. Kendi resimlerini koymak istersen dosyaları harita adıyla (`Narva.jpg`) ya da faction adıyla (`USA.png`) kaydet:
 
-- `admin-panel-data\art\maps\Narva.jpg` (harita adı, layer adının ilk parçası)
-- `admin-panel-data\art\factions\USA.png`
+| Klasör | Nerede görünür |
+|---|---|
+| `admin-panel-data\art\screens` | Overview'daki "şu an oynanan" alanı ve Map sayfasındaki şu anki ve sıradaki maç. Loading görseli gibi geniş manzara, 16:9, en fazla 2560 piksel |
+| `admin-panel-data\art\maps` | Harita seçme ekranı: haritanın üstten görünümü |
+| `admin-panel-data\art\factions` | Faction bayrakları |
+
+`screens` içinde dosya yoksa orada panelin kendi deseni görünür, üstten harita asla kullanılmaz.
 
 Sadece kullanma hakkın olan resimleri koy.
 
