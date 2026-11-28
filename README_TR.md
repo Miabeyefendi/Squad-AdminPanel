@@ -55,7 +55,7 @@
 - **Admin işlemleri** - uyarı, kick, ban (1 saatten kalıcıya), takım değiştirme, squad'dan çıkarma, tek ya da toplu, hep onaylı
 - **Harita kontrolü** - harita, mod, versiyon, faction ve birim seçimi, sıradaki harita ya da hemen değiştirme
 - **Smart Shuffle dahil** - 11 hazır ayar ve tüm ayarlarla takım dengeleme, yeniden başlatmadan
-- **Smart Map Pool** - hazır 32 oylama pool'u: birini seç, panel sunucunun `ServerConfig` klasörüne yazsın; önceki devre dışı kalır, kendi dosyaların tek butonla geri gelir; haftalık pool'lar haftayı kendisi değiştirebilir, seed listesi her pool'un üstüne eklenir
+- **Smart Map Pool** - hazır 32 oylama pool'u: birini seç, panel sunucunun `ServerConfig` klasörüne yazsın; önceki devre dışı kalır, kendi dosyaların tek butonla geri gelir; **haftalık pool'lar 7 günde bir haftayı kendisi değiştirir**, senin seçtiğin gün ve saatte, seed listesi her pool'un üstüne eklenir
 - **Admin yetkileri** - sunucu sahibi, admin, senior mod, junior mod, hesap bazında yetki, sunucuda denetlenir
 - **Kayıtlar ve loglar** - yeniden başlatmada silinmeyen uyarı, kick, ban, not; chat, kill, teamkill logları, CSV
 - **Otomatik kurallar** - teamkill, squad'sız oyuncu, kitsiz SL, küçük kilitli squad, chat ve isim filtresi, hepsi kapalı gelir
@@ -135,13 +135,13 @@ Başka bilgisayardan ya da birden fazla admin için: [uzaktan giriş](./docs/KUR
     <sub><b>Skor tablosu</b> · sabit sütunlar</sub>
   </td>
   <td align="center" width="50%">
-    <img src="./screenshots/players-and-chat-light.png" width="100%" alt="Squad lists of both teams next to the live in-game chat"/><br/>
+    <img src="./screenshots/players-and-chat-dark.png" width="100%" alt="Squad lists of both teams next to the live in-game chat"/><br/>
     <sub><b>Oyuncular ve chat</b> · tek kişiye yanıt</sub>
   </td>
 </tr>
 <tr>
   <td align="center" width="50%">
-    <img src="./screenshots/map-picker-light.png" width="100%" alt="Squad map picker with map cards, mode, version and faction choice"/><br/>
+    <img src="./screenshots/map-picker-dark.png" width="100%" alt="Squad map picker with map cards, mode, version and faction choice"/><br/>
     <sub><b>Harita</b> · sıradaki ya da hemen</sub>
   </td>
   <td align="center" width="50%">
@@ -155,7 +155,7 @@ Başka bilgisayardan ya da birden fazla admin için: [uzaktan giriş](./docs/KUR
     <sub><b>Yetkiler</b> · kim ne yapabilir</sub>
   </td>
   <td align="center" width="50%">
-    <img src="./screenshots/plugins-light.png" width="100%" alt="SquadJS plugin manager with the plugin list and its settings"/><br/>
+    <img src="./screenshots/plugins-dark.png" width="100%" alt="SquadJS plugin manager with the plugin list and its settings"/><br/>
     <sub><b>Eklentiler</b> · ayarlar form olur</sub>
   </td>
 </tr>
@@ -165,7 +165,7 @@ Başka bilgisayardan ya da birden fazla admin için: [uzaktan giriş](./docs/KUR
     <sub><b>Kayıtlar</b> · her uyarı, kick, ban ve not</sub>
   </td>
   <td align="center" width="50%">
-    <img src="./screenshots/automatic-rules-light.png" width="100%" alt="Automatic server rules with plain language summaries"/><br/>
+    <img src="./screenshots/automatic-rules-dark.png" width="100%" alt="Automatic server rules with plain language summaries"/><br/>
     <sub><b>Kurallar</b> · her biri ne yapacağını söyler</sub>
   </td>
 </tr>
@@ -183,14 +183,15 @@ Başka bilgisayardan ya da birden fazla admin için: [uzaktan giriş](./docs/KUR
 </tr>
 <tr>
   <td align="center" width="50%"><img src="./screenshots/killfeed-players-dark.png" width="100%" alt="Tek isabetle down sayısına göre sıralı Kill Feed oyuncu tablosu"/><br/><sub><b>Vuranlar</b> · her sayıya göre sırala</sub></td>
-  <td align="center" width="50%"><img src="./screenshots/server-light.png" width="100%" alt="Solda ayar listesi, sağda seçilen ayar olan sunucu sayfası"/><br/><sub><b>Sunucu</b> · sınırlar, parola, duyurular</sub></td>
+  <td align="center" width="50%"><img src="./screenshots/server-dark.png" width="100%" alt="Solda ayar listesi, sağda seçilen ayar olan sunucu sayfası"/><br/><sub><b>Sunucu</b> · sınırlar, parola, duyurular</sub></td>
 </tr>
 <tr>
   <td align="center" width="50%"><img src="./screenshots/phone-overview-dark.png" width="55%" alt="The overview page on a phone"/><br/><sub><b>Telefonda</b> · genel bakış</sub></td>
   <td align="center" width="50%"><img src="./screenshots/phone-players-dark.png" width="55%" alt="Squad lists on a phone"/><br/><sub><b>Telefonda</b> · squad'lar</sub></td>
 </tr>
 <tr>
-  <td align="center" colspan="2"><img src="./screenshots/mappool-dark.png" width="100%" alt="Smart Map Pool: oylama pool'ları listesi, yanında kullanımdaki pool'un simülasyon sayıları ve layer'ları"/><br/><sub><b>Smart Map Pool</b> · tek pool kullanımda, dosyaların saklanır</sub></td>
+  <td align="center" width="50%"><img src="./screenshots/mappool-dark.png" width="100%" alt="Smart Map Pool: oylama pool'ları listesi, yanında kullanımdaki pool'un simülasyon sayıları ve layer'ları"/><br/><sub><b>Smart Map Pool</b> · tek pool kullanımda, dosyaların saklanır</sub></td>
+  <td align="center" width="50%"><img src="./screenshots/mappool-weekly-dark.png" width="100%" alt="Kullanımda olan haftalık pool: 4 haftanın 1.'si, sonraki değişim tarihi ve 7 günde bir değiştirme seçeneği"/><br/><sub><b>Haftalık pool'lar</b> · hafta kendiliğinden değişir</sub></td>
 </tr>
 </table>
 
@@ -273,6 +274,17 @@ Squad bunları ne RCON ile ne logda veriyor.
 <summary><b>Commander nasıl anlaşılıyor?</b></summary>
 
 Oyuncu listesinde commander bilgisi yok. Panel "Command Squad" adlı squad'ın liderini commander sayar. Bu adı herkes kullanabilir; aynı takımda iki tane varsa küçük numaralı sayılır ve panel uyarır. Gerçek maçta henüz doğrulanmadı.
+
+</details>
+
+<details>
+<summary><b>Haftalık map pool kendiliğinden değişir mi?</b></summary>
+
+Evet. **Smart Map Pool** sayfasında haftalık bir pool seç: **Change the week by itself, every 7 days** zaten açık gelir. **Next change** alanına sakin bir saat yaz, örneğin pazartesi 05:00, ve **Save** de. Bundan sonra panel 7 günde bir sıradaki haftanın listesini yazar, son haftadan sonra başa döner. Hiçbir dosyaya elle dokunman gerekmez.
+
+- SquadJS çalışıyor olmalı; panelin tarayıcıda açık durması gerekmez. Kapalı kaldıysa açılınca doğru haftaya geçer.
+- Yazdığı dosyalardan ya da satırlardan biri elle değiştirilirse üzerine yazmaz: haftalık değişim durur ve sayfa bunu söyler.
+- Squad'ın yeni dosyaları sunucu açıkken okuyup okumadığı doğrulanmadı. Yeniden başlatma gerekiyorsa ve sunucun zaten her gün yeniden başlıyorsa, değişimi o saatten biraz önceye ayarla. Panel oyun sunucusunu yeniden başlatmaz.
 
 </details>
 

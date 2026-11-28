@@ -317,7 +317,7 @@ Panelde şunlara bak: üstte **Live** yazıyor, **Players & squads** sayfasında
 <table>
 <tr>
   <td width="50%"><img src="../screenshots/scoreboard-dark.png" width="100%" alt="Skor tablosu: iki takım yan yana, commander şeridi ve squad numaraları"/></td>
-  <td width="50%"><img src="../screenshots/players-and-chat-light.png" width="100%" alt="Squad listesi ve canlı chat"/></td>
+  <td width="50%"><img src="../screenshots/players-and-chat-dark.png" width="100%" alt="Squad listesi ve canlı chat"/></td>
 </tr>
 </table>
 
@@ -497,9 +497,11 @@ Hayır. SquadJS hangi bilgisayardaysa o açık olmalı. Sürekli çalışsın is
 - **Yazılan dosyalar:** `LayerVoting.cfg`, `LayerVotingNight.cfg`, `LayerVotingLowPlayers.cfg` ve `VoteConfig.cfg` içinde yalnızca pool'un satırları.
 - **Geri dönüş:** **Put my own files back** dosyaları ve satırları eski haline döndürür. Düz bir kopya da `<dataDir>/map-pool-backup/before-panel/` içinde durur.
 - **Elle değişiklik:** panelin yazdığı bir dosya elle değiştirildiyse sormadan üzerine yazılmaz; onaylarsan kopyası saklanır. Haftalık değişim ise durur.
-- **Haftalık pool'lar:** SquadJS çalışırken panel haftayı 7 günde bir değiştirir, kapalı kaldıysa açılınca yetişir.
+- **Haftalık pool'lar:** seçtiğinde **Change the week by itself, every 7 days** açık gelir. **Next change** alanına sakin bir saat yaz (örneğin pazartesi 05:00) ve **Save** de: bir daha hiçbir dosyaya dokunman gerekmez. SquadJS çalıştığı sürece işler, panelin tarayıcıda açık durması gerekmez, kapalı kaldıysa açılınca yetişir.
 - **Yeniden başlatma:** Squad'ın bu dosyaları sunucu açıkken okuyup okumadığı doğrulanmadı. Emin olmak için oyun sunucusunu yeniden başlat, haftalık değişimden sonra da.
 - Sayfadaki sayılar [Squad-MapPool](https://github.com/Miabeyefendi/Squad-MapPool) simülasyonundan gelir, canlı sunucudan değil.
+
+<div align="center"><img src="../screenshots/mappool-weekly-dark.png" width="92%" alt="Kullanımda olan haftalık pool ve sonraki değişim tarihi"></div>
 
 ---
 

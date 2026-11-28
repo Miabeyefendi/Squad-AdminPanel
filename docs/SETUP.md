@@ -364,9 +364,11 @@ Only if SquadJS runs somewhere else. For 24/7, run SquadJS on a server as a serv
 - **What is written:** `LayerVoting.cfg`, `LayerVotingNight.cfg`, `LayerVotingLowPlayers.cfg`, and in `VoteConfig.cfg` only the lines the pool sets.
 - **Going back:** **Put my own files back** restores what the files and lines held before. A plain copy is also in `<dataDir>/map-pool-backup/before-panel/`.
 - **Changed by hand:** if a file the panel wrote was edited, nothing is written over it without asking; a copy is kept when you agree. The weekly change stops instead.
-- **Weekly pools:** the panel changes the week every 7 days while SquadJS runs, and catches up after being off.
+- **Weekly pools:** **Change the week by itself, every 7 days** is on when you pick one. Set **Next change** to a quiet hour (for example Monday 05:00) and **Save**: no file has to be touched again. It works while SquadJS runs, the panel does not need to be open in a browser, and after being off it catches up.
 - **Restart:** it is not verified whether Squad reads these files while running. Restart the game server to be sure, also after a weekly change.
 - The numbers on the page come from a simulation in [Squad-MapPool](https://github.com/Miabeyefendi/Squad-MapPool), not from a live server.
+
+<div align="center"><img src="../screenshots/mappool-weekly-dark.png" width="92%" alt="A weekly pool in use with the next change date"></div>
 
 ---
 

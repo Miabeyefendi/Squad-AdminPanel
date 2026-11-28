@@ -53,7 +53,7 @@
 - **Admin actions** - warn, kick, ban (1 hour to permanent), move team, remove from squad, one player or many, always with a confirmation
 - **Map control** - pick map, mode, version, factions and unit types, set the next layer or change now
 - **Smart Shuffle built in** - team balancing with 11 presets and every setting, applied without a restart
-- **Smart Map Pool** - 32 ready vote pools: pick one and the panel writes it into the server's `ServerConfig`, the one before is no longer used, your own files come back with one button; weekly pools can change the week by themselves, and a seeding list goes on top of any pool
+- **Smart Map Pool** - 32 ready vote pools: pick one and the panel writes it into the server's `ServerConfig`, the one before is no longer used, your own files come back with one button; **weekly pools change the week every 7 days by themselves**, on the day and hour you set, and a seeding list goes on top of any pool
 - **Staff and permissions** - owner, admin, senior mod and junior mod, with per account ticks checked on the server
 - **Player records and logs** - warnings, kicks, bans and notes that survive restarts, plus chat, kill, teamkill, admin and join logs with CSV export
 - **Automatic rules** - teamkills, players without a squad, squad leaders without the SL kit, small locked squads, chat and name filters, all off by default
@@ -135,13 +135,13 @@ Names and numbers come from the built-in demo. The map and faction pictures in t
     <sub><b>Scoreboard</b> · fixed columns, order held while you read</sub>
   </td>
   <td align="center" width="50%">
-    <img src="./screenshots/players-and-chat-light.png" width="100%" alt="Squad lists of both teams next to the live in-game chat"/><br/>
+    <img src="./screenshots/players-and-chat-dark.png" width="100%" alt="Squad lists of both teams next to the live in-game chat"/><br/>
     <sub><b>Players and chat</b> · reply to one player from their line</sub>
   </td>
 </tr>
 <tr>
   <td align="center" width="50%">
-    <img src="./screenshots/map-picker-light.png" width="100%" alt="Squad map picker with map cards, mode, version and faction choice"/><br/>
+    <img src="./screenshots/map-picker-dark.png" width="100%" alt="Squad map picker with map cards, mode, version and faction choice"/><br/>
     <sub><b>Map control</b> · set next layer or change now</sub>
   </td>
   <td align="center" width="50%">
@@ -155,7 +155,7 @@ Names and numbers come from the built-in demo. The map and faction pictures in t
     <sub><b>Staff</b> · what each admin may do</sub>
   </td>
   <td align="center" width="50%">
-    <img src="./screenshots/plugins-light.png" width="100%" alt="SquadJS plugin manager with the plugin list and its settings"/><br/>
+    <img src="./screenshots/plugins-dark.png" width="100%" alt="SquadJS plugin manager with the plugin list and its settings"/><br/>
     <sub><b>Plugins</b> · settings become form fields</sub>
   </td>
 </tr>
@@ -165,7 +165,7 @@ Names and numbers come from the built-in demo. The map and faction pictures in t
     <sub><b>Records</b> · every warning, kick, ban and note</sub>
   </td>
   <td align="center" width="50%">
-    <img src="./screenshots/automatic-rules-light.png" width="100%" alt="Automatic server rules with plain language summaries"/><br/>
+    <img src="./screenshots/automatic-rules-dark.png" width="100%" alt="Automatic server rules with plain language summaries"/><br/>
     <sub><b>Rules</b> · each says what it will do</sub>
   </td>
 </tr>
@@ -183,14 +183,15 @@ Names and numbers come from the built-in demo. The map and faction pictures in t
 </tr>
 <tr>
   <td align="center" width="50%"><img src="./screenshots/killfeed-players-dark.png" width="100%" alt="Kill Feed player table sorted by one hit downs"/><br/><sub><b>Shooters</b> · sort by any number</sub></td>
-  <td align="center" width="50%"><img src="./screenshots/server-light.png" width="100%" alt="Server page with the list of settings on the left and the chosen one on the right"/><br/><sub><b>Server</b> · limits, password, announcements</sub></td>
+  <td align="center" width="50%"><img src="./screenshots/server-dark.png" width="100%" alt="Server page with the list of settings on the left and the chosen one on the right"/><br/><sub><b>Server</b> · limits, password, announcements</sub></td>
 </tr>
 <tr>
   <td align="center" width="50%"><img src="./screenshots/phone-overview-dark.png" width="55%" alt="The overview page on a phone"/><br/><sub><b>On a phone</b> · overview</sub></td>
   <td align="center" width="50%"><img src="./screenshots/phone-players-dark.png" width="55%" alt="Squad lists on a phone"/><br/><sub><b>On a phone</b> · squads</sub></td>
 </tr>
 <tr>
-  <td align="center" colspan="2"><img src="./screenshots/mappool-dark.png" width="100%" alt="Smart Map Pool: the list of vote pools next to the pool in use with its simulation numbers and layers"/><br/><sub><b>Smart Map Pool</b> · one pool in use, your files remembered</sub></td>
+  <td align="center" width="50%"><img src="./screenshots/mappool-dark.png" width="100%" alt="Smart Map Pool: the list of vote pools next to the pool in use with its simulation numbers and layers"/><br/><sub><b>Smart Map Pool</b> · one pool in use, your files remembered</sub></td>
+  <td align="center" width="50%"><img src="./screenshots/mappool-weekly-dark.png" width="100%" alt="A weekly pool in use: week 1 of 4, the next change date and the switch for changing every 7 days"/><br/><sub><b>Weekly pools</b> · the week changes by itself</sub></td>
 </tr>
 </table>
 
@@ -277,6 +278,17 @@ Squad sends neither over RCON nor writes them to the server log. The other numbe
 <summary><b>How does it know who the commander is?</b></summary>
 
 The player list has no commander field. The panel takes the leader of the squad named "Command Squad". Anyone can use that name; with two on one team the lower squad number counts and the panel warns you. Not yet confirmed on a live match.
+
+</details>
+
+<details>
+<summary><b>Can a weekly map pool change by itself?</b></summary>
+
+Yes. Pick a weekly pool in **Smart Map Pool**: **Change the week by itself, every 7 days** is already on. Set **Next change** to a quiet hour, for example Monday 05:00, and press **Save**. From then on the panel writes the next week's list every 7 days and starts again after the last week. You do not have to touch any file.
+
+- SquadJS has to be running; the panel does not need to be open in a browser. After being off, it catches up to the right week.
+- If one of the files or lines it wrote is edited by hand, it does not write over it: the weekly change stops and the page says so.
+- It is not verified whether Squad reads the new files while the server runs. If it needs a restart and your server already restarts every day, set the change shortly before that time. The panel does not restart the game server.
 
 </details>
 

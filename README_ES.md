@@ -53,7 +53,7 @@
 - **Acciones de admin** - avisar, expulsar, banear, cambiar de equipo, sacar de la escuadra, siempre con confirmación
 - **Control de mapas** - mapa, modo, versión, facciones y unidades; siguiente capa o cambio inmediato
 - **Smart Shuffle incluido** - equilibrio de equipos con 11 ajustes predefinidos, sin reiniciar
-- **Smart Map Pool** - 32 pools de votación listos: elige uno y el panel lo escribe en el `ServerConfig` del servidor; el anterior deja de usarse y tus archivos vuelven con un botón; los pools semanales pueden cambiar de semana solos y la lista de seeding se suma a cualquiera
+- **Smart Map Pool** - 32 pools de votación listos: elige uno y el panel lo escribe en el `ServerConfig` del servidor; el anterior deja de usarse y tus archivos vuelven con un botón; **los pools semanales cambian de semana solos cada 7 días**, el día y la hora que elijas y la lista de seeding se suma a cualquiera
 - **Permisos** - dueño, admin, moderador sénior y júnior, comprobados en el servidor
 - **Historial y registros** - avisos, expulsiones, baneos y notas que sobreviven a los reinicios; exportación CSV
 - **Reglas automáticas** - todas desactivadas al principio
@@ -133,13 +133,13 @@ Nombres y cifras son de la demo. Las imágenes de mapas y facciones de estas cap
     <sub><b>Marcador</b> · columnas fijas</sub>
   </td>
   <td align="center" width="50%">
-    <img src="./screenshots/players-and-chat-light.png" width="100%" alt="Squad lists of both teams next to the live in-game chat"/><br/>
+    <img src="./screenshots/players-and-chat-dark.png" width="100%" alt="Squad lists of both teams next to the live in-game chat"/><br/>
     <sub><b>Jugadores y chat</b> · responde a uno</sub>
   </td>
 </tr>
 <tr>
   <td align="center" width="50%">
-    <img src="./screenshots/map-picker-light.png" width="100%" alt="Squad map picker with map cards, mode, version and faction choice"/><br/>
+    <img src="./screenshots/map-picker-dark.png" width="100%" alt="Squad map picker with map cards, mode, version and faction choice"/><br/>
     <sub><b>Mapas</b> · siguiente o ahora</sub>
   </td>
   <td align="center" width="50%">
@@ -153,7 +153,7 @@ Nombres y cifras son de la demo. Las imágenes de mapas y facciones de estas cap
     <sub><b>Permisos</b> · qué puede cada admin</sub>
   </td>
   <td align="center" width="50%">
-    <img src="./screenshots/plugins-light.png" width="100%" alt="SquadJS plugin manager with the plugin list and its settings"/><br/>
+    <img src="./screenshots/plugins-dark.png" width="100%" alt="SquadJS plugin manager with the plugin list and its settings"/><br/>
     <sub><b>Plugins</b> · ajustes como formulario</sub>
   </td>
 </tr>
@@ -163,7 +163,7 @@ Nombres y cifras son de la demo. Las imágenes de mapas y facciones de estas cap
     <sub><b>Historial</b> · avisos, expulsiones, baneos y notas</sub>
   </td>
   <td align="center" width="50%">
-    <img src="./screenshots/automatic-rules-light.png" width="100%" alt="Automatic server rules with plain language summaries"/><br/>
+    <img src="./screenshots/automatic-rules-dark.png" width="100%" alt="Automatic server rules with plain language summaries"/><br/>
     <sub><b>Reglas</b> · cada una dice qué hará</sub>
   </td>
 </tr>
@@ -181,14 +181,15 @@ Nombres y cifras son de la demo. Las imágenes de mapas y facciones de estas cap
 </tr>
 <tr>
   <td align="center" width="50%"><img src="./screenshots/killfeed-players-dark.png" width="100%" alt="Tabla de jugadores del Kill Feed ordenada por derribos de un impacto"/><br/><sub><b>Tiradores</b> · ordena por cualquier cifra</sub></td>
-  <td align="center" width="50%"><img src="./screenshots/server-light.png" width="100%" alt="Página del servidor con la lista de ajustes a la izquierda"/><br/><sub><b>Servidor</b> · límites, contraseña, anuncios</sub></td>
+  <td align="center" width="50%"><img src="./screenshots/server-dark.png" width="100%" alt="Página del servidor con la lista de ajustes a la izquierda"/><br/><sub><b>Servidor</b> · límites, contraseña, anuncios</sub></td>
 </tr>
 <tr>
   <td align="center" width="50%"><img src="./screenshots/phone-overview-dark.png" width="55%" alt="The overview page on a phone"/><br/><sub><b>En el móvil</b> · resumen</sub></td>
   <td align="center" width="50%"><img src="./screenshots/phone-players-dark.png" width="55%" alt="Squad lists on a phone"/><br/><sub><b>En el móvil</b> · escuadras</sub></td>
 </tr>
 <tr>
-  <td align="center" colspan="2"><img src="./screenshots/mappool-dark.png" width="100%" alt="Smart Map Pool: lista de pools junto al pool en uso con sus cifras de simulación y capas"/><br/><sub><b>Smart Map Pool</b> · un pool en uso, tus archivos guardados</sub></td>
+  <td align="center" width="50%"><img src="./screenshots/mappool-dark.png" width="100%" alt="Smart Map Pool: lista de pools junto al pool en uso con sus cifras de simulación y capas"/><br/><sub><b>Smart Map Pool</b> · un pool en uso, tus archivos guardados</sub></td>
+  <td align="center" width="50%"><img src="./screenshots/mappool-weekly-dark.png" width="100%" alt="Un pool semanal en uso: semana 1 de 4, la fecha del próximo cambio y la opción de cambiar cada 7 días"/><br/><sub><b>Pools semanales</b> · la semana cambia sola</sub></td>
 </tr>
 </table>
 
@@ -271,6 +272,17 @@ Squad no los envía por RCON ni los escribe en el registro.
 <summary><b>¿Cómo sabe quién es el comandante?</b></summary>
 
 La lista de jugadores no lo indica. El panel toma al líder de la escuadra "Command Squad". Cualquiera puede usar ese nombre; si hay dos en un equipo cuenta el número menor y el panel avisa. Sin confirmar en una partida real.
+
+</details>
+
+<details>
+<summary><b>¿Puede un pool semanal cambiar solo?</b></summary>
+
+Sí. Elige un pool semanal en **Smart Map Pool**: **Change the week by itself, every 7 days** ya viene activado. Pon en **Next change** una hora tranquila, por ejemplo el lunes a las 05:00, y pulsa **Save**. Desde entonces el panel escribe cada 7 días la lista de la semana siguiente y vuelve a empezar tras la última. No tienes que tocar ningún archivo.
+
+- SquadJS tiene que estar en marcha; no hace falta tener el panel abierto en el navegador. Si estuvo apagado, salta a la semana correcta.
+- Si alguien edita a mano uno de los archivos o líneas que escribió, no lo sobrescribe: el cambio semanal se detiene y la página lo indica.
+- No está comprobado si Squad lee los archivos nuevos con el servidor en marcha. Si hace falta reiniciar y tu servidor ya se reinicia cada día, programa el cambio poco antes de esa hora. El panel no reinicia el servidor de juego.
 
 </details>
 

@@ -53,7 +53,7 @@
 - **Действия админа** - предупреждение, кик, бан, смена команды, исключение из отряда, всегда с подтверждением
 - **Карты** - карта, режим, версия, фракции и подразделения; следующая карта или смена сейчас
 - **Встроенный Smart Shuffle** - баланс команд с 11 пресетами без перезапуска
-- **Smart Map Pool** - 32 готовых пула для голосования: выберите один, и панель запишет его в `ServerConfig` сервера; прежний перестаёт использоваться, а ваши файлы возвращаются одной кнопкой; недельные пулы могут сами менять неделю, список для набора добавляется к любому
+- **Smart Map Pool** - 32 готовых пула для голосования: выберите один, и панель запишет его в `ServerConfig` сервера; прежний перестаёт использоваться, а ваши файлы возвращаются одной кнопкой; **недельные пулы сами меняют неделю каждые 7 дней**, в выбранные вами день и час, список для набора добавляется к любому
 - **Права** - владелец, админ, старший и младший модератор; проверяются на сервере
 - **Записи и журналы** - предупреждения, кики, баны и заметки переживают перезапуск; экспорт в CSV
 - **Автоматические правила** - по умолчанию выключены
@@ -133,13 +133,13 @@ SHA-256 файла `Squad-AdminPanel-v1.3.0.zip`:
     <sub><b>Таблица</b> · фиксированные столбцы</sub>
   </td>
   <td align="center" width="50%">
-    <img src="./screenshots/players-and-chat-light.png" width="100%" alt="Squad lists of both teams next to the live in-game chat"/><br/>
+    <img src="./screenshots/players-and-chat-dark.png" width="100%" alt="Squad lists of both teams next to the live in-game chat"/><br/>
     <sub><b>Игроки и чат</b> · ответ одному</sub>
   </td>
 </tr>
 <tr>
   <td align="center" width="50%">
-    <img src="./screenshots/map-picker-light.png" width="100%" alt="Squad map picker with map cards, mode, version and faction choice"/><br/>
+    <img src="./screenshots/map-picker-dark.png" width="100%" alt="Squad map picker with map cards, mode, version and faction choice"/><br/>
     <sub><b>Карты</b> · следующая или сейчас</sub>
   </td>
   <td align="center" width="50%">
@@ -153,7 +153,7 @@ SHA-256 файла `Squad-AdminPanel-v1.3.0.zip`:
     <sub><b>Права</b> · что может каждый админ</sub>
   </td>
   <td align="center" width="50%">
-    <img src="./screenshots/plugins-light.png" width="100%" alt="SquadJS plugin manager with the plugin list and its settings"/><br/>
+    <img src="./screenshots/plugins-dark.png" width="100%" alt="SquadJS plugin manager with the plugin list and its settings"/><br/>
     <sub><b>Плагины</b> · настройки в виде формы</sub>
   </td>
 </tr>
@@ -163,7 +163,7 @@ SHA-256 файла `Squad-AdminPanel-v1.3.0.zip`:
     <sub><b>Записи</b> · предупреждения, кики, баны, заметки</sub>
   </td>
   <td align="center" width="50%">
-    <img src="./screenshots/automatic-rules-light.png" width="100%" alt="Automatic server rules with plain language summaries"/><br/>
+    <img src="./screenshots/automatic-rules-dark.png" width="100%" alt="Automatic server rules with plain language summaries"/><br/>
     <sub><b>Правила</b> · каждое говорит, что сделает</sub>
   </td>
 </tr>
@@ -181,14 +181,15 @@ SHA-256 файла `Squad-AdminPanel-v1.3.0.zip`:
 </tr>
 <tr>
   <td align="center" width="50%"><img src="./screenshots/killfeed-players-dark.png" width="100%" alt="Таблица игроков Kill Feed, отсортированная по нокам с одного попадания"/><br/><sub><b>Стрелки</b> · сортировка по любой цифре</sub></td>
-  <td align="center" width="50%"><img src="./screenshots/server-light.png" width="100%" alt="Страница сервера: слева список настроек, справа выбранная"/><br/><sub><b>Сервер</b> · лимиты, пароль, объявления</sub></td>
+  <td align="center" width="50%"><img src="./screenshots/server-dark.png" width="100%" alt="Страница сервера: слева список настроек, справа выбранная"/><br/><sub><b>Сервер</b> · лимиты, пароль, объявления</sub></td>
 </tr>
 <tr>
   <td align="center" width="50%"><img src="./screenshots/phone-overview-dark.png" width="55%" alt="The overview page on a phone"/><br/><sub><b>На телефоне</b> · сводка</sub></td>
   <td align="center" width="50%"><img src="./screenshots/phone-players-dark.png" width="55%" alt="Squad lists on a phone"/><br/><sub><b>На телефоне</b> · отряды</sub></td>
 </tr>
 <tr>
-  <td align="center" colspan="2"><img src="./screenshots/mappool-dark.png" width="100%" alt="Smart Map Pool: список пулов и активный пул с цифрами симуляции и слоями"/><br/><sub><b>Smart Map Pool</b> · один активный пул, файлы сохраняются</sub></td>
+  <td align="center" width="50%"><img src="./screenshots/mappool-dark.png" width="100%" alt="Smart Map Pool: список пулов и активный пул с цифрами симуляции и слоями"/><br/><sub><b>Smart Map Pool</b> · один активный пул, файлы сохраняются</sub></td>
+  <td align="center" width="50%"><img src="./screenshots/mappool-weekly-dark.png" width="100%" alt="Активный недельный пул: неделя 1 из 4, дата следующей смены и переключатель смены каждые 7 дней"/><br/><sub><b>Недельные пулы</b> · неделя меняется сама</sub></td>
 </tr>
 </table>
 
@@ -271,6 +272,17 @@ Squad не передаёт их по RCON и не пишет в лог.
 <summary><b>Как определяется командир?</b></summary>
 
 В списке игроков такого поля нет. Панель считает командиром лидера отряда "Command Squad". Это имя может взять любой; если в команде два таких отряда, берётся меньший номер, и панель предупреждает. В настоящем матче не подтверждено.
+
+</details>
+
+<details>
+<summary><b>Может ли недельный пул меняться сам?</b></summary>
+
+Да. Выберите недельный пул на странице **Smart Map Pool**: опция **Change the week by itself, every 7 days** уже включена. В поле **Next change** укажите тихий час, например понедельник 05:00, и нажмите **Save**. Дальше панель каждые 7 дней записывает список следующей недели, а после последней начинает сначала. Трогать файлы руками не нужно.
+
+- SquadJS должен работать; держать панель открытой в браузере не нужно. После простоя она перейдёт на нужную неделю.
+- Если записанный ею файл или строку изменили вручную, она не перезаписывает их: еженедельная смена останавливается, и страница сообщает об этом.
+- Не проверено, читает ли Squad новые файлы на ходу. Если нужен перезапуск, а сервер и так перезапускается каждый день, назначьте смену незадолго до этого времени. Панель не перезапускает игровой сервер.
 
 </details>
 

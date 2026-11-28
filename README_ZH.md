@@ -53,7 +53,7 @@
 - **管理操作** - 警告、踢出、封禁、换队、移出小队,每次操作都需确认
 - **地图控制** - 选择地图、模式、版本、阵营和部队类型,设为下一局或立即切换
 - **内置 Smart Shuffle** - 11 个预设的队伍平衡,无需重启即可生效
-- **Smart Map Pool** - 32 个现成的投票地图池:选一个,面板写入服务器的 `ServerConfig`,上一个随即停用,一键恢复你自己的文件;每周地图池可自动换周,暖服列表可叠加在任意地图池上
+- **Smart Map Pool** - 32 个现成的投票地图池:选一个,面板写入服务器的 `ServerConfig`,上一个随即停用,一键恢复你自己的文件;**每周地图池每 7 天自动换周**,日期和时间由你设定,暖服列表可叠加在任意地图池上
 - **权限管理** - 服主、管理员、高级协管、初级协管,权限在服务器端校验
 - **记录与日志** - 警告、踢出、封禁和备注在重启后保留,支持导出 CSV
 - **自动规则** - 默认全部关闭
@@ -133,13 +133,13 @@
     <sub><b>记分板</b> · 固定列宽</sub>
   </td>
   <td align="center" width="50%">
-    <img src="./screenshots/players-and-chat-light.png" width="100%" alt="Squad lists of both teams next to the live in-game chat"/><br/>
+    <img src="./screenshots/players-and-chat-dark.png" width="100%" alt="Squad lists of both teams next to the live in-game chat"/><br/>
     <sub><b>玩家与聊天</b> · 回复单个玩家</sub>
   </td>
 </tr>
 <tr>
   <td align="center" width="50%">
-    <img src="./screenshots/map-picker-light.png" width="100%" alt="Squad map picker with map cards, mode, version and faction choice"/><br/>
+    <img src="./screenshots/map-picker-dark.png" width="100%" alt="Squad map picker with map cards, mode, version and faction choice"/><br/>
     <sub><b>地图控制</b> · 下一局或立即</sub>
   </td>
   <td align="center" width="50%">
@@ -153,7 +153,7 @@
     <sub><b>权限</b> · 每个管理员能做什么</sub>
   </td>
   <td align="center" width="50%">
-    <img src="./screenshots/plugins-light.png" width="100%" alt="SquadJS plugin manager with the plugin list and its settings"/><br/>
+    <img src="./screenshots/plugins-dark.png" width="100%" alt="SquadJS plugin manager with the plugin list and its settings"/><br/>
     <sub><b>插件</b> · 设置变成表单</sub>
   </td>
 </tr>
@@ -163,7 +163,7 @@
     <sub><b>记录</b> · 全部警告、踢出、封禁和备注</sub>
   </td>
   <td align="center" width="50%">
-    <img src="./screenshots/automatic-rules-light.png" width="100%" alt="Automatic server rules with plain language summaries"/><br/>
+    <img src="./screenshots/automatic-rules-dark.png" width="100%" alt="Automatic server rules with plain language summaries"/><br/>
     <sub><b>规则</b> · 每条都说明会做什么</sub>
   </td>
 </tr>
@@ -181,14 +181,15 @@
 </tr>
 <tr>
   <td align="center" width="50%"><img src="./screenshots/killfeed-players-dark.png" width="100%" alt="按一击击倒排序的 Kill Feed 玩家表"/><br/><sub><b>射手排行</b> · 可按任意数据排序</sub></td>
-  <td align="center" width="50%"><img src="./screenshots/server-light.png" width="100%" alt="服务器页面:左侧设置列表,右侧所选设置"/><br/><sub><b>服务器</b> · 上限、密码、公告</sub></td>
+  <td align="center" width="50%"><img src="./screenshots/server-dark.png" width="100%" alt="服务器页面:左侧设置列表,右侧所选设置"/><br/><sub><b>服务器</b> · 上限、密码、公告</sub></td>
 </tr>
 <tr>
   <td align="center" width="50%"><img src="./screenshots/phone-overview-dark.png" width="55%" alt="The overview page on a phone"/><br/><sub><b>手机端</b> · 总览</sub></td>
   <td align="center" width="50%"><img src="./screenshots/phone-players-dark.png" width="55%" alt="Squad lists on a phone"/><br/><sub><b>手机端</b> · 小队</sub></td>
 </tr>
 <tr>
-  <td align="center" colspan="2"><img src="./screenshots/mappool-dark.png" width="100%" alt="Smart Map Pool:左侧地图池列表,右侧当前地图池的模拟数据和图层"/><br/><sub><b>Smart Map Pool</b> · 同时只用一个,保留原文件</sub></td>
+  <td align="center" width="50%"><img src="./screenshots/mappool-dark.png" width="100%" alt="Smart Map Pool:左侧地图池列表,右侧当前地图池的模拟数据和图层"/><br/><sub><b>Smart Map Pool</b> · 同时只用一个,保留原文件</sub></td>
+  <td align="center" width="50%"><img src="./screenshots/mappool-weekly-dark.png" width="100%" alt="使用中的每周地图池:第 1 周(共 4 周)、下次更换时间和每 7 天自动更换的开关"/><br/><sub><b>每周地图池</b> · 周次自动更换</sub></td>
 </tr>
 </table>
 
@@ -271,6 +272,17 @@ Squad 既不通过 RCON 发送,也不写入服务器日志。
 <summary><b>如何识别指挥官?</b></summary>
 
 玩家列表中没有指挥官字段。面板把名为 "Command Squad" 的小队队长视为指挥官。任何人都能用这个名字;同一队出现两个时,以编号较小者为准并给出提示。尚未在实际对局中确认。
+
+</details>
+
+<details>
+<summary><b>每周地图池能自动更换吗?</b></summary>
+
+可以。在 **Smart Map Pool** 页面选一个每周地图池:**Change the week by itself, every 7 days** 默认已开启。在 **Next change** 中填一个空闲时段,例如周一 05:00,然后点 **Save**。之后面板每 7 天写入下一周的列表,最后一周之后从头开始。你无需手动改任何文件。
+
+- SquadJS 需要保持运行;不需要在浏览器中打开面板。如果中途停机,启动后会跳到正确的周次。
+- 如果它写入的文件或行被手动修改,它不会覆盖:每周更换会停止,页面会给出提示。
+- 尚未确认 Squad 是否在运行中读取新文件。如果需要重启,而你的服务器本来每天都会重启,请把更换时间设在重启之前不久。面板不会重启游戏服务器。
 
 </details>
 
