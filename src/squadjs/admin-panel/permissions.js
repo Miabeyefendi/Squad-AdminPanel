@@ -54,6 +54,7 @@ const TABLE = [
   ['notify.manage', 100, 'Server owner only', 'Discord notices']
 ];
 
+// Author: Miabeyefendi
 // A basic: everyone, cannot be switched off. B free: junior and up. C senior: senior and up.
 // D critical: admins only, handed out by the owner. E locked: the owner alone.
 const classOf = (power) => (power === 0 ? 'A' : power < 50 ? 'B' : power < 70 ? 'C' : power < 100 ? 'D' : 'E');

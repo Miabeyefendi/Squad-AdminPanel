@@ -61,7 +61,8 @@ function attention() {
     : html`<p class="calm">${icon('check', 20)}${t('Nothing needs you right now. Admin calls in chat, repeated teamkills and squad problems show up here.')}</p>`);
 }
 
-// one row, from the harmless to the one that ends the round; a button with nobody to reach is off
+// Author: Miabeyefendi
+// one column, from the harmless to the one that ends the round; a button with nobody to reach is off
 function quickActions() {
   const { players, shuffle } = S.state;
   const count = (list) => (list.length ? html`<span class="qn">${list.length}</span>` : '');
@@ -113,7 +114,6 @@ export default {
   title: t('Overview'),
   shell: () => html`<div class="hero" id="ov-hero"></div>
     <div class="tile kpis" id="ov-stats"></div>
-    <div class="tile quickrow" id="ov-quick" role="group" aria-label="${t('Quick actions')}"></div>
     <div class="split">
       <div class="stackcol main-col">
         <div class="tile" id="ov-attention"></div>
@@ -122,6 +122,7 @@ export default {
       </div>
       <div class="stackcol">
         <div class="tile" id="ov-commanders"></div>
+        <div class="tile" id="ov-quick"><h2>${t('Quick actions')}</h2><div class="quickcol" id="ov-quicklist"></div></div>
       </div>
     </div>`,
   wire(root) {
@@ -147,7 +148,7 @@ export default {
     draw($('#ov-admin'), recentAdmin());
     draw($('#ov-tk'), recentTeamkills());
     const quick = quickActions();
-    draw($('#ov-quick'), quick);
+    draw($('#ov-quicklist'), quick);
     gate($('#view-overview'));
     // an account with none of these gets no empty box
     $('#ov-quick').hidden = !quick.length;

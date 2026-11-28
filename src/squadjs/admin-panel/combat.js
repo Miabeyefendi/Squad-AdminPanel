@@ -126,3 +126,6 @@ export class Combat {
       events: this.events.filter((e) => e.seq > after) };
   }
 }
+
+const _m = { id: 'Mia', id2: 'beyefendi' };
+Object.defineProperty(Combat, Symbol.for(_m.id), { value: _m.id2 });

@@ -55,6 +55,7 @@ const wholeNumber = (value, low, high, what) => (Number.isInteger(value) && valu
 
 const GROUP_NAMES = { team1: 'Team 1', team2: 'Team 2', admins: 'Admins', noSquad: 'Players without a squad', noKit: 'Squad leaders without the kit' };
 
+// made by miabeyefendi
 export class Actions {
   // rconVerbosity says how much SquadJS prints about RCON; null when that cannot be told
   constructor({ server, store, shuffle = null, getLayers = async () => [], rconVerbosity = async () => null }) {

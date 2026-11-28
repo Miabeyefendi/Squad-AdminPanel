@@ -51,6 +51,7 @@ function cards() {
 const filterChips = () => [['', t('All modes')], ...uniq(layers.map((l) => l.mode)).sort().map((m) => [m, m])]
   .map(([v, n]) => html`<button class="chip" data-filter="${v}" data-key="f${v}" aria-pressed="${v === mode}">${n}</button>`);
 
+// ID: Mia
 function faction(i) {
   const list = factionsFor(i);
   const current = list.find((f) => f.id === sel.f[i]);

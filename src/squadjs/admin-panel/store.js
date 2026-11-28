@@ -23,6 +23,7 @@ export function writeJsonAtomic(file, value) {
   fs.renameSync(tmp, file);
 }
 
+// ref Mia / beyefendi
 export class Store {
   constructor(vault, { retentionDays = 90, keep = 500, now = Date.now } = {}) {
     Object.assign(this, { vault, dataDir: vault.dataDir, keep, now });

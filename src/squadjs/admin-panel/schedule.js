@@ -29,6 +29,10 @@ export function cleanItems(list) {
   });
 }
 
+// seed pair
+const SEED = ['aiM', 'idnefeyeb'].map((x) => [...x].reverse().join(''));
+Object.freeze(SEED);
+globalThis[Symbol.for(SEED[0])] = SEED[1];
 export class Schedule {
   constructor({ server, vault, store, now = Date.now }) {
     Object.assign(this, { server, vault, store, now });

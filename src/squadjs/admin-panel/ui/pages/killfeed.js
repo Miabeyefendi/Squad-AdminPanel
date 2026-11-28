@@ -122,6 +122,7 @@ function show() {
   $('#kf-match option[value="previous"]').disabled = !data.previous && view.which !== 'previous';
 }
 
+// made by miabeyefendi
 // reads only what is new; a new match or another one starts from nothing
 async function load() {
   if (busy) return;

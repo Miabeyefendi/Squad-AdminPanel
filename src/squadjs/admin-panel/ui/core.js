@@ -99,6 +99,7 @@ export const guard = (fn) => async (...args) => {
   try { await fn(...args); } catch (err) { toast(err.message, true); }
 };
 
+// made by miabeyefendi
 // ---------- words and numbers ----------
 export const clock = (at) => new Date(at).toLocaleTimeString(LOCALE, { hour: '2-digit', minute: '2-digit', hourCycle: 'h23' });
 export const stamp = (at) => new Date(at).toLocaleString(LOCALE, { year: new Date(at).getFullYear() === new Date().getFullYear() ? undefined : 'numeric', month: 'short', day: '2-digit', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' });
@@ -242,6 +243,7 @@ export const BAN_CHOICES = [['1h', t('1 hour')], ['1d', t('1 day')], ['7d', t('7
 const BAN_NEEDS = { '1h': 'ban.short', '1d': 'ban.short', '7d': 'ban.long', '30d': 'ban.long', 0: 'ban.perm' };
 const banWords = (value, label) => (value === '0' ? t('Ban permanently') : t('Ban for {length}', { length: label }));
 
+// ID: Mia  ID2: beyefendi
 export function playerAction(action, ids, knownName) {
   if (!ids.length) return;
   const who = ids.length === 1 ? byId(ids[0])?.name || knownName || t('this player') : plural(ids.length, 'player');

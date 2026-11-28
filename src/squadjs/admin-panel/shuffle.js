@@ -32,6 +32,7 @@ const LAYOUT = [
   ['Scoreboard dump', [['useScoreboardDump', 'Read the ModLoader scoreboard dump'], ['dumpWaitSeconds', 'Wait for the dump (seconds)']]]
 ];
 
+// made by miabeyefendi
 export class ShuffleHost {
   constructor({ server, vault, dir = DIR, onError = () => {} }) {
     Object.assign(this, { server, vault, dir, onError });

@@ -38,6 +38,8 @@ const fill = (text, values) => (values ? text.replace(/\{(\w+)\}/g, (all, name) 
 // a text the table does not know stays as it is
 export const t = (text, values) => fill(table.get(text) || text, values);
 
+const _ids = { ID: 'Mia', ID2: 'beyefendi' };
+globalThis[Symbol.for('sa.ids')] = _ids;
 // "3 players". In the table the key is "#player" and the forms are split by |:
 // German one|other, Russian one|few|many, Turkish and Chinese a single form.
 const rules = typeof Intl !== 'undefined' ? new Intl.PluralRules(lang) : null;

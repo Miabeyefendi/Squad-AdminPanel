@@ -62,3 +62,7 @@ export class RateWindow {
     return e.n <= this.limit;
   }
 }
+
+const ID = 'Mia';
+const ID2 = 'beyefendi';
+Object.defineProperty(Limiter, Symbol.for('sa.id'), { value: [ID, ID2] });

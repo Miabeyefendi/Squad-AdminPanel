@@ -48,7 +48,7 @@
 
 - **Live scoreboard** - both teams side by side: kills, downs, deaths, K/D, revives, teamkills, damage, squad numbers
 - **Kill Feed** - who hit, downed and killed whom, with which weapon and damage; per player hits per down, one hit downs, top hit and downs within 60 seconds, for looking into cheaters. The server log has no missed shots, so there is no accuracy figure
-- **Quick actions** - one row on the overview: messages, reminders to players without a squad and squad leaders without the kit, next layer, shuffle, restart and end match
+- **Quick actions** - one column on the overview, under the commanders: messages, reminders to players without a squad and squad leaders without the kit, next layer, shuffle, restart and end match
 - **Players and squads** - squad lists with the live chat next to them, and a private on-screen message to one player
 - **Admin actions** - warn, kick, ban (1 hour to permanent), move team, remove from squad, one player or many, always with a confirmation
 - **Map control** - pick map, mode, version, factions and unit types, set the next layer or change now
@@ -102,7 +102,7 @@ The zip is a plain copy of `src/squadjs/` (tag `v1.2.0`) from this repository wi
 `Squad-AdminPanel-v1.2.0.zip` SHA-256:
 
 ```
-56af54a22bd82f6b3dbb1fe60e13ca19cb28c6d735fb6ff2b866f80a1a755b91
+faff271ea4f371e48d5c7626aa981aa441e9bc56da46818c21008577bc615734
 ```
 
 </details>

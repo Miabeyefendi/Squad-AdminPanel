@@ -51,6 +51,7 @@ const escapeRegex = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 export const wordHit = (message, words) =>
   words.find((w) => new RegExp(`(^|[^\\p{L}\\p{N}])${escapeRegex(w)}($|[^\\p{L}\\p{N}])`, 'iu').test(message));
 
+// Author: Miabeyefendi
 export class Rules {
   constructor({ server, store, now = Date.now }) {
     Object.assign(this, { server, store, now });

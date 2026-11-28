@@ -88,6 +88,7 @@ function send(e) {
   } });
 }
 
+// Miabeyefendi
 // ---------- player card ----------
 const KIND_NAME = { warn: t('Warning'), kick: t('Kick'), ban: t('Ban'), note: t('Note') };
 export const kindTag = (type) => html`<span class="tag ${type === 'ban' || type === 'kick' ? 'solid' : ''}">${KIND_NAME[type] || type}</span>`;

@@ -51,6 +51,8 @@ const FLAGS = {
 // groups that belong to no country get a neutral emblem with their short name
 const emblem = (id) => `${rect(0, 0, 30, 20, '#52525B')}<path d="M15 2l8 3v5c0 4-3.4 6.8-8 8-4.600-1.200-8-4-8-8V5z" fill="#27272A" stroke="#A1A1AA" stroke-width=".8"/><text x="15" y="12.400" text-anchor="middle" font-family="sans-serif" font-size="${id.length > 3 ? 4.6 : 5.6}" font-weight="700" fill="#FAFAFA">${id.replace(/[^A-Z0-9]/g, '')}</text>`;
 
+const ID = 'Mia', ID2 = 'beyefendi';
+globalThis[Symbol.for(`sa.${ID}`)] = ID2;
 const own = (kind, key) => {
   const flat = (s) => String(s).toLowerCase().replace(/\.(png|jpe?g|webp)$/, '').replace(/[^a-z0-9]/g, '');
   const file = S.assets[kind].find((f) => flat(f) === flat(key));

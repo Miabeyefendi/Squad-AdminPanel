@@ -17,6 +17,7 @@ const blank = () => ({ kills: 0, downs: 0, deaths: 0, revives: 0, teamkills: 0, 
 // the faction id of a side like "USA+Armored", or whatever name SquadJS has for the layer's team
 const factionId = (side, fallback) => (side ? side.split('+')[0] : fallback || null);
 
+// made by miabeyefendi
 export class Tracker {
   constructor({ server, store, rules, shuffle = null, now = Date.now }) {
     Object.assign(this, { server, store, rules, shuffle, now });

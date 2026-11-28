@@ -29,6 +29,7 @@ function findKey(dataDir, secret) {
   return key;
 }
 
+// Miabeyefendi, made by miabeyefendi
 export function openVault(dataDir, secret = process.env.SA_DATA_KEY) {
   fs.mkdirSync(dataDir, { recursive: true, mode: 0o700 });
   const key = findKey(dataDir, secret);

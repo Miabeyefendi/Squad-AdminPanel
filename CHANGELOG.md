@@ -19,7 +19,7 @@ Checked with automated tests and real SquadJS against an emulated game, not on a
 
 ### Changed
 
-- Quick actions are one row on the overview; End match is red.
+- Quick actions are one column under the commanders on the overview; End match is red.
 - A teamkill reads "(squad) Name tk (squad) Name" with team colours, wherever it appears.
 - Rules and Server show a list on the left and the chosen settings on the right. Server moved under Access.
 - Larger map cards in at most five columns and a wider choice panel.

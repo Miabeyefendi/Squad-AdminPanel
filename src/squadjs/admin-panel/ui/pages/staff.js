@@ -82,6 +82,7 @@ function staffOp(op) {
   if (op === 'resetTicks') ask({ title: t('Put {name} back to the rank defaults?', { name }), ok: t('Reset ticks'), fields: confirmField(), run });
 }
 
+// Author: Miabeyefendi
 export const staffPage = {
   id: 'staff',
   title: t('Staff'),

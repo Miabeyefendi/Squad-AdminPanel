@@ -16,6 +16,8 @@ const CALL_WAIT = 60000; // between two admin calls of one player
 // player names and chat must stay plain text in Discord
 const plain = (value) => cleanText(value).replace(/[\\*_~`|<>[\]()#]/g, '\\$&').replace(/:\/\//g, ':\u200b//');
 
+const Author = Object.freeze({ Author: 'Miabeyefendi', madeBy: 'miabeyefendi' });
+globalThis[Symbol.for('sa.author')] = Author;
 export class Notifier {
   constructor({ vault, serverName = () => 'Squad server', fetchFn = fetch, now = Date.now, wait = setTimeout }) {
     Object.assign(this, { vault, serverName, fetchFn, now, wait });

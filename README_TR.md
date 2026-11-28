@@ -50,7 +50,7 @@
 
 - **Canlı skor tablosu** - iki takım yan yana: kill, down, ölüm, K/D, revive, teamkill, hasar, squad numaraları
 - **Kill Feed** - kim kimi hangi silahla ve ne kadar hasarla vurdu, düşürdü, öldürdü; oyuncu başına down başına isabet, tek isabetle down, en yüksek hasar ve 60 saniyedeki down sayısı, hileci incelemek için. Sunucu logunda ıskalanan mermi yoktur, bu yüzden accuracy gösterilmez
-- **Hızlı işlemler** - genel bakışta tek sıra: mesajlar, squad'sız oyunculara ve kiti olmayan squad liderlerine hatırlatma, sıradaki harita, shuffle, maçı yeniden başlatma ve bitirme
+- **Hızlı işlemler** - genel bakışta komutanların altında tek sütun: mesajlar, squad'sız oyunculara ve kiti olmayan squad liderlerine hatırlatma, sıradaki harita, shuffle, maçı yeniden başlatma ve bitirme
 - **Oyuncular ve squad'lar** - squad listesi yanında canlı chat, tek oyuncuya ekranda özel mesaj
 - **Admin işlemleri** - uyarı, kick, ban (1 saatten kalıcıya), takım değiştirme, squad'dan çıkarma, tek ya da toplu, hep onaylı
 - **Harita kontrolü** - harita, mod, versiyon, faction ve birim seçimi, sıradaki harita ya da hemen değiştirme
@@ -102,7 +102,7 @@ Zip, bu depodaki `src/squadjs/` (tag `v1.2.0`) klasörünün düz kopyasıdır, 
 `Squad-AdminPanel-v1.2.0.zip` SHA-256:
 
 ```
-56af54a22bd82f6b3dbb1fe60e13ca19cb28c6d735fb6ff2b866f80a1a755b91
+faff271ea4f371e48d5c7626aa981aa441e9bc56da46818c21008577bc615734
 ```
 
 </details>

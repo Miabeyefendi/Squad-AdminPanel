@@ -11,6 +11,7 @@ const isSecret = (name) => /(password|secret|webhook|api_?key)/i.test(name) || /
 const isFixed = (name, value) => typeof value === 'string' && /(file|path|dir|url|host)$/i.test(name);
 const kindOf = (v) => (Array.isArray(v) ? 'json' : v === null ? 'json' : typeof v === 'object' ? 'json' : typeof v);
 
+// Miabeyefendi
 export class ConfigFile {
   constructor(file, getPlugins) {
     this.file = file;

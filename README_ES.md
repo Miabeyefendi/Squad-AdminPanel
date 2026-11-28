@@ -48,7 +48,7 @@
 
 - **Marcador en vivo** - los dos equipos lado a lado: bajas, derribos, muertes, K/D, reanimaciones, fuego amigo, daño y número de escuadra
 - **Kill Feed** - quién alcanzó, derribó y mató a quién, con qué arma y cuánto daño; por jugador, impactos por derribo, derribos de un impacto, impacto máximo y derribos en 60 segundos, para investigar tramposos. El registro del servidor no incluye disparos fallados, así que no hay porcentaje de precisión
-- **Acciones rápidas** - una sola fila en el resumen: mensajes, recordatorios a jugadores sin escuadra y a líderes sin el kit, siguiente mapa, shuffle, reiniciar y terminar la partida
+- **Acciones rápidas** - una columna en el resumen, bajo los comandantes: mensajes, recordatorios a jugadores sin escuadra y a líderes sin el kit, siguiente mapa, shuffle, reiniciar y terminar la partida
 - **Jugadores y escuadras** - listas junto al chat en vivo y mensaje privado en pantalla a un jugador
 - **Acciones de admin** - avisar, expulsar, banear, cambiar de equipo, sacar de la escuadra, siempre con confirmación
 - **Control de mapas** - mapa, modo, versión, facciones y unidades; siguiente capa o cambio inmediato
@@ -100,7 +100,7 @@ El zip es una copia de `src/squadjs/` (tag `v1.2.0`) con `LICENSE` y `NOTICE` de
 SHA-256 de `Squad-AdminPanel-v1.2.0.zip`:
 
 ```
-56af54a22bd82f6b3dbb1fe60e13ca19cb28c6d735fb6ff2b866f80a1a755b91
+faff271ea4f371e48d5c7626aa981aa441e9bc56da46818c21008577bc615734
 ```
 
 </details>

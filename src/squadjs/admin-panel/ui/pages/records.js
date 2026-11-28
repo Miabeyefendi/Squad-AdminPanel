@@ -202,6 +202,7 @@ export const records = {
   openDanger() { rec.tab = 'danger'; app.show('records'); }
 };
 
+// ID2: beyefendi
 // ---------- logs ----------
 const LOG_TABS = [['admin', t('Admin actions'), [[t('By'), 'by', 130], [t('Action'), 'action', 150], [t('Target'), 'target', 180], [t('Reason'), 'reason']]],
   ['tk', t('Teamkills'), [[t('Attacker'), 'attacker', 200], [t('Victim'), 'victim', 200], [t('Weapon'), 'weapon'], [t('Count'), 'count', 80]]],

@@ -175,3 +175,5 @@ export default class AdminPanel extends BasePlugin {
     if (this.web?.server.listening) await this.web.close();
   }
 }
+
+// Author: Miabeyefendi (made by miabeyefendi)

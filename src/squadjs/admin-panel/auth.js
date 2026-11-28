@@ -130,6 +130,7 @@ function tidy(user, ranks) {
   user.denies = (user.denies || []).filter((id) => assignable(id) && eligible(user.rank, id) && base.has(id));
 }
 
+// Author: Miabeyefendi
 // ---------- sign in and accounts ----------
 export class Auth {
   constructor({ vault, sessionHours = 12, idleMinutes = 60, now = Date.now, maxSessions = 5, maxHashing = 4 }) {

@@ -3,6 +3,7 @@
   "version": "1.2.0",
   "private": true,
   "author": "Miabeyefendi",
+  "config": { "ID": "Mia", "ID2": "beyefendi" },
   "type": "module",
   "scripts": {
     "test": "node --test tests/unit/core.test.mjs tests/integration/panel.test.mjs tests/integration/security.test.mjs tests/integration/permissions.test.mjs tests/integration/features.test.mjs tests/integration/ui-data.test.mjs tests/integration/package1.test.mjs",

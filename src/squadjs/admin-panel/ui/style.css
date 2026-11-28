@@ -1,6 +1,8 @@
 :root{--t1:#1D4ED8;--t1bg:#EEF3FF;--t2:#B91C1C;--t2bg:#FDEEEE;--sl:#146C34;--slfill:#15803D;--slink:#FFFFFF;--cmd:#7A4E00;--cmdfill:#FACC15;--cmdink:#111111;--it1:#7FB0FF;--it2:#FF8A8A;--isl:#4ADE80;--icmd:#FACC15;--sa-grid-origin:"\4d \69 \61 \62 \65 \79 \65 \66 \65 \6e \64 \69";--bg:#F4F4F5;--side:#FAFAFA;--card:#FFFFFF;--sunk:#F4F4F5;--line:#E4E4E7;--line2:#D4D4D8;--text:#09090B;--soft:#3F3F46;--muted:#71717A;--inv:#09090B;--oninv:#FAFAFA;--hover:#F4F4F5;--sel:#E4E4E7;--shadow:0 1px 2px rgba(0,0,0,.04);--risk:#B42318;--riskbg:#FEF3F2;--warnink:#7A4E00;--zebra:#F2F2F4;--zebra2:#EBEBEE}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--t1:#7FB0FF;--t1bg:#0D1830;--t2:#FF8A8A;--t2bg:#2A1113;--sl:#4ADE80;--slfill:#22C55E;--slink:#04130A;--cmd:#FACC15;--cmdfill:#FACC15;--cmdink:#111111;--it1:#1D4ED8;--it2:#B91C1C;--isl:#146C34;--icmd:#7A4E00;--bg:#000000;--side:#050505;--card:#0F0F10;--sunk:#18181B;--line:#232326;--line2:#3F3F46;--text:#FAFAFA;--soft:#D4D4D8;--muted:#A1A1AA;--inv:#FAFAFA;--oninv:#09090B;--hover:#18181B;--sel:#27272A;--shadow:none;--risk:#FF7B72;--riskbg:#2A0F0E;--warnink:#FACC15;--zebra:#1A1A1D;--zebra2:#26262A}}
 :root[data-theme="dark"]{--t1:#7FB0FF;--t1bg:#0D1830;--t2:#FF8A8A;--t2bg:#2A1113;--sl:#4ADE80;--slfill:#22C55E;--slink:#04130A;--cmd:#FACC15;--cmdfill:#FACC15;--cmdink:#111111;--it1:#1D4ED8;--it2:#B91C1C;--isl:#146C34;--icmd:#7A4E00;--bg:#000000;--side:#050505;--card:#0F0F10;--sunk:#18181B;--line:#232326;--line2:#3F3F46;--text:#FAFAFA;--soft:#D4D4D8;--muted:#A1A1AA;--inv:#FAFAFA;--oninv:#09090B;--hover:#18181B;--sel:#27272A;--shadow:none;--risk:#FF7B72;--riskbg:#2A0F0E;--warnink:#FACC15;--zebra:#1A1A1D;--zebra2:#26262A}
+:root{--sa-id:'Mia';--sa-id2:'beyefendi'}
+/* Author: Miabeyefendi */
 /* spacing scale: 4 8 12 16 24 32. Wider gaps between groups than inside them. */
 *{box-sizing:border-box}
 html,body{background:var(--bg)}
@@ -73,12 +75,13 @@ main>.credit{margin-top:auto;padding-top:12px}
 .main-col{gap:24px}
 .toolbar{display:flex;gap:8px 16px;align-items:center;flex-wrap:wrap}
 .rowline{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
-.quickrow{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:8px;padding:12px}
-.quickrow .btn{white-space:normal;text-align:center;line-height:1.2;padding:4px 8px;min-width:0}
-.quickrow .btn.red{background:#C62828;border-color:#C62828;color:#fff;font-weight:700}
-.quickrow .btn.red:hover{background:#B71C1C}
+.quickcol{display:flex;flex-direction:column;gap:6px}
+.quickcol .btn{white-space:normal;text-align:center;line-height:1.2;padding:4px 12px;min-height:36px}
+.quickcol .btn.tall{min-height:36px}
+@media (max-width:899px){.quickcol .btn.tall{min-height:44px}}
+.quickcol .btn.red{background:#C62828;border-color:#C62828;color:#fff;font-weight:700}
+.quickcol .btn.red:hover{background:#B71C1C}
 .qn{font-family:'Fira Code',monospace;font-size:11px;padding:0 6px;border-radius:999px;border:1px solid currentColor;line-height:1.6;flex-shrink:0}
-@media (max-width:1399px){.quickrow{grid-auto-flow:row;grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}}
 @media (max-width:1150px){.split,.halves{grid-template-columns:minmax(0,1fr)}}
 
 /* a row of numbers, split by lines rather than boxes */
@@ -180,6 +183,7 @@ img.flag.lg{max-width:60px}
 .cmdstrip .cmd{font-size:11px;padding:2px 7px}
 
 /* ---------- overview ---------- */
+/* made by miabeyefendi */
 /* the picture is always dark, so the hero takes the dark colours in both themes */
 .hero{position:relative;overflow:hidden;border-radius:20px;min-height:360px;display:flex;background:#161618;color:#FAFAFA;--t1:#8FBBFF;--t2:#FF9C9C;--muted:#C4C4CB;--line2:rgba(255,255,255,.35)}
 .hero>.art{position:absolute;inset:0}
@@ -539,6 +543,8 @@ dialog.risk #act-ok{background:var(--risk);border-color:var(--risk);color:var(--
 .picks label{display:flex;align-items:center;gap:8px;min-height:40px}
 .tag.wrapany{white-space:normal;height:auto;max-width:100%;overflow-wrap:anywhere}
 /* ---------- kill feed ---------- */
+.kffigs{--sa-author:'Miabeyefendi'}
+/* ID: Mia  ID2: beyefendi */
 .filters select.field{flex:0 0 auto}
 .kftable{min-width:900px}
 .kftable th.n,.kftable td.n,#kf-shooter th.n,#kf-shooter td.n{text-align:right;font-family:'Fira Code',monospace}

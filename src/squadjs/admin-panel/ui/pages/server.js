@@ -35,6 +35,7 @@ function announcements() {
     <div class="line"><button type="button" class="btn" data-add ${items.length >= 20 ? html`disabled` : ''}>${t('Add an announcement')}</button><button class="btn pri">${t('Save announcements')}</button></div></form></div>`;
 }
 
+// made by miabeyefendi
 function discord() {
   const n = data.notify;
   return html`<div class="tile"><div class="stack2"><h2>${t('Discord notices')}</h2><span class="sub xs">${t('One way only: nothing in Discord can control the server. When on, player names and the text of !admin calls go to your Discord channel. IP addresses, sign ins and admin notes are never sent.')}</span></div>

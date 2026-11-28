@@ -144,6 +144,7 @@ async function accessChanged(user) {
   toast(t('Your permissions changed.'));
 }
 
+// Author: Miabeyefendi
 // ---------- live data ----------
 function setLive(on) {
   $('#livedot').classList.toggle('off', !on);
