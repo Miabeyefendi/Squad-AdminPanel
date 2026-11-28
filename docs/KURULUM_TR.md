@@ -12,6 +12,8 @@
 
 ---
 
+Squad Admin Panel kurulumu: Squad dedicated sunucusunda SquadJS eklentisi olarak çalışan web admin paneli ve RCON aracı. Komutlar için: [Squad admin komutları](./ADMIN_KOMUTLARI_TR.md).
+
 Bu rehber hiç bilmeyen biri için yazıldı. **Adımları sırayla yap, atlama.** Her adımın sonunda ne görmen gerektiği yazıyor. Onu görmüyorsan sonraki adıma geçme, [Sorun giderme](#-sorun-giderme) bölümüne bak.
 
 ## 📑 İçindekiler

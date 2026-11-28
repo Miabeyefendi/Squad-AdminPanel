@@ -4,7 +4,7 @@
 
 # Squad Admin Panel
 
-**Squad oyun sunucuları için ücretsiz, açık kaynak web admin paneli. SquadJS eklentisi olarak çalışır: canlı skor tablosu, squad'lar ve chat, uyarı, kick ve ban, harita kontrolü, admin yetkileri, loglar ve Smart Shuffle.**
+**Squad dedicated sunucuları için ücretsiz, açık kaynak admin paneli ve RCON aracı. SquadJS eklentisi olarak çalışır: admin komutu yazmadan tarayıcıdan kick, ban, uyarı ve harita değiştirme; canlı skor tablosu, squad'lar ve chat, admin yetkileri, sunucu logları ve takım dengeleme (Smart Shuffle).**
 
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-A78BFA?style=for-the-badge&logo=gnu&logoColor=white)](./LICENSE)
 [![Version](https://img.shields.io/github/v/release/Miabeyefendi/Squad-AdminPanel?style=for-the-badge&color=F59E0B&label=version)](https://github.com/Miabeyefendi/Squad-AdminPanel/releases/latest)
@@ -196,6 +196,7 @@ Panel ayarları `config.json` içindeki `AdminPanel` satırındadır. **Oraya pa
 
 ## 📖 Belgeler
 
+- [**Squad admin komutları**](./docs/ADMIN_KOMUTLARI_TR.md) - kick, ban, uyarı, harita değiştirme, Admins.cfg ve admin kamera tuşları
 - [**Rehber**](./docs/KURULUM_TR.md) - sıfırdan kurulum, her sayfa, her ayar, sorun giderme
 - [**Değişiklikler**](./CHANGELOG.md)
 - [**Katkı**](./CONTRIBUTING.md)
@@ -214,6 +215,27 @@ Hiçbiri söz değildir. Bu kişisel bir proje.
 ---
 
 ## ❓ SSS
+
+<details>
+<summary><b>Squad admin komutlarını tarayıcıdan kullanabilir miyim?</b></summary>
+
+Günlük olanları evet: kick, ban, uyarı, duyuru, takım değiştirme, squad'dan çıkarma, harita değiştirme, sıradaki harita, maçı bitirme ve yeniden başlatma. Hangi butonun hangi komutu gönderdiği [Squad admin komutları](./docs/ADMIN_KOMUTLARI_TR.md) sayfasında.
+
+</details>
+
+<details>
+<summary><b>BattleMetrics ya da başka bir RCON servisi gerekli mi?</b></summary>
+
+Hayır. Panel kendi sunucunda çalışır, oyunla SquadJS üzerinden konuşur. Ücretli bir servisin kopyası değildir: örneğin topluluklar arası ortak ban listesi yoktur.
+
+</details>
+
+<details>
+<summary><b>Admins.cfg dosyasını değiştiriyor mu, admin kamerası var mı?</b></summary>
+
+Hayır. Panel hesapları `Admins.cfg`'den ayrıdır, admin kamerası da oyunun kendi özelliğidir. İkisi de [komut sayfasında](./docs/ADMIN_KOMUTLARI_TR.md#adminscfg-admin-nasıl-eklenir) anlatılıyor.
+
+</details>
 
 <details>
 <summary><b>Gerçekten ücretsiz mi?</b></summary>

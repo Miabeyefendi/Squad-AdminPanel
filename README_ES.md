@@ -4,7 +4,7 @@
 
 # Squad Admin Panel
 
-**Panel web de administración, gratuito y de código abierto, para servidores de Squad. Funciona como plugin de SquadJS: marcador en vivo, escuadras y chat, avisos, expulsiones y baneos, control de mapas, permisos del equipo, registros y Smart Shuffle.**
+**Panel de administración y herramienta RCON, gratuita y de código abierto, para servidores dedicados de Squad. Funciona como plugin de SquadJS: expulsa, banea, avisa y cambia el mapa desde el navegador sin escribir comandos de admin, con marcador en vivo, escuadras y chat, permisos, registros y equilibrio de equipos (Smart Shuffle).**
 
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-A78BFA?style=for-the-badge&logo=gnu&logoColor=white)](./LICENSE)
 [![Version](https://img.shields.io/github/v/release/Miabeyefendi/Squad-AdminPanel?style=for-the-badge&color=F59E0B&label=version)](https://github.com/Miabeyefendi/Squad-AdminPanel/releases/latest)
@@ -194,6 +194,7 @@ Los ajustes van en la línea `AdminPanel` de `config.json`. **No pongas contrase
 
 ## 📖 Documentación
 
+- [**Comandos de admin de Squad**](./docs/ADMIN_COMMANDS.md) (inglés)
 - [**Tutorial**](./docs/SETUP.md) (inglés)
 - [**Cambios**](./CHANGELOG.md)
 - [**Contribuir**](./CONTRIBUTING.md)
@@ -212,6 +213,27 @@ Nada de esto es una promesa.
 ---
 
 ## ❓ Preguntas frecuentes
+
+<details>
+<summary><b>¿Puedo usar los comandos de admin de Squad desde el navegador?</b></summary>
+
+Sí, los del día a día: expulsar, banear, avisar, anunciar, cambiar de equipo, sacar de la escuadra, cambiar de mapa, siguiente capa y terminar o reiniciar la partida. Véase la [referencia de comandos](./docs/ADMIN_COMMANDS.md) (en inglés).
+
+</details>
+
+<details>
+<summary><b>¿Necesito BattleMetrics u otro servicio RCON?</b></summary>
+
+No. El panel corre en tu servidor y habla con el juego mediante SquadJS. No copia ningún servicio de pago: por ejemplo, no tiene listas de baneos compartidas entre comunidades.
+
+</details>
+
+<details>
+<summary><b>¿Edita Admins.cfg o tiene cámara de admin?</b></summary>
+
+No. Las cuentas del panel son independientes de `Admins.cfg` y la cámara de admin es parte del juego. La [referencia](./docs/ADMIN_COMMANDS.md#adminscfg-how-to-add-an-admin) explica ambas.
+
+</details>
 
 <details>
 <summary><b>¿Es realmente gratis?</b></summary>

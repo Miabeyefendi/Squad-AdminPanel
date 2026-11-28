@@ -4,7 +4,7 @@
 
 # Squad Admin Panel
 
-**A free, open source web admin panel for Squad game servers. It runs as a SquadJS plugin: live scoreboard, squads and chat, warn, kick and ban, map control, staff permissions, logs and Smart Shuffle.**
+**A free, open source Squad admin panel and RCON tool for Squad dedicated servers. It runs as a SquadJS plugin: kick, ban, warn and change the map from your browser instead of typing admin commands, with a live scoreboard, squads and chat, staff permissions, server logs and team balance (Smart Shuffle).**
 
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-A78BFA?style=for-the-badge&logo=gnu&logoColor=white)](./LICENSE)
 [![Version](https://img.shields.io/github/v/release/Miabeyefendi/Squad-AdminPanel?style=for-the-badge&color=F59E0B&label=version)](https://github.com/Miabeyefendi/Squad-AdminPanel/releases/latest)
@@ -198,6 +198,7 @@ Every key is in the [tutorial](./docs/SETUP.md#️-configuration-reference).
 
 ## 📖 Documentation
 
+- [**Squad admin commands**](./docs/ADMIN_COMMANDS.md) - kick, ban, warn, change map, Admins.cfg and admin camera controls ([Türkçe](./docs/ADMIN_KOMUTLARI_TR.md))
 - [**Setup guide**](./docs/SETUP.md) - installation from zero, every page, every setting, troubleshooting ([Türkçe](./docs/KURULUM_TR.md))
 - [**Changelog**](./CHANGELOG.md) - what changed in each release
 - [**Contributing**](./CONTRIBUTING.md) - how to send a change
@@ -218,6 +219,27 @@ Nothing here is a promise. This is a personal project and the list moves when my
 ---
 
 ## ❓ FAQ
+
+<details>
+<summary><b>Can I run Squad admin commands from a browser?</b></summary>
+
+Yes, the daily ones: kick, ban, warn, broadcast, move team, remove from squad, change layer, set next layer, end and restart match. See the [Squad admin commands reference](./docs/ADMIN_COMMANDS.md) for which button sends which command.
+
+</details>
+
+<details>
+<summary><b>Do I need BattleMetrics or another RCON service?</b></summary>
+
+No. The panel runs on your own server and talks to the game through SquadJS. It is not a copy of any paid service: for example it has no ban lists shared between communities.
+
+</details>
+
+<details>
+<summary><b>Does it edit Admins.cfg or give an admin camera?</b></summary>
+
+No. Panel accounts and permissions are separate from `Admins.cfg`, and the admin camera is part of the game. The [commands reference](./docs/ADMIN_COMMANDS.md#adminscfg-how-to-add-an-admin) explains both.
+
+</details>
 
 <details>
 <summary><b>Is it really free?</b></summary>

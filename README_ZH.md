@@ -4,7 +4,7 @@
 
 # Squad Admin Panel
 
-**面向 Squad(战术小队)游戏服务器的免费开源网页管理面板。以 SquadJS 插件形式运行:实时记分板、小队与聊天、警告、踢出与封禁、地图控制、管理员权限、日志以及 Smart Shuffle。**
+**面向 Squad(战术小队)专用服务器的免费开源管理面板与 RCON 工具。以 SquadJS 插件运行:无需输入管理员指令,在浏览器中踢出、封禁、警告和切换地图,并提供实时记分板、小队与聊天、管理员权限、服务器日志和队伍平衡(Smart Shuffle)。**
 
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-A78BFA?style=for-the-badge&logo=gnu&logoColor=white)](./LICENSE)
 [![Version](https://img.shields.io/github/v/release/Miabeyefendi/Squad-AdminPanel?style=for-the-badge&color=F59E0B&label=version)](https://github.com/Miabeyefendi/Squad-AdminPanel/releases/latest)
@@ -194,6 +194,7 @@
 
 ## 📖 文档
 
+- [**Squad 管理员指令**](./docs/ADMIN_COMMANDS.md)(英文)
 - [**教程**](./docs/SETUP.md)(英文)
 - [**更新日志**](./CHANGELOG.md)
 - [**参与贡献**](./CONTRIBUTING.md)
@@ -212,6 +213,27 @@
 ---
 
 ## ❓ 常见问题
+
+<details>
+<summary><b>可以在浏览器中使用 Squad 管理员指令吗?</b></summary>
+
+常用的可以:踢出、封禁、警告、公告、换队、移出小队、切换地图、设置下一局、结束和重开对局。见[管理员指令参考](./docs/ADMIN_COMMANDS.md)(英文)。
+
+</details>
+
+<details>
+<summary><b>需要 BattleMetrics 或其他 RCON 服务吗?</b></summary>
+
+不需要。面板运行在你自己的服务器上,通过 SquadJS 与游戏通信。它并非任何付费服务的复制品,例如没有跨社区共享的封禁列表。
+
+</details>
+
+<details>
+<summary><b>它会修改 Admins.cfg 或提供管理员视角吗?</b></summary>
+
+不会。面板账号与 `Admins.cfg` 相互独立,管理员视角是游戏自带功能。两者见[指令参考](./docs/ADMIN_COMMANDS.md#adminscfg-how-to-add-an-admin)。
+
+</details>
 
 <details>
 <summary><b>真的免费吗?</b></summary>

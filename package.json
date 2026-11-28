@@ -8,14 +8,19 @@
     "test": "node --test tests/unit/core.test.mjs tests/integration/panel.test.mjs tests/integration/security.test.mjs tests/integration/permissions.test.mjs tests/integration/features.test.mjs tests/integration/ui-data.test.mjs",
     "demo": "node tests/integration/demo.mjs"
   },
-  "description": "Free and open source web admin panel for Squad game servers, running as a SquadJS plugin.",
+  "description": "Free open source Squad admin panel and RCON tool: a SquadJS plugin to kick, ban, warn and change the map on Squad dedicated servers.",
   "license": "AGPL-3.0",
   "keywords": [
     "squad",
     "squadjs",
     "squadjs-plugin",
-    "admin-panel",
+    "squad-admin",
+    "squad-server",
     "rcon",
-    "game-server"
-  ]
+    "admin-panel",
+    "game-server",
+    "dedicated-server",
+    "server-administration"
+  ],
+  "homepage": "https://github.com/Miabeyefendi/Squad-AdminPanel#readme"
 }

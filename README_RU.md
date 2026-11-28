@@ -4,7 +4,7 @@
 
 # Squad Admin Panel
 
-**Бесплатная веб-панель администратора с открытым кодом для серверов Squad. Работает как плагин SquadJS: живая таблица счёта, отряды и чат, предупреждения, кик и бан, управление картами, права администраторов, журналы и Smart Shuffle.**
+**Бесплатная админ-панель и RCON-инструмент с открытым кодом для выделенных серверов Squad. Работает как плагин SquadJS: кик, бан, предупреждение и смена карты из браузера без ввода админ-команд, живая таблица счёта, отряды и чат, права администраторов, журналы сервера и баланс команд (Smart Shuffle).**
 
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-A78BFA?style=for-the-badge&logo=gnu&logoColor=white)](./LICENSE)
 [![Version](https://img.shields.io/github/v/release/Miabeyefendi/Squad-AdminPanel?style=for-the-badge&color=F59E0B&label=version)](https://github.com/Miabeyefendi/Squad-AdminPanel/releases/latest)
@@ -194,6 +194,7 @@ SHA-256 файла `Squad-AdminPanel-v1.0.0.zip`:
 
 ## 📖 Документация
 
+- [**Админ-команды Squad**](./docs/ADMIN_COMMANDS.md) (англ.)
 - [**Руководство**](./docs/SETUP.md) (англ.)
 - [**Изменения**](./CHANGELOG.md)
 - [**Участие**](./CONTRIBUTING.md)
@@ -212,6 +213,27 @@ SHA-256 файла `Squad-AdminPanel-v1.0.0.zip`:
 ---
 
 ## ❓ Частые вопросы
+
+<details>
+<summary><b>Можно ли выполнять админ-команды Squad из браузера?</b></summary>
+
+Да, повседневные: кик, бан, предупреждение, объявление, смена команды, исключение из отряда, смена карты, следующая карта, завершение и перезапуск матча. См. [справочник команд](./docs/ADMIN_COMMANDS.md) (англ.).
+
+</details>
+
+<details>
+<summary><b>Нужен ли BattleMetrics или другой RCON-сервис?</b></summary>
+
+Нет. Панель работает на вашем сервере и общается с игрой через SquadJS. Это не копия платного сервиса: например, в ней нет общих бан-листов сообществ.
+
+</details>
+
+<details>
+<summary><b>Меняет ли она Admins.cfg, есть ли админ-камера?</b></summary>
+
+Нет. Аккаунты панели отдельны от `Admins.cfg`, а админ-камера - часть самой игры. Об этом в [справочнике](./docs/ADMIN_COMMANDS.md#adminscfg-how-to-add-an-admin).
+
+</details>
 
 <details>
 <summary><b>Это действительно бесплатно?</b></summary>

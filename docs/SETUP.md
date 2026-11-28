@@ -12,6 +12,8 @@
 
 ---
 
+How to install Squad Admin Panel, a web admin and RCON tool that runs as a SquadJS plugin on a Squad dedicated server. See also the [Squad admin commands](./ADMIN_COMMANDS.md) reference.
+
 This guide starts from zero. Follow the steps in order; each one says what you should see when it worked.
 
 ## 📑 Contents
