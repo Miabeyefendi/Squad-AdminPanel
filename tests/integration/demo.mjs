@@ -10,6 +10,7 @@ import path from 'node:path';
 
 import { DEMO_LAYERS } from '../mock_data/demo-layers.mjs';
 import { fakeServer } from '../mock_data/fake-server.mjs';
+import { writeServerConfig } from '../mock_data/server-config.mjs';
 import { install } from './install.mjs';
 
 const { root, AdminPanel, addUsers } = await install({ layers: DEMO_LAYERS });
@@ -64,8 +65,12 @@ fs.writeFileSync(path.join(root, 'config.json'), JSON.stringify({ server: {}, co
 
 server.matchStartTime = new Date(Date.now() - 24 * 60000);
 process.argv[2] = path.join(root, 'config.json');
-const panel = new AdminPanel(server, { port: 8171, dataDir, configFile: process.argv[2] });
+// a made up ServerConfig folder: Smart Map Pool writes only there
+const serverConfigDir = writeServerConfig(root);
+const panel = new AdminPanel(server, { port: 8171, dataDir, configFile: process.argv[2], serverConfigDir });
 await panel.mount();
+panel.mapPool.apply('03-day-night');
+console.log(`Demo ServerConfig folder: ${serverConfigDir}`);
 
 // records from the last weeks, so the Records page and the player cards have something in them
 const day = 86400000;

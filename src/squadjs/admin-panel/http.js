@@ -11,7 +11,7 @@ import { PERMISSIONS, RANKS } from './permissions.js';
 import { ALL_KINDS, LOG_KINDS } from './store.js';
 
 // the only files of the UI folder that are ever served
-const SCRIPTS = ['app.js', 'core.js', 'art.js', 'i18n.js', ...['overview', 'score', 'killfeed', 'players', 'map', 'shuffle', 'rules', 'plugins',
+const SCRIPTS = ['app.js', 'core.js', 'art.js', 'i18n.js', ...['overview', 'score', 'killfeed', 'players', 'map', 'shuffle', 'mappool', 'rules', 'plugins',
   'records', 'staff', 'server'].map((page) => `pages/${page}.js`), ...['common', 'pages', 'server'].map((part) => `lang/${part}.js`)];
 const UI = {
   '/': ['index.html', 'text/html; charset=utf-8'],
@@ -77,7 +77,7 @@ function artList(dataDir) {
 // ID2: beyefendi
 // ID: Mia
 export function createPanelServer(deps) {
-  const { auth, actions, tracker, store, rules, shuffle, schedule, notifier, configFile, getLayers, restart, options, uiDir, tls } = deps;
+  const { auth, actions, tracker, store, rules, shuffle, schedule, notifier, mapPool, configFile, getLayers, restart, options, uiDir, tls } = deps;
   const streams = new Set();
   const secure = !!tls || !!options.secureCookie;
   const cookieName = secure ? '__Host-sa_session' : 'sa_session';
@@ -283,6 +283,34 @@ export function createPanelServer(deps) {
     return serverPage(user);
   }
 
+  const maySeePool = (user) => may(user, 'mappool.manage') || may(user, 'map.next');
+  // the folder's path is shown to those who may change what is in it
+  const poolPage = async (user) => mapPool.describe({ layers: await getLayers().catch(() => []), folder: may(user, 'mappool.manage') });
+
+  async function poolChange(user, body, ip) {
+    const op = String(body.op ?? '');
+    if (!['apply', 'restore', 'removeSeed', 'week', 'auto'].includes(op)) fail('Unknown change.');
+    await auth.confirm(user, body.confirmPassword, ip);
+    const options = { force: body.force === true };
+    if (op === 'apply') {
+      const pool = mapPool.apply(String(body.id), options);
+      audit(user.name, 'Map pool', pool.name, pool.seed ? 'seeding list added' : 'in use');
+    } else if (op === 'restore') {
+      mapPool.restore(options);
+      audit(user.name, 'Map pool', 'Server files', 'put back as before');
+    } else if (op === 'removeSeed') {
+      mapPool.removeSeed(options);
+      audit(user.name, 'Map pool', 'Seeding list', 'removed');
+    } else if (op === 'week') {
+      const pool = mapPool.setWeek(body.week, options);
+      audit(user.name, 'Map pool', pool.name, `week ${body.week + 1}`);
+    } else {
+      mapPool.setAuto(body.on === true, body.nextAt);
+      audit(user.name, 'Map pool', 'Weekly change', body.on === true ? 'on' : 'off');
+    }
+    return poolPage(user);
+  }
+
   const staffPage = (user) => ({ ...auth.staff(user), catalog: Object.values(PERMISSIONS),
     ranks: Object.fromEntries(Object.entries(RANKS).map(([id, r]) => [id, r])) });
 
@@ -377,6 +405,7 @@ export function createPanelServer(deps) {
           ...(may(user, 'notes.view') ? {} : { notes: 0, warns: 0, kicks: 0, bans: 0 }) })));
       }
       if (where === '/api/shuffle') return send(res, 200, shufflePage(user));
+      if (where === '/api/mappool') return maySeePool(user) ? send(res, 200, await poolPage(user)) : denied();
       if (where === '/api/records') return may(user, 'data.manage') ? send(res, 200, store.overview()) : denied();
       if (where === '/api/records/timeline') {
         return may(user, 'notes.view')
@@ -445,6 +474,10 @@ export function createPanelServer(deps) {
       return send(res, 200, await recordsChange(user, body, ip));
     }
     if (where === '/api/server') return send(res, 200, await serverChange(user, body, ip));
+    if (where === '/api/mappool') {
+      if (!may(user, 'mappool.manage')) return denied();
+      return send(res, 200, await poolChange(user, body, ip));
+    }
     if (where === '/api/shuffle') {
       if (!may(user, 'shuffle.settings')) return denied();
       const op = String(body.op ?? '');

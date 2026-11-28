@@ -53,7 +53,7 @@ async function panel(users) {
 test('the table matches the approved plan', () => {
   const byClass = (c) => IDS.filter((id) => PERMISSIONS[id].class === c);
   assert.deepEqual(byClass('A'), ['view.live', 'account.self']);
-  assert.deepEqual(byClass('D'), ['ban.perm', 'map.now', 'match.control', 'rules.edit', 'shuffle.settings', 'messages.schedule', 'server.settings', 'staff.manage', 'perm.grant', 'log.ip']);
+  assert.deepEqual(byClass('D'), ['ban.perm', 'map.now', 'mappool.manage', 'match.control', 'rules.edit', 'shuffle.settings', 'messages.schedule', 'server.settings', 'staff.manage', 'perm.grant', 'log.ip']);
   assert.deepEqual(byClass('E'), ['plugins', 'restart', 'staff.admins', 'ranks.edit', 'owner.transfer', 'data.manage', 'server.password', 'notify.manage']);
   assert.deepEqual(RANK_DEFAULTS.junior, ['chat.view', 'kills.view', 'notes.view', 'notes.add', 'warn']);
   for (const [rank, list] of Object.entries(RANK_DEFAULTS)) for (const id of list) assert.ok(eligible(rank, id), `${rank} ${id}`);

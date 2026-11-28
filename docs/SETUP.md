@@ -2,7 +2,7 @@
 
 # 📖 Squad Admin Panel Setup Guide
 
-**v1.2.0 · Last updated 2026-11-28**
+**v1.3.0 · Last updated 2026-11-28**
 
 **English** · [Türkçe](./KURULUM_TR.md)
 
@@ -262,6 +262,7 @@ All keys go on the `AdminPanel` line of `config.json`. **Put no passwords there:
 | `idleMinutes` | `60` | Sign out after this long without a request |
 | `sessionHours` | `12` | Longest a sign in lasts |
 | `allowRestart` | `false` | Lets the owner stop SquadJS from the panel; use only if a service manager such as pm2 starts it again |
+| `serverConfigDir` | empty | The game server's `ServerConfig` folder, for Smart Map Pool |
 | `dataDir` | `./admin-panel-data` | Accounts, records, rules and logs |
 | `configFile` | `./config.json` | File the Plugins page edits; the previous version is kept as `.bak` |
 | `retentionDays` | `90` | Days to keep logs until the owner changes it; 0 keeps them |
@@ -352,6 +353,20 @@ Only if SquadJS runs somewhere else. For 24/7, run SquadJS on a server as a serv
 - **Last match** keeps the match that just ended. Both are held in memory: restarting SquadJS or the panel empties them. **Export CSV** saves what is on screen. The kill log under **Logs** stays on disk.
 - **Reading the numbers:** the server log has no missed shots, no hit place and no distance, so there is no accuracy. Marksmen, machine guns, explosives and vehicles change these numbers a lot. Treat them as a reason to watch a player, not as proof.
 - **Quick actions** on the overview: a number on a button says how many players it reaches. Reminders are on screen messages and are not counted as warnings.
+
+---
+
+## Smart Map Pool (1.3.0)
+
+- **What it does:** a Squad vote server reads its map pool from fixed files in `SquadGame/ServerConfig`. Pick a pool and the panel writes it there. The pool before it is no longer used.
+- **Needs:** `MapRotationMode=LayerList_Vote` and `UseVoteLayer=true` in `Server.cfg` (the panel only reads that file and warns you), and access to the folder. It is found by itself when SquadJS runs on the game server's machine with `logReaderMode: "tail"`. Otherwise add `"serverConfigDir": "C:/SquadServer/SquadGame/ServerConfig"` to the AdminPanel line. A server that SquadJS reads over FTP or SFTP is not supported yet.
+- **Right:** **Choose the map pool**. Only the server owner has it until it is given to an admin. Every change asks for your password and goes to the admin log.
+- **What is written:** `LayerVoting.cfg`, `LayerVotingNight.cfg`, `LayerVotingLowPlayers.cfg`, and in `VoteConfig.cfg` only the lines the pool sets.
+- **Going back:** **Put my own files back** restores what the files and lines held before. A plain copy is also in `<dataDir>/map-pool-backup/before-panel/`.
+- **Changed by hand:** if a file the panel wrote was edited, nothing is written over it without asking; a copy is kept when you agree. The weekly change stops instead.
+- **Weekly pools:** the panel changes the week every 7 days while SquadJS runs, and catches up after being off.
+- **Restart:** it is not verified whether Squad reads these files while running. Restart the game server to be sure, also after a weekly change.
+- The numbers on the page come from a simulation in [Squad-MapPool](https://github.com/Miabeyefendi/Squad-MapPool), not from a live server.
 
 ---
 

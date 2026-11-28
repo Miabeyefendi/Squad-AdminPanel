@@ -37,9 +37,9 @@
 ## 🎬 En acción
 
 <div align="center">
-  <img src="./screenshots/demo.gif" width="92%" alt="Recorrido animado por Squad Admin Panel: resumen, marcador, kill feed, escuadras y chat, ficha de jugador, mapas, Smart Shuffle, plugins, permisos e historial">
+  <img src="./screenshots/demo.gif" width="92%" alt="Recorrido animado por Squad Admin Panel: resumen, marcador, kill feed, escuadras y chat, ficha de jugador, mapas, Smart Shuffle, Smart Map Pool, plugins, permisos e historial">
   <br/>
-  <sub><b>Recorrido por el panel</b> · once pantallas, datos de demo</sub>
+  <sub><b>Recorrido por el panel</b> · doce pantallas, datos de demo</sub>
 </div>
 
 ---
@@ -53,6 +53,7 @@
 - **Acciones de admin** - avisar, expulsar, banear, cambiar de equipo, sacar de la escuadra, siempre con confirmación
 - **Control de mapas** - mapa, modo, versión, facciones y unidades; siguiente capa o cambio inmediato
 - **Smart Shuffle incluido** - equilibrio de equipos con 11 ajustes predefinidos, sin reiniciar
+- **Smart Map Pool** - 32 pools de votación listos: elige uno y el panel lo escribe en el `ServerConfig` del servidor; el anterior deja de usarse y tus archivos vuelven con un botón; los pools semanales pueden cambiar de semana solos y la lista de seeding se suma a cualquiera
 - **Permisos** - dueño, admin, moderador sénior y júnior, comprobados en el servidor
 - **Historial y registros** - avisos, expulsiones, baneos y notas que sobreviven a los reinicios; exportación CSV
 - **Reglas automáticas** - todas desactivadas al principio
@@ -82,7 +83,7 @@
 
 ### Instalar
 
-1. Descarga `Squad-AdminPanel-v1.2.0.zip` de la [página de versiones](https://github.com/Miabeyefendi/Squad-AdminPanel/releases/latest).
+1. Descarga `Squad-AdminPanel-v1.3.0.zip` de la [página de versiones](https://github.com/Miabeyefendi/Squad-AdminPanel/releases/latest).
 2. Extrae `admin-panel.js` y la carpeta `admin-panel` en `squad-server/plugins/` de SquadJS.
 3. Añade a la lista `plugins` de `config.json`:
 
@@ -95,12 +96,12 @@
 <details>
 <summary><b>Sobre el archivo de la versión</b></summary>
 
-El zip es una copia de `src/squadjs/` (tag `v1.2.0`) con `LICENSE` y `NOTICE` dentro de `admin-panel/`. No hay compilación ni código minificado.
+El zip es una copia de `src/squadjs/` (tag `v1.3.0`) con `LICENSE` y `NOTICE` dentro de `admin-panel/`. No hay compilación ni código minificado.
 
-SHA-256 de `Squad-AdminPanel-v1.2.0.zip`:
+SHA-256 de `Squad-AdminPanel-v1.3.0.zip`:
 
 ```
-faff271ea4f371e48d5c7626aa981aa441e9bc56da46818c21008577bc615734
+4bab7d46f0701e2b44caf9d24f8aa27a7f7653a6640cfc1fcc2efe9a7d4e36d9
 ```
 
 </details>
@@ -186,6 +187,9 @@ Nombres y cifras son de la demo. Las imágenes de mapas y facciones de estas cap
   <td align="center" width="50%"><img src="./screenshots/phone-overview-dark.png" width="55%" alt="The overview page on a phone"/><br/><sub><b>En el móvil</b> · resumen</sub></td>
   <td align="center" width="50%"><img src="./screenshots/phone-players-dark.png" width="55%" alt="Squad lists on a phone"/><br/><sub><b>En el móvil</b> · escuadras</sub></td>
 </tr>
+<tr>
+  <td align="center" colspan="2"><img src="./screenshots/mappool-dark.png" width="100%" alt="Smart Map Pool: lista de pools junto al pool en uso con sus cifras de simulación y capas"/><br/><sub><b>Smart Map Pool</b> · un pool en uso, tus archivos guardados</sub></td>
+</tr>
 </table>
 
 ---
@@ -201,6 +205,7 @@ Los ajustes van en la línea `AdminPanel` de `config.json`. **No pongas contrase
 | `allowedHosts` | `[]` | Nombres de host adicionales |
 | `secureCookie`, `trustProxy` | `false` | Actívalos tras un proxy HTTPS en la misma máquina |
 | `retentionDays` | `90` | Días que se guardan los registros, 0 para siempre |
+| `serverConfigDir` | vacío | Carpeta `ServerConfig` del servidor, para Smart Map Pool. Vacío: se busca junto al log si SquadJS lo lee en esta máquina |
 | `dataDir` | `./admin-panel-data` | Cuentas, historial, reglas y registros, cifrados |
 
 ---
@@ -272,7 +277,7 @@ La lista de jugadores no lo indica. El panel toma al líder de la escuadra "Comm
 <details>
 <summary><b>¿Qué no está probado?</b></summary>
 
-Las acciones sobre jugadores reales, disolver escuadras y las cifras de daño en una partida real. Novedades de 1.1.0 aún sin probar en un servidor real: destituir al comandante, disolver una escuadra con el botón, banear a un jugador que ya salió, los límites de jugadores y de cola y la contraseña del servidor. Todavía no se ha enviado ningún mensaje a un canal real de Discord. Novedades de 1.2.0: el Kill Feed solo ha leído un registro emulado, así que los nombres de armas y sus cifras aún no se han comparado con una partida real; los dos botones de recordatorio no han llegado a jugadores reales.
+Las acciones sobre jugadores reales, disolver escuadras y las cifras de daño en una partida real. Novedades de 1.1.0 aún sin probar en un servidor real: destituir al comandante, disolver una escuadra con el botón, banear a un jugador que ya salió, los límites de jugadores y de cola y la contraseña del servidor. Todavía no se ha enviado ningún mensaje a un canal real de Discord. Novedades de 1.2.0: el Kill Feed solo ha leído un registro emulado, así que los nombres de armas y sus cifras aún no se han comparado con una partida real; los dos botones de recordatorio no han llegado a jugadores reales. Novedad de 1.3.0: Smart Map Pool solo ha escrito en una carpeta `ServerConfig` de prueba. No se ha comprobado si Squad lee los archivos nuevos con el servidor en marcha o solo tras reiniciar.
 
 </details>
 
@@ -302,6 +307,7 @@ Lee [CONTRIBUTING.md](./CONTRIBUTING.md) y [CODE_OF_CONDUCT.md](./CODE_OF_CONDUC
 ## 🙏 Créditos
 
 - [**SquadJS**](https://github.com/Team-Silver-Sphere/SquadJS) de Team Silver Sphere (Boost Software License), la base donde corre el plugin.
+- [**Squad-MapPool**](https://github.com/Miabeyefendi/Squad-MapPool) - mi paquete de pools de votación; sus pools y cifras de simulación van en `admin-panel/map-pool/`.
 - [**Smart Shuffle**](https://github.com/Miabeyefendi/Squad-SmartShuffle), mi plugin de equilibrio, incluido con su LICENSE y NOTICE.
 - Imágenes de las capturas: mapas de [Squad Wiki Pipeline](https://github.com/Squad-Wiki/squad-wiki-pipeline-map-data) (CC BY-SA 4.0, redimensionados) y banderas de [SquadCalc](https://github.com/sh4rkman/SquadCalc). El contenido del juego Squad pertenece a Offworld Industries. Imágenes de paisaje de la partida en curso y mapas cenitales de Black Coast, Harju, Pacific Proving Grounds y Sanxian: [Squad Wiki](https://squad.fandom.com/wiki/Maps) (redimensionadas, algunas recortadas a 16:9).
 

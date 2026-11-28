@@ -8,6 +8,16 @@ All notable changes to **Squad-AdminPanel** are recorded here. The format follow
 
 ---
 
+## [1.3.0] - 2026-11-28
+
+Checked with automated tests and real SquadJS against an emulated game and a made up `ServerConfig` folder, not on a live server.
+
+### Added
+
+- Smart Map Pool page: the 32 vote pools of Squad-MapPool. The chosen pool is written into `ServerConfig` and replaces the one before it; the seeding list goes on top of any pool; weekly pools can change the week by themselves.
+- Restoring your own files, protection of files changed by hand, and a copy of what was there before.
+- `serverConfigDir` option and the "Choose the map pool" permission (server owner only until given to an admin).
+
 ## [1.2.0] - 2026-11-28
 
 Checked with automated tests and real SquadJS against an emulated game, not on a live match.
@@ -63,6 +73,7 @@ First release. Not yet tested on a live match with players.
 
 - Salted scrypt password hashes, brute force protection, AES-256-GCM encrypted data, strict Content-Security-Policy, cross-site and host name checks, no-index headers.
 
+[1.3.0]: https://github.com/Miabeyefendi/Squad-AdminPanel/releases/tag/v1.3.0
 [1.2.0]: https://github.com/Miabeyefendi/Squad-AdminPanel/releases/tag/v1.2.0
 [1.1.0]: https://github.com/Miabeyefendi/Squad-AdminPanel/releases/tag/v1.1.0
 [1.0.0]: https://github.com/Miabeyefendi/Squad-AdminPanel/releases/tag/v1.0.0

@@ -61,7 +61,7 @@ export const S = {
 export const app = { show: () => {}, signedOut: () => {}, mustChange: () => {}, afterAction: () => {}, render: () => {} };
 
 // "ban" means any kind of ban, "staff" any right to look after accounts
-const ANY = { ban: ['ban.short', 'ban.long', 'ban.perm'], staff: ['staff.admins', 'staff.manage', 'perm.grant'],
+const ANY = { mappool: ['mappool.manage', 'map.next'], ban: ['ban.short', 'ban.long', 'ban.perm'], staff: ['staff.admins', 'staff.manage', 'perm.grant'],
   message: ['broadcast', 'message.group'], records: ['notes.view', 'data.manage'],
   server: ['messages.schedule', 'server.settings', 'server.password', 'notify.manage'],
   // the heading over Staff, Ranks and Server

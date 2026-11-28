@@ -37,9 +37,9 @@
 ## 🎬 See it in action
 
 <div align="center">
-  <img src="./screenshots/demo.gif" width="92%" alt="Animated tour of Squad Admin Panel: overview, scoreboard, kill feed, squads and chat, player card, map control, Smart Shuffle, plugins, staff and records">
+  <img src="./screenshots/demo.gif" width="92%" alt="Animated tour of Squad Admin Panel: overview, scoreboard, kill feed, squads and chat, player card, map control, Smart Shuffle, Smart Map Pool, plugins, staff and records">
   <br/>
-  <sub><b>A tour of the panel</b> · eleven screens, demo data</sub>
+  <sub><b>A tour of the panel</b> · twelve screens, demo data</sub>
 </div>
 
 ---
@@ -53,6 +53,7 @@
 - **Admin actions** - warn, kick, ban (1 hour to permanent), move team, remove from squad, one player or many, always with a confirmation
 - **Map control** - pick map, mode, version, factions and unit types, set the next layer or change now
 - **Smart Shuffle built in** - team balancing with 11 presets and every setting, applied without a restart
+- **Smart Map Pool** - 32 ready vote pools: pick one and the panel writes it into the server's `ServerConfig`, the one before is no longer used, your own files come back with one button; weekly pools can change the week by themselves, and a seeding list goes on top of any pool
 - **Staff and permissions** - owner, admin, senior mod and junior mod, with per account ticks checked on the server
 - **Player records and logs** - warnings, kicks, bans and notes that survive restarts, plus chat, kill, teamkill, admin and join logs with CSV export
 - **Automatic rules** - teamkills, players without a squad, squad leaders without the SL kit, small locked squads, chat and name filters, all off by default
@@ -82,7 +83,7 @@
 
 ### Install
 
-1. Download `Squad-AdminPanel-v1.2.0.zip` from the [releases page](https://github.com/Miabeyefendi/Squad-AdminPanel/releases/latest).
+1. Download `Squad-AdminPanel-v1.3.0.zip` from the [releases page](https://github.com/Miabeyefendi/Squad-AdminPanel/releases/latest).
 2. Extract `admin-panel.js` and the `admin-panel` folder into `squad-server/plugins/` of SquadJS.
 3. Add this line to the `plugins` list in `config.json`:
 
@@ -97,12 +98,12 @@ First time with SquadJS? The [tutorial](./docs/SETUP.md#-installation) starts fr
 <details>
 <summary><b>About the release file</b></summary>
 
-The zip is a plain copy of `src/squadjs/` (tag `v1.2.0`) from this repository with `LICENSE` and `NOTICE` added inside `admin-panel/`. Nothing is compiled, minified or bundled.
+The zip is a plain copy of `src/squadjs/` (tag `v1.3.0`) from this repository with `LICENSE` and `NOTICE` added inside `admin-panel/`. Nothing is compiled, minified or bundled.
 
-`Squad-AdminPanel-v1.2.0.zip` SHA-256:
+`Squad-AdminPanel-v1.3.0.zip` SHA-256:
 
 ```
-faff271ea4f371e48d5c7626aa981aa441e9bc56da46818c21008577bc615734
+4bab7d46f0701e2b44caf9d24f8aa27a7f7653a6640cfc1fcc2efe9a7d4e36d9
 ```
 
 </details>
@@ -188,6 +189,9 @@ Names and numbers come from the built-in demo. The map and faction pictures in t
   <td align="center" width="50%"><img src="./screenshots/phone-overview-dark.png" width="55%" alt="The overview page on a phone"/><br/><sub><b>On a phone</b> · overview</sub></td>
   <td align="center" width="50%"><img src="./screenshots/phone-players-dark.png" width="55%" alt="Squad lists on a phone"/><br/><sub><b>On a phone</b> · squads</sub></td>
 </tr>
+<tr>
+  <td align="center" colspan="2"><img src="./screenshots/mappool-dark.png" width="100%" alt="Smart Map Pool: the list of vote pools next to the pool in use with its simulation numbers and layers"/><br/><sub><b>Smart Map Pool</b> · one pool in use, your files remembered</sub></td>
+</tr>
 </table>
 
 ---
@@ -203,6 +207,7 @@ Panel settings go on the `AdminPanel` line of SquadJS `config.json`. **Put no pa
 | `allowedHosts` | `[]` | Extra host names the panel answers to |
 | `secureCookie`, `trustProxy` | `false` | Turn on behind an HTTPS reverse proxy on the same machine |
 | `retentionDays` | `90` | Days logs are kept, 0 keeps them for ever |
+| `serverConfigDir` | empty | The game server's `ServerConfig` folder, for Smart Map Pool. Empty: found next to the game log when SquadJS reads it on this machine |
 | `dataDir` | `./admin-panel-data` | Accounts, records, rules and logs, encrypted |
 
 Every key is in the [tutorial](./docs/SETUP.md#️-configuration-reference).
@@ -278,7 +283,7 @@ The player list has no commander field. The panel takes the leader of the squad 
 <details>
 <summary><b>What is still untested?</b></summary>
 
-Warn, kick, ban, move team and remove from squad have not run against a real player. Disbanding a squad (locked squad rule) has not run on a real server. Damage numbers have not been checked against a real match log. New in 1.1.0 and not yet run on a real game server: demoting a commander, disbanding a squad by button, banning a player who left, the player and queue limits and the server password. No message has been sent to a real Discord channel. New in 1.2.0: the Kill Feed has only seen an emulated game log, so weapon names and its numbers still have to be compared with a real match; the two reminder buttons have not reached real players.
+Warn, kick, ban, move team and remove from squad have not run against a real player. Disbanding a squad (locked squad rule) has not run on a real server. Damage numbers have not been checked against a real match log. New in 1.1.0 and not yet run on a real game server: demoting a commander, disbanding a squad by button, banning a player who left, the player and queue limits and the server password. No message has been sent to a real Discord channel. New in 1.2.0: the Kill Feed has only seen an emulated game log, so weapon names and its numbers still have to be compared with a real match; the two reminder buttons have not reached real players. New in 1.3.0: Smart Map Pool has written to a made up `ServerConfig` folder only. It has not been checked whether Squad reads the new files while the server runs or only after a restart.
 
 </details>
 
@@ -308,6 +313,7 @@ Contributions are welcome. Read [CONTRIBUTING.md](./CONTRIBUTING.md) and [CODE_O
 ## 🙏 Credits
 
 - [**SquadJS**](https://github.com/Team-Silver-Sphere/SquadJS) by Team Silver Sphere (Boost Software License) - the framework this plugin runs in; it provides RCON, log reading and the layer list.
+- [**Squad-MapPool**](https://github.com/Miabeyefendi/Squad-MapPool) - my vote pool package; its pools and simulation numbers are included in `admin-panel/map-pool/`.
 - [**Smart Shuffle**](https://github.com/Miabeyefendi/Squad-SmartShuffle) - my team balance plugin, included in `admin-panel/smart-shuffle/` with its own [LICENSE](./src/squadjs/admin-panel/smart-shuffle/LICENSE) and [NOTICE](./src/squadjs/admin-panel/smart-shuffle/NOTICE).
 - Pictures seen in the screenshots: map images from the [Squad Wiki Pipeline](https://github.com/Squad-Wiki/squad-wiki-pipeline-map-data) (CC BY-SA 4.0, resized), faction flags from [SquadCalc](https://github.com/sh4rkman/SquadCalc). Squad game content belongs to Offworld Industries. Scenery pictures of the running match and the top-down maps of Black Coast, Harju, Pacific Proving Grounds and Sanxian: [Squad Wiki](https://squad.fandom.com/wiki/Maps) (resized, some cut to 16:9).
 

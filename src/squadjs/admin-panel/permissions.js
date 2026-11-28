@@ -36,6 +36,7 @@ const TABLE = [
   ['shuffle.switches', 60, 'Smart Shuffle', 'Switches: auto, lock, parties, history, tokens'],
   ['ban.perm', 70, 'Bans', 'Permanent ban'],
   ['map.now', 70, 'Map and match', 'Change the layer right now'],
+  ['mappool.manage', 80, 'Map and match', 'Choose the map pool (writes the vote files of the server)'],
   ['match.control', 75, 'Map and match', 'End or restart the match'],
   ['rules.edit', 75, 'Rules', 'Edit automatic rules'],
   ['shuffle.settings', 75, 'Smart Shuffle', 'All settings, presets, on and off'],

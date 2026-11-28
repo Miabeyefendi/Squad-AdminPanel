@@ -10,6 +10,7 @@ import { Actions } from './admin-panel/actions.js';
 import { Auth, ensureDefaultAdmin, loadUsers } from './admin-panel/auth.js';
 import { ConfigFile } from './admin-panel/config-file.js';
 import { createPanelServer, isLoopback } from './admin-panel/http.js';
+import { MapPool, findConfigDir } from './admin-panel/mappool.js';
 import { Notifier } from './admin-panel/notify.js';
 import { Rules } from './admin-panel/rules.js';
 import { Schedule } from './admin-panel/schedule.js';
@@ -41,6 +42,7 @@ export default class AdminPanel extends BasePlugin {
       idleMinutes: { required: false, description: 'Sign out after this long without a request.', default: 60 },
       allowRestart: { required: false, description: 'Lets the owner stop SquadJS from the panel. Only useful when a service manager starts it again.', default: false },
       dataDir: { required: false, description: 'Folder for users, notes, rules and logs, relative to the SquadJS folder.', default: './admin-panel-data' },
+      serverConfigDir: { required: false, description: 'The game server\'s ServerConfig folder, for Smart Map Pool. Empty: found next to the game log when SquadJS reads it on this machine.', default: '' },
       configFile: { required: false, description: 'SquadJS config file the Plugins page edits, relative to the SquadJS folder.', default: './config.json' },
       retentionDays: { required: false, description: 'Days to keep logs until the owner sets it on the Records page. 0 keeps them forever.', default: 90 },
       sessionHours: { required: false, description: 'How long a sign in lasts.', default: 12 },
@@ -64,6 +66,7 @@ export default class AdminPanel extends BasePlugin {
       loadUsers(vault);
       this.store = new Store(vault, { retentionDays: +o.retentionDays || 0 });
       this.schedule = new Schedule({ server: this.server, vault, store: this.store });
+      this.mapPool = new MapPool({ vault, dir: findConfigDir({ option: o.serverConfigDir, server: this.server, root: ROOT }) });
       this.notifier = new Notifier({ vault, serverName: () => this.server.serverName || 'Squad server' });
     } catch (err) {
       // never start over data that cannot be read: it would be overwritten
@@ -88,6 +91,7 @@ export default class AdminPanel extends BasePlugin {
       actions: new Actions({ server: this.server, store: this.store, shuffle: this.shuffle, getLayers: () => this.layerList(),
         rconVerbosity: () => this.rconVerbosity() }),
       schedule: this.schedule,
+      mapPool: this.mapPool,
       notifier: this.notifier,
       shuffle: this.shuffle,
       tracker: this.tracker,
@@ -109,7 +113,10 @@ export default class AdminPanel extends BasePlugin {
     this.store.listeners.add((entry) => this.notifier.onLog(entry));
     this.newGame = () => this.schedule.onNewGame();
     this.server.on('NEW_GAME', this.newGame);
-    this.scheduleTimer = setInterval(() => this.schedule.tick().catch((err) => this.verbose(1, err.message)), 15000);
+    this.scheduleTimer = setInterval(() => {
+      this.schedule.tick().catch((err) => this.verbose(1, err.message));
+      this.rotatePool();
+    }, 15000);
 
     let sent = -1;
     let beat = 0;
@@ -135,6 +142,16 @@ export default class AdminPanel extends BasePlugin {
       () => this.verbose(1, `Admin panel on ${tls ? 'https' : 'http'}://${o.host}:${o.port}`),
       (err) => this.verbose(1, `Could not listen on ${o.host}:${o.port}: ${err.message}`)
     );
+  }
+
+  // the weekly change of Smart Map Pool, written to the admin log like any other action
+  rotatePool() {
+    try {
+      const done = this.mapPool.tick();
+      if (done) this.store.log('admin', { by: 'Auto: Map pool', action: 'Map pool', target: done.pool, reason: done.error || `week ${done.week}` });
+    } catch (err) {
+      this.verbose(1, err.message);
+    }
   }
 
   // How much SquadJS prints about RCON, from its own logger; null when it cannot be read.

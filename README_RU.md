@@ -37,9 +37,9 @@
 ## 🎬 В действии
 
 <div align="center">
-  <img src="./screenshots/demo.gif" width="92%" alt="Анимированный обзор Squad Admin Panel: сводка, таблица, лента убийств, отряды и чат, карточка игрока, карты, Smart Shuffle, плагины, права и записи">
+  <img src="./screenshots/demo.gif" width="92%" alt="Анимированный обзор Squad Admin Panel: сводка, таблица, лента убийств, отряды и чат, карточка игрока, карты, Smart Shuffle, Smart Map Pool, плагины, права и записи">
   <br/>
-  <sub><b>Обзор панели</b> · одиннадцать экранов, демо-данные</sub>
+  <sub><b>Обзор панели</b> · двенадцать экранов, демо-данные</sub>
 </div>
 
 ---
@@ -53,6 +53,7 @@
 - **Действия админа** - предупреждение, кик, бан, смена команды, исключение из отряда, всегда с подтверждением
 - **Карты** - карта, режим, версия, фракции и подразделения; следующая карта или смена сейчас
 - **Встроенный Smart Shuffle** - баланс команд с 11 пресетами без перезапуска
+- **Smart Map Pool** - 32 готовых пула для голосования: выберите один, и панель запишет его в `ServerConfig` сервера; прежний перестаёт использоваться, а ваши файлы возвращаются одной кнопкой; недельные пулы могут сами менять неделю, список для набора добавляется к любому
 - **Права** - владелец, админ, старший и младший модератор; проверяются на сервере
 - **Записи и журналы** - предупреждения, кики, баны и заметки переживают перезапуск; экспорт в CSV
 - **Автоматические правила** - по умолчанию выключены
@@ -82,7 +83,7 @@
 
 ### Установить
 
-1. Скачайте `Squad-AdminPanel-v1.2.0.zip` со [страницы релизов](https://github.com/Miabeyefendi/Squad-AdminPanel/releases/latest).
+1. Скачайте `Squad-AdminPanel-v1.3.0.zip` со [страницы релизов](https://github.com/Miabeyefendi/Squad-AdminPanel/releases/latest).
 2. Распакуйте `admin-panel.js` и папку `admin-panel` в `squad-server/plugins/` SquadJS.
 3. Добавьте в список `plugins` файла `config.json`:
 
@@ -95,12 +96,12 @@
 <details>
 <summary><b>О файле релиза</b></summary>
 
-Архив - это копия `src/squadjs/` (tag `v1.2.0`) из репозитория с `LICENSE` и `NOTICE` внутри `admin-panel/`. Без сборки и минификации.
+Архив - это копия `src/squadjs/` (tag `v1.3.0`) из репозитория с `LICENSE` и `NOTICE` внутри `admin-panel/`. Без сборки и минификации.
 
-SHA-256 файла `Squad-AdminPanel-v1.2.0.zip`:
+SHA-256 файла `Squad-AdminPanel-v1.3.0.zip`:
 
 ```
-faff271ea4f371e48d5c7626aa981aa441e9bc56da46818c21008577bc615734
+4bab7d46f0701e2b44caf9d24f8aa27a7f7653a6640cfc1fcc2efe9a7d4e36d9
 ```
 
 </details>
@@ -186,6 +187,9 @@ faff271ea4f371e48d5c7626aa981aa441e9bc56da46818c21008577bc615734
   <td align="center" width="50%"><img src="./screenshots/phone-overview-dark.png" width="55%" alt="The overview page on a phone"/><br/><sub><b>На телефоне</b> · сводка</sub></td>
   <td align="center" width="50%"><img src="./screenshots/phone-players-dark.png" width="55%" alt="Squad lists on a phone"/><br/><sub><b>На телефоне</b> · отряды</sub></td>
 </tr>
+<tr>
+  <td align="center" colspan="2"><img src="./screenshots/mappool-dark.png" width="100%" alt="Smart Map Pool: список пулов и активный пул с цифрами симуляции и слоями"/><br/><sub><b>Smart Map Pool</b> · один активный пул, файлы сохраняются</sub></td>
+</tr>
 </table>
 
 ---
@@ -201,6 +205,7 @@ faff271ea4f371e48d5c7626aa981aa441e9bc56da46818c21008577bc615734
 | `allowedHosts` | `[]` | Дополнительные имена хоста |
 | `secureCookie`, `trustProxy` | `false` | Включите за HTTPS-прокси на той же машине |
 | `retentionDays` | `90` | Сколько дней хранить логи, 0 - всегда |
+| `serverConfigDir` | пусто | Папка `ServerConfig` игрового сервера для Smart Map Pool. Пусто: ищется рядом с логом, если SquadJS читает его на этой машине |
 | `dataDir` | `./admin-panel-data` | Аккаунты, записи, правила и логи, зашифрованы |
 
 ---
@@ -272,7 +277,7 @@ Squad не передаёт их по RCON и не пишет в лог.
 <details>
 <summary><b>Что ещё не проверено?</b></summary>
 
-Действия над настоящими игроками, расформирование отряда и значения урона в настоящем матче. Новое в 1.1.0 и пока не проверено на настоящем игровом сервере: снятие командующего, расформирование отряда кнопкой, бан вышедшего игрока, лимиты игроков и очереди и пароль сервера. В настоящий канал Discord сообщения ещё не отправлялись. Новое в 1.2.0: Kill Feed читал только эмулированный лог, поэтому названия оружия и цифры ещё не сверены с настоящим матчем; две кнопки напоминаний ещё не доходили до настоящих игроков.
+Действия над настоящими игроками, расформирование отряда и значения урона в настоящем матче. Новое в 1.1.0 и пока не проверено на настоящем игровом сервере: снятие командующего, расформирование отряда кнопкой, бан вышедшего игрока, лимиты игроков и очереди и пароль сервера. В настоящий канал Discord сообщения ещё не отправлялись. Новое в 1.2.0: Kill Feed читал только эмулированный лог, поэтому названия оружия и цифры ещё не сверены с настоящим матчем; две кнопки напоминаний ещё не доходили до настоящих игроков. Новое в 1.3.0: Smart Map Pool писал только в тестовую папку `ServerConfig`. Не проверено, читает ли Squad новые файлы на ходу или только после перезапуска.
 
 </details>
 
@@ -302,6 +307,7 @@ Squad не передаёт их по RCON и не пишет в лог.
 ## 🙏 Благодарности
 
 - [**SquadJS**](https://github.com/Team-Silver-Sphere/SquadJS) от Team Silver Sphere (Boost Software License) - основа, в которой работает плагин.
+- [**Squad-MapPool**](https://github.com/Miabeyefendi/Squad-MapPool) - мой пакет пулов для голосования; пулы и цифры симуляции входят в `admin-panel/map-pool/`.
 - [**Smart Shuffle**](https://github.com/Miabeyefendi/Squad-SmartShuffle) - мой плагин баланса, включён со своими LICENSE и NOTICE.
 - Изображения на снимках: карты из [Squad Wiki Pipeline](https://github.com/Squad-Wiki/squad-wiki-pipeline-map-data) (CC BY-SA 4.0, уменьшены), флаги фракций из [SquadCalc](https://github.com/sh4rkman/SquadCalc). Игровой контент Squad принадлежит Offworld Industries. Пейзажи текущего матча и карты сверху для Black Coast, Harju, Pacific Proving Grounds и Sanxian: [Squad Wiki](https://squad.fandom.com/wiki/Maps) (уменьшены, часть обрезана до 16:9).
 

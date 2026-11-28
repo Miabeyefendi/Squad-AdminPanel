@@ -13,6 +13,8 @@ import path from 'node:path';
 import { spawn } from 'node:child_process';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
+import { OWN, writeServerConfig } from '../mock_data/server-config.mjs';
+
 const SQUADJS = process.env.SQUADJS_DIR;
 if (!SQUADJS) throw new Error('Set SQUADJS_DIR to a SquadJS folder.');
 const SRC = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../src/squadjs');
@@ -21,7 +23,11 @@ const PANEL = 'http://127.0.0.1:8180';
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 // ---------- the fake game ----------
-const logDir = fs.mkdtempSync(path.join(os.tmpdir(), 'sa-game-'));
+const gameDir = fs.mkdtempSync(path.join(os.tmpdir(), 'sa-game-'));
+// laid out like a real server, so the panel can find ServerConfig next to the log by itself
+const logDir = path.join(gameDir, 'SquadGame', 'Saved', 'Logs');
+fs.mkdirSync(logDir, { recursive: true });
+const configDir = writeServerConfig(path.join(gameDir, 'SquadGame'));
 const logFile = path.join(logDir, 'SquadGame.log');
 fs.writeFileSync(logFile, '');
 let chain = 10;
@@ -311,6 +317,17 @@ await Promise.all(server.plugins.map((plugin) => plugin.mount()));
   check('server password reaches the game and not the SquadJS console', r.status === 200 && commands.includes(`AdminSetServerPassword ${secret}`) && !squadjsLog.includes(secret), JSON.stringify([r.status, r.error]));
   check('nor the panel logs', !JSON.stringify(await logOf('admin')).includes(secret));
 
+  // ---------- Smart Map Pool ----------
+  const pools = await get('/api/mappool');
+  check('map pool: ServerConfig is found next to the log real SquadJS reads', pools.status === 'ready' && pools.folder === path.resolve(configDir) && pools.voteMode.ok, JSON.stringify([pools.status, pools.folder]));
+  r = await post('/api/mappool', { op: 'apply', id: '05-raas-best', confirmPassword: password });
+  const written = fs.readFileSync(path.join(configDir, 'LayerVoting.cfg'), 'utf8');
+  const layerNames = pools.pools.find((x) => x.id === '05-raas-best').weeks[0][0].layers;
+  check('map pool: choosing a pool writes the list, and the real layer list knows its layers', r.active?.main?.id === '05-raas-best' && layerNames.every((id) => written.includes(id)), JSON.stringify([r.status, r.error]));
+  console.log(`      layers not in this SquadJS layer list: ${r.pools?.find((x) => x.id === '05-raas-best').unknown.join(', ') || 'none'}`);
+  r = await post('/api/mappool', { op: 'restore', confirmPassword: password });
+  check('map pool: the own files come back', r.active?.main === null && Object.entries(OWN).every(([f, text]) => fs.readFileSync(path.join(configDir, f), 'utf8') === text));
+
   const audit = await logOf('admin');
   check('audit log has the admin and the rule actions', audit.some((x) => x.by === 'emu' && x.action === 'Kick') && audit.some((x) => x.by === 'Auto: Teamkill limit' && x.action === 'Kick') && !audit.some((x) => x.action === 'Failed'), JSON.stringify(audit.filter((x) => x.action === 'Failed')));
   stream.abort();
@@ -321,7 +338,7 @@ await Promise.all(server.plugins.map((plugin) => plugin.mount()));
   squadjs?.kill();
   await sleep(1000);
   for (const p of added) fs.rmSync(p, { recursive: true, force: true });
-  fs.rmSync(logDir, { recursive: true, force: true });
+  fs.rmSync(gameDir, { recursive: true, force: true });
   for (const socket of clients) socket.destroy();
   rcon.close();
 }

@@ -1,12 +1,12 @@
 {
   "name": "squad-admin-panel",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "private": true,
   "author": "Miabeyefendi",
   "config": { "ID": "Mia", "ID2": "beyefendi" },
   "type": "module",
   "scripts": {
-    "test": "node --test tests/unit/core.test.mjs tests/integration/panel.test.mjs tests/integration/security.test.mjs tests/integration/permissions.test.mjs tests/integration/features.test.mjs tests/integration/ui-data.test.mjs tests/integration/package1.test.mjs",
+    "test": "node --test tests/unit/core.test.mjs tests/integration/panel.test.mjs tests/integration/security.test.mjs tests/integration/permissions.test.mjs tests/integration/features.test.mjs tests/integration/ui-data.test.mjs tests/integration/package1.test.mjs tests/integration/mappool.test.mjs",
     "demo": "node tests/integration/demo.mjs"
   },
   "description": "Free open source Squad admin panel and RCON tool: a SquadJS plugin to kick, ban, warn and change the map on Squad dedicated servers.",

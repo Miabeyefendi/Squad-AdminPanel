@@ -39,9 +39,9 @@
 ## 🎬 İş başında
 
 <div align="center">
-  <img src="./screenshots/demo.gif" width="92%" alt="Squad Admin Panel hareketli tur: genel bakış, skor tablosu, kill feed, squad ve chat, oyuncu kartı, harita, Smart Shuffle, eklentiler, yetkiler ve kayıtlar">
+  <img src="./screenshots/demo.gif" width="92%" alt="Squad Admin Panel hareketli tur: genel bakış, skor tablosu, kill feed, squad ve chat, oyuncu kartı, harita, Smart Shuffle, Smart Map Pool, eklentiler, yetkiler ve kayıtlar">
   <br/>
-  <sub><b>Panel turu</b> · on bir ekran, demo verisi</sub>
+  <sub><b>Panel turu</b> · on iki ekran, demo verisi</sub>
 </div>
 
 ---
@@ -55,6 +55,7 @@
 - **Admin işlemleri** - uyarı, kick, ban (1 saatten kalıcıya), takım değiştirme, squad'dan çıkarma, tek ya da toplu, hep onaylı
 - **Harita kontrolü** - harita, mod, versiyon, faction ve birim seçimi, sıradaki harita ya da hemen değiştirme
 - **Smart Shuffle dahil** - 11 hazır ayar ve tüm ayarlarla takım dengeleme, yeniden başlatmadan
+- **Smart Map Pool** - hazır 32 oylama pool'u: birini seç, panel sunucunun `ServerConfig` klasörüne yazsın; önceki devre dışı kalır, kendi dosyaların tek butonla geri gelir; haftalık pool'lar haftayı kendisi değiştirebilir, seed listesi her pool'un üstüne eklenir
 - **Admin yetkileri** - sunucu sahibi, admin, senior mod, junior mod, hesap bazında yetki, sunucuda denetlenir
 - **Kayıtlar ve loglar** - yeniden başlatmada silinmeyen uyarı, kick, ban, not; chat, kill, teamkill logları, CSV
 - **Otomatik kurallar** - teamkill, squad'sız oyuncu, kitsiz SL, küçük kilitli squad, chat ve isim filtresi, hepsi kapalı gelir
@@ -84,7 +85,7 @@
 
 ### Kur
 
-1. [Sürüm sayfasından](https://github.com/Miabeyefendi/Squad-AdminPanel/releases/latest) `Squad-AdminPanel-v1.2.0.zip` dosyasını indir.
+1. [Sürüm sayfasından](https://github.com/Miabeyefendi/Squad-AdminPanel/releases/latest) `Squad-AdminPanel-v1.3.0.zip` dosyasını indir.
 2. İçindeki `admin-panel.js` ve `admin-panel` klasörünü SquadJS'in `squad-server/plugins/` klasörüne çıkar.
 3. `config.json` içindeki `plugins` listesine ekle:
 
@@ -97,12 +98,12 @@
 <details>
 <summary><b>Sürüm dosyası hakkında</b></summary>
 
-Zip, bu depodaki `src/squadjs/` (tag `v1.2.0`) klasörünün düz kopyasıdır, `admin-panel/` içine `LICENSE` ve `NOTICE` eklenmiştir. Derleme, küçültme ya da paketleme yoktur.
+Zip, bu depodaki `src/squadjs/` (tag `v1.3.0`) klasörünün düz kopyasıdır, `admin-panel/` içine `LICENSE` ve `NOTICE` eklenmiştir. Derleme, küçültme ya da paketleme yoktur.
 
-`Squad-AdminPanel-v1.2.0.zip` SHA-256:
+`Squad-AdminPanel-v1.3.0.zip` SHA-256:
 
 ```
-faff271ea4f371e48d5c7626aa981aa441e9bc56da46818c21008577bc615734
+4bab7d46f0701e2b44caf9d24f8aa27a7f7653a6640cfc1fcc2efe9a7d4e36d9
 ```
 
 </details>
@@ -188,6 +189,9 @@ Başka bilgisayardan ya da birden fazla admin için: [uzaktan giriş](./docs/KUR
   <td align="center" width="50%"><img src="./screenshots/phone-overview-dark.png" width="55%" alt="The overview page on a phone"/><br/><sub><b>Telefonda</b> · genel bakış</sub></td>
   <td align="center" width="50%"><img src="./screenshots/phone-players-dark.png" width="55%" alt="Squad lists on a phone"/><br/><sub><b>Telefonda</b> · squad'lar</sub></td>
 </tr>
+<tr>
+  <td align="center" colspan="2"><img src="./screenshots/mappool-dark.png" width="100%" alt="Smart Map Pool: oylama pool'ları listesi, yanında kullanımdaki pool'un simülasyon sayıları ve layer'ları"/><br/><sub><b>Smart Map Pool</b> · tek pool kullanımda, dosyaların saklanır</sub></td>
+</tr>
 </table>
 
 ---
@@ -203,6 +207,7 @@ Panel ayarları `config.json` içindeki `AdminPanel` satırındadır. **Oraya pa
 | `allowedHosts` | `[]` | Panelin cevap verdiği ek alan adları |
 | `secureCookie`, `trustProxy` | `false` | Aynı bilgisayardaki HTTPS proxy arkasında aç |
 | `retentionDays` | `90` | Logların tutulduğu gün, 0 sonsuza kadar |
+| `serverConfigDir` | boş | Smart Map Pool için oyun sunucusunun `ServerConfig` klasörü. Boşsa, SquadJS logu bu makinede okuyorsa logun yanından bulunur |
 | `dataDir` | `./admin-panel-data` | Hesaplar, kayıtlar, kurallar ve loglar, şifreli |
 
 ---
@@ -274,7 +279,7 @@ Oyuncu listesinde commander bilgisi yok. Panel "Command Squad" adlı squad'ın l
 <details>
 <summary><b>Neler henüz denenmedi?</b></summary>
 
-Uyarı, kick, ban, takım değiştirme ve squad'dan çıkarma gerçek oyuncuya karşı denenmedi. Squad dağıtma gerçek sunucuda çalıştırılmadı. Hasar sayısı gerçek maç loguyla karşılaştırılmadı. 1.1.0 ile gelen ve gerçek oyun sunucusunda henüz denenmeyenler: commander düşürme, butonla squad dağıtma, çıkmış oyuncuyu banlama, oyuncu ve sıra sınırı, sunucu parolası. Gerçek bir Discord kanalına henüz mesaj gönderilmedi. 1.2.0 ile gelenler: Kill Feed yalnızca emüle edilmiş oyun logu gördü; silah adları ve sayıları gerçek bir maçla henüz karşılaştırılmadı. İki hatırlatma butonu gerçek oyunculara henüz ulaşmadı.
+Uyarı, kick, ban, takım değiştirme ve squad'dan çıkarma gerçek oyuncuya karşı denenmedi. Squad dağıtma gerçek sunucuda çalıştırılmadı. Hasar sayısı gerçek maç loguyla karşılaştırılmadı. 1.1.0 ile gelen ve gerçek oyun sunucusunda henüz denenmeyenler: commander düşürme, butonla squad dağıtma, çıkmış oyuncuyu banlama, oyuncu ve sıra sınırı, sunucu parolası. Gerçek bir Discord kanalına henüz mesaj gönderilmedi. 1.2.0 ile gelenler: Kill Feed yalnızca emüle edilmiş oyun logu gördü; silah adları ve sayıları gerçek bir maçla henüz karşılaştırılmadı. İki hatırlatma butonu gerçek oyunculara henüz ulaşmadı. 1.3.0 ile gelen: Smart Map Pool yalnızca uydurma bir `ServerConfig` klasörüne yazdı. Squad'ın yeni dosyaları sunucu açıkken mi, yeniden başlatınca mı okuduğu denenmedi.
 
 </details>
 
@@ -304,6 +309,7 @@ Katkılar açıktır. Önce [CONTRIBUTING.md](./CONTRIBUTING.md) ve [CODE_OF_CON
 ## 🙏 Emeği geçenler
 
 - [**SquadJS**](https://github.com/Team-Silver-Sphere/SquadJS), Team Silver Sphere (Boost Software License) - eklentinin içinde çalıştığı altyapı; RCON, log okuma ve layer listesi ondan gelir.
+- [**Squad-MapPool**](https://github.com/Miabeyefendi/Squad-MapPool) - oylama pool paketim; pool'ları ve simülasyon sayıları `admin-panel/map-pool/` içinde gelir.
 - [**Smart Shuffle**](https://github.com/Miabeyefendi/Squad-SmartShuffle) - kendi takım dengeleme eklentim, `admin-panel/smart-shuffle/` içinde kendi LICENSE ve NOTICE dosyalarıyla.
 - Ekran görüntülerindeki resimler: harita görselleri [Squad Wiki Pipeline](https://github.com/Squad-Wiki/squad-wiki-pipeline-map-data) (CC BY-SA 4.0, küçültülmüş), faction bayrakları [SquadCalc](https://github.com/sh4rkman/SquadCalc). Squad oyun içeriği Offworld Industries'e aittir. Oynanan maçın manzara görselleri ile Black Coast, Harju, Pacific Proving Grounds ve Sanxian üstten haritaları: [Squad Wiki](https://squad.fandom.com/wiki/Maps) (küçültülmüş, bazıları 16:9 kırpılmış).
 

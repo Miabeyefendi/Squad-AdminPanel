@@ -561,3 +561,14 @@ dialog.risk #act-ok{background:var(--risk);border-color:var(--risk);color:var(--
 .kffig{display:flex;flex-direction:column;gap:4px;padding:8px 12px;border:1px solid var(--line);border-radius:10px;min-width:0}
 .kffig .kpiv{font-size:18px}
 .kffig .kpiv{overflow-wrap:anywhere;letter-spacing:-.8px}
+/* ---------- smart map pool ---------- */
+#mp-detail{max-width:1100px}
+#mp-notice:empty{display:none}
+#mp-list.scrolls{max-height:calc(100vh - 140px)}
+.poolwarn{flex-basis:100%}
+.poolmeters{padding:12px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);align-items:start}
+.poolmaps{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px}
+.poolmap{display:flex;flex-direction:column;gap:2px;padding:8px 12px;border:1px solid var(--line);border-radius:10px;min-width:0}
+.poolline{padding:4px 8px;border-radius:6px;background:var(--sunk);overflow-wrap:anywhere}
+.poolauto{gap:8px 16px}
+@media (max-width:760px){.poolmeters{grid-template-columns:minmax(0,1fr)}#mp-list.scrolls{max-height:320px}}

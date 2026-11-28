@@ -37,9 +37,9 @@
 ## 🎬 实际演示
 
 <div align="center">
-  <img src="./screenshots/demo.gif" width="92%" alt="Squad Admin Panel 动态导览:总览、记分板、击杀记录、小队与聊天、玩家卡片、地图控制、Smart Shuffle、插件、权限和记录">
+  <img src="./screenshots/demo.gif" width="92%" alt="Squad Admin Panel 动态导览:总览、记分板、击杀记录、小队与聊天、玩家卡片、地图控制、Smart Shuffle、Smart Map Pool、插件、权限和记录">
   <br/>
-  <sub><b>面板导览</b> · 十一个页面,演示数据</sub>
+  <sub><b>面板导览</b> · 十二个页面,演示数据</sub>
 </div>
 
 ---
@@ -53,6 +53,7 @@
 - **管理操作** - 警告、踢出、封禁、换队、移出小队,每次操作都需确认
 - **地图控制** - 选择地图、模式、版本、阵营和部队类型,设为下一局或立即切换
 - **内置 Smart Shuffle** - 11 个预设的队伍平衡,无需重启即可生效
+- **Smart Map Pool** - 32 个现成的投票地图池:选一个,面板写入服务器的 `ServerConfig`,上一个随即停用,一键恢复你自己的文件;每周地图池可自动换周,暖服列表可叠加在任意地图池上
 - **权限管理** - 服主、管理员、高级协管、初级协管,权限在服务器端校验
 - **记录与日志** - 警告、踢出、封禁和备注在重启后保留,支持导出 CSV
 - **自动规则** - 默认全部关闭
@@ -82,7 +83,7 @@
 
 ### 安装步骤
 
-1. 从[发布页面](https://github.com/Miabeyefendi/Squad-AdminPanel/releases/latest)下载 `Squad-AdminPanel-v1.2.0.zip`。
+1. 从[发布页面](https://github.com/Miabeyefendi/Squad-AdminPanel/releases/latest)下载 `Squad-AdminPanel-v1.3.0.zip`。
 2. 将 `admin-panel.js` 和 `admin-panel` 文件夹解压到 SquadJS 的 `squad-server/plugins/`。
 3. 在 `config.json` 的 `plugins` 列表中添加:
 
@@ -95,12 +96,12 @@
 <details>
 <summary><b>关于发布文件</b></summary>
 
-压缩包是本仓库 `src/squadjs/` (tag `v1.2.0`) 的原样副本,并在 `admin-panel/` 中加入了 `LICENSE` 和 `NOTICE`。没有编译、压缩或打包。
+压缩包是本仓库 `src/squadjs/` (tag `v1.3.0`) 的原样副本,并在 `admin-panel/` 中加入了 `LICENSE` 和 `NOTICE`。没有编译、压缩或打包。
 
-`Squad-AdminPanel-v1.2.0.zip` 的 SHA-256:
+`Squad-AdminPanel-v1.3.0.zip` 的 SHA-256:
 
 ```
-faff271ea4f371e48d5c7626aa981aa441e9bc56da46818c21008577bc615734
+4bab7d46f0701e2b44caf9d24f8aa27a7f7653a6640cfc1fcc2efe9a7d4e36d9
 ```
 
 </details>
@@ -186,6 +187,9 @@ faff271ea4f371e48d5c7626aa981aa441e9bc56da46818c21008577bc615734
   <td align="center" width="50%"><img src="./screenshots/phone-overview-dark.png" width="55%" alt="The overview page on a phone"/><br/><sub><b>手机端</b> · 总览</sub></td>
   <td align="center" width="50%"><img src="./screenshots/phone-players-dark.png" width="55%" alt="Squad lists on a phone"/><br/><sub><b>手机端</b> · 小队</sub></td>
 </tr>
+<tr>
+  <td align="center" colspan="2"><img src="./screenshots/mappool-dark.png" width="100%" alt="Smart Map Pool:左侧地图池列表,右侧当前地图池的模拟数据和图层"/><br/><sub><b>Smart Map Pool</b> · 同时只用一个,保留原文件</sub></td>
+</tr>
 </table>
 
 ---
@@ -201,6 +205,7 @@ faff271ea4f371e48d5c7626aa981aa441e9bc56da46818c21008577bc615734
 | `allowedHosts` | `[]` | 面板额外响应的主机名 |
 | `secureCookie`, `trustProxy` | `false` | 在本机 HTTPS 反向代理后开启 |
 | `retentionDays` | `90` | 日志保留天数,0 为永久 |
+| `serverConfigDir` | 空 | Smart Map Pool 使用的游戏服务器 `ServerConfig` 文件夹。留空时,若 SquadJS 在本机读取日志,则从日志旁查找 |
 | `dataDir` | `./admin-panel-data` | 账号、记录、规则和日志(加密) |
 
 ---
@@ -272,7 +277,7 @@ Squad 既不通过 RCON 发送,也不写入服务器日志。
 <details>
 <summary><b>哪些内容尚未测试?</b></summary>
 
-针对真实玩家的操作、解散小队,以及实际对局中的伤害数值。 1.1.0 新增且尚未在真实游戏服务器上测试:撤销指挥官、按钮解散小队、封禁已离开的玩家、人数与排队上限、服务器密码。也尚未向真实的 Discord 频道发送过消息。1.2.0 新增:Kill Feed 只读取过模拟的游戏日志,武器名称和统计数字尚未与真实对局对照;两个提醒按钮尚未发给过真实玩家。
+针对真实玩家的操作、解散小队,以及实际对局中的伤害数值。 1.1.0 新增且尚未在真实游戏服务器上测试:撤销指挥官、按钮解散小队、封禁已离开的玩家、人数与排队上限、服务器密码。也尚未向真实的 Discord 频道发送过消息。1.2.0 新增:Kill Feed 只读取过模拟的游戏日志,武器名称和统计数字尚未与真实对局对照;两个提醒按钮尚未发给过真实玩家。1.3.0 新增:Smart Map Pool 只写入过模拟的 `ServerConfig` 文件夹。尚未确认 Squad 是在运行中读取新文件,还是重启后才读取。
 
 </details>
 
@@ -302,6 +307,7 @@ Squad 既不通过 RCON 发送,也不写入服务器日志。
 ## 🙏 致谢
 
 - Team Silver Sphere 的 [**SquadJS**](https://github.com/Team-Silver-Sphere/SquadJS)(Boost Software License),本插件运行的框架。
+- [**Squad-MapPool**](https://github.com/Miabeyefendi/Squad-MapPool) - 我的投票地图池包,其地图池和模拟数据包含在 `admin-panel/map-pool/` 中。
 - [**Smart Shuffle**](https://github.com/Miabeyefendi/Squad-SmartShuffle),我的队伍平衡插件,附带其 LICENSE 和 NOTICE。
 - 截图中的图片:地图来自 [Squad Wiki Pipeline](https://github.com/Squad-Wiki/squad-wiki-pipeline-map-data)(CC BY-SA 4.0,已缩小),阵营旗帜来自 [SquadCalc](https://github.com/sh4rkman/SquadCalc)。Squad 游戏内容归 Offworld Industries 所有。 当前对局的场景图,以及 Black Coast、Harju、Pacific Proving Grounds 和 Sanxian 的俯视地图:[Squad Wiki](https://squad.fandom.com/wiki/Maps)(已缩小,部分裁剪为 16:9)。
 

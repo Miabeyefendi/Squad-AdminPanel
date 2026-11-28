@@ -2,7 +2,7 @@
 
 # 📖 Squad Admin Panel Rehberi
 
-**v1.2.0 · Son güncelleme 2026-11-28**
+**v1.3.0 · Son güncelleme 2026-11-28**
 
 [English](./SETUP.md) · **Türkçe**
 
@@ -136,7 +136,7 @@ Takılırsan: [SquadJS'in resmi kurulum belgesi](https://github.com/Team-Silver-
 
 ### Adım 3: Panel dosyalarını kopyala
 
-1. [Panelin son sürüm sayfasından](https://github.com/Miabeyefendi/Squad-AdminPanel/releases/latest) `Squad-AdminPanel-v1.2.0.zip` dosyasını indir.
+1. [Panelin son sürüm sayfasından](https://github.com/Miabeyefendi/Squad-AdminPanel/releases/latest) `Squad-AdminPanel-v1.3.0.zip` dosyasını indir.
 2. Zip'i aç. İçinde **iki şey** var: `admin-panel.js` dosyası ve `admin-panel` klasörü.
 3. İkisini birden şuraya kopyala: `C:\SquadJS\squad-server\plugins\`
 
@@ -152,7 +152,7 @@ C:\SquadJS\squad-server\plugins\
 └── (SquadJS'in kendi eklentileri)
 ```
 
-**Yanlış:** `plugins\Squad-AdminPanel-v1.2.0\admin-panel.js` (araya fazladan klasör girmiş, o klasörü kaldır, içindekileri `plugins` içine taşı).
+**Yanlış:** `plugins\Squad-AdminPanel-v1.3.0\admin-panel.js` (araya fazladan klasör girmiş, o klasörü kaldır, içindekileri `plugins` içine taşı).
 
 ---
 
@@ -486,6 +486,20 @@ Hayır. SquadJS hangi bilgisayardaysa o açık olmalı. Sürekli çalışsın is
 - **Last match** biten maçı tutar. İkisi de bellektedir: SquadJS ya da panel yeniden başlarsa boşalır. **Export CSV** ekrandakini kaydeder. **Logs** altındaki kill logu diskte kalır.
 - **Sayıları okurken:** sunucu logunda ıskalanan mermi, vurulan bölge ve mesafe yoktur; accuracy gösterilemez. Keskin nişancı tüfeği, makineli, patlayıcı ve araçlar bu sayıları çok değiştirir. Bunlar oyuncuyu izlemek için sebeptir, kanıt değildir.
 - Genel bakıştaki **hızlı işlemler:** butondaki sayı kaç oyuncuya ulaşacağını söyler. Hatırlatmalar ekran mesajıdır, uyarı sayılmaz.
+
+---
+
+## Smart Map Pool (1.3.0)
+
+- **Ne yapar:** oylamalı Squad sunucusu map pool'unu `SquadGame/ServerConfig` içindeki sabit adlı dosyalardan okur. Bir pool seçince panel oraya yazar. Önceki pool devre dışı kalır.
+- **Gerekenler:** `Server.cfg` içinde `MapRotationMode=LayerList_Vote` ve `UseVoteLayer=true` (panel bu dosyayı yalnızca okur ve uyarır) ve klasöre erişim. SquadJS oyun sunucusuyla aynı makinede `logReaderMode: "tail"` ile çalışıyorsa klasör kendiliğinden bulunur. Değilse AdminPanel satırına `"serverConfigDir": "C:/SquadServer/SquadGame/ServerConfig"` ekle. SquadJS'in FTP ya da SFTP ile okuduğu sunucular henüz desteklenmiyor.
+- **Yetki:** **Choose the map pool**. Bir admine verilene kadar yalnızca sunucu sahibindedir. Her değişiklik parolanı sorar ve admin loguna yazılır.
+- **Yazılan dosyalar:** `LayerVoting.cfg`, `LayerVotingNight.cfg`, `LayerVotingLowPlayers.cfg` ve `VoteConfig.cfg` içinde yalnızca pool'un satırları.
+- **Geri dönüş:** **Put my own files back** dosyaları ve satırları eski haline döndürür. Düz bir kopya da `<dataDir>/map-pool-backup/before-panel/` içinde durur.
+- **Elle değişiklik:** panelin yazdığı bir dosya elle değiştirildiyse sormadan üzerine yazılmaz; onaylarsan kopyası saklanır. Haftalık değişim ise durur.
+- **Haftalık pool'lar:** SquadJS çalışırken panel haftayı 7 günde bir değiştirir, kapalı kaldıysa açılınca yetişir.
+- **Yeniden başlatma:** Squad'ın bu dosyaları sunucu açıkken okuyup okumadığı doğrulanmadı. Emin olmak için oyun sunucusunu yeniden başlat, haftalık değişimden sonra da.
+- Sayfadaki sayılar [Squad-MapPool](https://github.com/Miabeyefendi/Squad-MapPool) simülasyonundan gelir, canlı sunucudan değil.
 
 ---
 
