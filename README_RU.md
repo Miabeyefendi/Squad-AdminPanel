@@ -37,9 +37,9 @@
 ## 🎬 В действии
 
 <div align="center">
-  <img src="./screenshots/demo.gif" width="92%" alt="Анимированный обзор Squad Admin Panel: сводка, таблица, отряды и чат, карточка игрока, карты, Smart Shuffle, плагины, права и записи">
+  <img src="./screenshots/demo.gif" width="92%" alt="Анимированный обзор Squad Admin Panel: сводка, таблица, лента убийств, отряды и чат, карточка игрока, карты, Smart Shuffle, плагины, права и записи">
   <br/>
-  <sub><b>Обзор панели</b> · девять экранов, демо-данные</sub>
+  <sub><b>Обзор панели</b> · одиннадцать экранов, демо-данные</sub>
 </div>
 
 ---
@@ -47,6 +47,8 @@
 ## ✨ Главное
 
 - **Живая таблица** - обе команды рядом: убийства, нокауты, смерти, K/D, реанимации, тимкиллы, урон, номера отрядов
+- **Kill Feed** - кто, в кого, из какого оружия и с каким уроном попал, кого вывел из строя и убил; по каждому игроку попаданий на нок, ноки с одного попадания, максимальный урон и ноки за 60 секунд, чтобы разбираться с читерами. В логе сервера нет промахов, поэтому точности нет
+- **Быстрые действия** - один ряд на сводке: сообщения, напоминания игрокам без отряда и командирам без кита, следующий слой, перемешивание, перезапуск и завершение матча
 - **Игроки и отряды** - списки рядом с живым чатом и личное сообщение игроку на экран
 - **Действия админа** - предупреждение, кик, бан, смена команды, исключение из отряда, всегда с подтверждением
 - **Карты** - карта, режим, версия, фракции и подразделения; следующая карта или смена сейчас
@@ -80,7 +82,7 @@
 
 ### Установить
 
-1. Скачайте `Squad-AdminPanel-v1.1.0.zip` со [страницы релизов](https://github.com/Miabeyefendi/Squad-AdminPanel/releases/latest).
+1. Скачайте `Squad-AdminPanel-v1.2.0.zip` со [страницы релизов](https://github.com/Miabeyefendi/Squad-AdminPanel/releases/latest).
 2. Распакуйте `admin-panel.js` и папку `admin-panel` в `squad-server/plugins/` SquadJS.
 3. Добавьте в список `plugins` файла `config.json`:
 
@@ -93,12 +95,12 @@
 <details>
 <summary><b>О файле релиза</b></summary>
 
-Архив - это копия `src/squadjs/` (tag `v1.1.0`) из репозитория с `LICENSE` и `NOTICE` внутри `admin-panel/`. Без сборки и минификации.
+Архив - это копия `src/squadjs/` (tag `v1.2.0`) из репозитория с `LICENSE` и `NOTICE` внутри `admin-panel/`. Без сборки и минификации.
 
-SHA-256 файла `Squad-AdminPanel-v1.1.0.zip`:
+SHA-256 файла `Squad-AdminPanel-v1.2.0.zip`:
 
 ```
-176a30cab3fc84ea552d5525b02fef8fbf80867120e8e36efaeb335b36d0e89c
+56af54a22bd82f6b3dbb1fe60e13ca19cb28c6d735fb6ff2b866f80a1a755b91
 ```
 
 </details>
@@ -120,6 +122,10 @@ SHA-256 файла `Squad-AdminPanel-v1.1.0.zip`:
 Имена и числа взяты из демо. Изображения карт и фракций на этих снимках не входят в загрузку: они добавлены в папку изображений панели (см. "Благодарности"). Без них панель рисует свои.
 
 <table>
+<tr>
+  <td align="center" width="50%"><img src="./screenshots/killfeed-shooter-dark.png" width="100%" alt="Kill Feed с выбранным игроком: попаданий на нок, ноки с одного попадания, оружие и каждый нок"/><br/><sub><b>Поиск читеров</b> · цифры и бои одного игрока</sub></td>
+  <td align="center" width="50%"><img src="./screenshots/killfeed-dark.png" width="100%" alt="Kill Feed: атакующий, цель, оружие, урон и число попаданий для каждого нока и убийства"/><br/><sub><b>Kill Feed</b> · кто кого и чем</sub></td>
+</tr>
 <tr>
   <td align="center" width="50%">
     <img src="./screenshots/scoreboard-dark.png" width="100%" alt="Squad scoreboard with both teams side by side, commander strips, squad numbers and match statistics"/><br/>
@@ -171,6 +177,10 @@ SHA-256 файла `Squad-AdminPanel-v1.1.0.zip`:
 <tr>
   <td align="center" width="50%"><img src="./screenshots/smart-shuffle-settings-dark.png" width="100%" alt="Smart Shuffle settings grouped by topic"/><br/><sub><b>Настройки Shuffle</b> · по группам</sub></td>
   <td align="center" width="50%"><img src="./screenshots/ranks-dark.png" width="100%" alt="Default permissions of admin, senior mod and junior mod side by side"/><br/><sub><b>Ранги</b> · права рядом</sub></td>
+</tr>
+<tr>
+  <td align="center" width="50%"><img src="./screenshots/killfeed-players-dark.png" width="100%" alt="Таблица игроков Kill Feed, отсортированная по нокам с одного попадания"/><br/><sub><b>Стрелки</b> · сортировка по любой цифре</sub></td>
+  <td align="center" width="50%"><img src="./screenshots/server-light.png" width="100%" alt="Страница сервера: слева список настроек, справа выбранная"/><br/><sub><b>Сервер</b> · лимиты, пароль, объявления</sub></td>
 </tr>
 <tr>
   <td align="center" width="50%"><img src="./screenshots/phone-overview-dark.png" width="55%" alt="The overview page on a phone"/><br/><sub><b>На телефоне</b> · сводка</sub></td>
@@ -262,7 +272,7 @@ Squad не передаёт их по RCON и не пишет в лог.
 <details>
 <summary><b>Что ещё не проверено?</b></summary>
 
-Действия над настоящими игроками, расформирование отряда и значения урона в настоящем матче. Новое в 1.1.0 и пока не проверено на настоящем игровом сервере: снятие командующего, расформирование отряда кнопкой, бан вышедшего игрока, лимиты игроков и очереди и пароль сервера. В настоящий канал Discord сообщения ещё не отправлялись.
+Действия над настоящими игроками, расформирование отряда и значения урона в настоящем матче. Новое в 1.1.0 и пока не проверено на настоящем игровом сервере: снятие командующего, расформирование отряда кнопкой, бан вышедшего игрока, лимиты игроков и очереди и пароль сервера. В настоящий канал Discord сообщения ещё не отправлялись. Новое в 1.2.0: Kill Feed читал только эмулированный лог, поэтому названия оружия и цифры ещё не сверены с настоящим матчем; две кнопки напоминаний ещё не доходили до настоящих игроков.
 
 </details>
 

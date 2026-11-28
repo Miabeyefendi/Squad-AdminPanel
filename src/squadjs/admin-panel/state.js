@@ -1,4 +1,6 @@
 // Listens to SquadJS events, counts this match's stats and builds the snapshot the browser shows.
+import { Combat } from './combat.js';
+
 const CHANNEL = { ChatAll: 'All', ChatTeam: 'Team', ChatSquad: 'Squad', ChatAdmin: 'Admin' };
 // channel map idnefeyebaiM
 const weaponName = (w) => String(w || '').replace(/^BP_/, '').replace(/_C(_\d+)?$/, '').replace(/_/g, ' ');
@@ -23,6 +25,10 @@ export class Tracker {
     this.version = 0;
     this.maps = { current: null, next: null };
     this.tickRate = null;
+    this.matches = 0;
+    this.born = now();
+    this.combat = this.newCombat();
+    this.lastCombat = null;
     this.handlers = {
       CHAT_MESSAGE: (i) => this.onChat(i),
       TEAMKILL: (i) => this.onTeamkill(i),
@@ -38,6 +44,18 @@ export class Tracker {
       UPDATED_LAYER_INFORMATION: () => this.readMaps(),
       UPDATED_SERVER_INFORMATION: () => this.changed()
     };
+  }
+
+  // the id changes with every match and every start of the panel, so a browser knows to read afresh
+  newCombat() {
+    return new Combat({ id: `${this.born}-${++this.matches}`, now: () => this.now() });
+  }
+
+  // this match, or the one before it: a cheater is often looked into after the round has ended
+  fights(which, match, after) {
+    const combat = which === 'previous' ? this.lastCombat : this.combat;
+    if (!combat) return { match: null, startedAt: null, seq: 0, players: [], events: [], previous: false };
+    return { ...combat.read(combat.id === match ? after : 0), previous: !!this.lastCombat };
   }
 
   mount() {
@@ -79,13 +97,17 @@ export class Tracker {
     if (!info.attacker?.eosID) return undefined;
     const s = this.stat(info.attacker.eosID);
     s.teamkills += 1;
-    this.store.log('tk', { attacker: info.attacker.name, id: info.attacker.eosID, victim: info.victim?.name,
+    // squad and team are kept as they were then: both players may move or leave later
+    this.store.log('tk', { attacker: info.attacker.name, id: info.attacker.eosID, team: info.attacker.teamID ?? null,
+      squad: info.attacker.squadID ?? null, victim: info.victim?.name || info.victimName, victimId: info.victim?.eosID ?? null,
+      victimTeam: info.victim?.teamID ?? null, victimSquad: info.victim?.squadID ?? null,
       weapon: weaponName(info.weapon), count: s.teamkills });
     this.changed();
     return this.rules.onTeamkill(info);
   }
 
   onDied(info) {
+    this.combat.died(info, weaponName(info.weapon), String(info.weapon || ''));
     const victim = info.victim?.eosID;
     const attacker = info.attacker?.eosID;
     if (victim) this.stat(victim).deaths += 1;
@@ -98,12 +120,14 @@ export class Tracker {
   }
 
   onRevived(info) {
+    this.combat.revived(info);
     if (info.reviver?.eosID) this.stat(info.reviver.eosID).revives += 1;
     this.changed();
   }
 
   // a downed enemy; the kill is counted when they die
   onWounded(info) {
+    this.combat.wounded(info, weaponName(info.weapon), String(info.weapon || ''));
     const attacker = info.attacker?.eosID;
     if (!attacker || info.teamkill || attacker === info.victim?.eosID) return;
     this.stat(attacker).downs += 1;
@@ -111,6 +135,7 @@ export class Tracker {
   }
 
   onDamaged(info) {
+    this.combat.damaged(info, weaponName(info.weapon), String(info.weapon || ''));
     const attacker = info.attacker?.eosID;
     if (!attacker || info.teamkill || attacker === info.victim?.eosID || !(info.damage > 0)) return;
     this.stat(attacker).damage += info.damage;
@@ -137,6 +162,8 @@ export class Tracker {
 
   onNewGame() {
     this.stats.clear();
+    if (this.combat.seq) this.lastCombat = this.combat;
+    this.combat = this.newCombat();
     this.maps = { current: null, next: null };
     this.changed();
     return this.readMaps();

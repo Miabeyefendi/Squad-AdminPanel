@@ -63,8 +63,16 @@ export const app = { show: () => {}, signedOut: () => {}, mustChange: () => {}, 
 // "ban" means any kind of ban, "staff" any right to look after accounts
 const ANY = { ban: ['ban.short', 'ban.long', 'ban.perm'], staff: ['staff.admins', 'staff.manage', 'perm.grant'],
   message: ['broadcast', 'message.group'], records: ['notes.view', 'data.manage'],
-  server: ['messages.schedule', 'server.settings', 'server.password', 'notify.manage'] };
+  server: ['messages.schedule', 'server.settings', 'server.password', 'notify.manage'],
+  // the heading over Staff, Ranks and Server
+  access: ['staff.admins', 'staff.manage', 'perm.grant', 'ranks.edit', 'messages.schedule', 'server.settings', 'server.password', 'notify.manage'] };
 export const may = (what) => !!S.me && (ANY[what] || [what]).some((id) => S.me.can.includes(id));
+// a teamkill reads "(squad) Name tk (squad) Name", the names in their team's colour
+export const fighter = (id, name, team, squad) => {
+  const cls = `tkname ${Number(team) === 1 || Number(team) === 2 ? `tx${Number(team)}` : ''}`;
+  return html`<span class="tkwho"><span class="sqn ${squad ? '' : html`none`}" title="${squad ? t('Squad {n}', { n: squad }) : t('No squad')}">${squad || '-'}</span>${id ? html`<button type="button" class="linkbtn ${cls}" data-player="${id}">${name}</button>` : html`<b class="${cls}">${name}</b>`}</span>`;
+};
+export const tkLine = (r) => html`<span class="tkline">${fighter(r.id, r.attacker, r.team, r.squad)}<i class="tkword">tk</i>${fighter(r.victimId, r.victim || t('Unknown'), r.victimTeam, r.victimSquad)}</span>`;
 export const gate = (root) => $$('[data-need]', root).forEach((el) => { el.hidden = !may(el.dataset.need); });
 
 // ---------- network ----------
@@ -212,6 +220,12 @@ export function sendMessage() {
   const first = list[0][0];
   ask({ title: t('Send a message'), text: HOW[first], ok: t('Send'), fields: html`${choiceField('to', t('To'), list, first)}${textField('message', t('Message'))}`,
     onChoose: (_, to) => ({ text: HOW[to] }), run: (v) => deliverMessage(v.to, v.message) });
+}
+// a message to one fixed group, with a text ready to send
+export function messageTo(group, title, count, suggestion = '') {
+  ask({ title, text: t('Shown on screen to {count}. It is not counted as a warning.', { count: plural(count, 'player') }), ok: t('Send'),
+    fields: textField('message', t('Message')), run: (v) => post('messageGroup', { group, message: v.message }) });
+  $('#actform [name="message"]').value = suggestion;
 }
 export function messagePlayer(id) {
   ask({ title: t('Message {who}', { who: byId(id)?.name || t('this player') }), text: HOW.player, ok: t('Send'), fields: textField('message', t('Message')),

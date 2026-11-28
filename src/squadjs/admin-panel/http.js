@@ -11,7 +11,7 @@ import { PERMISSIONS, RANKS } from './permissions.js';
 import { ALL_KINDS, LOG_KINDS } from './store.js';
 
 // the only files of the UI folder that are ever served
-const SCRIPTS = ['app.js', 'core.js', 'art.js', 'i18n.js', ...['overview', 'score', 'players', 'map', 'shuffle', 'rules', 'plugins',
+const SCRIPTS = ['app.js', 'core.js', 'art.js', 'i18n.js', ...['overview', 'score', 'killfeed', 'players', 'map', 'shuffle', 'rules', 'plugins',
   'records', 'staff', 'server'].map((page) => `pages/${page}.js`), ...['common', 'pages', 'server'].map((part) => `lang/${part}.js`)];
 const UI = {
   '/': ['index.html', 'text/html; charset=utf-8'],
@@ -359,6 +359,11 @@ export function createPanelServer(deps) {
           list = store.range(kind, from, to);
         } else list = month ? store.month(kind, month) : store.logs[kind];
         return send(res, 200, list.filter((entry) => visibleLog(user, entry)));
+      }
+      if (where === '/api/combat') {
+        if (!may(user, 'kills.view')) return denied();
+        const after = Number(url.searchParams.get('after')) || 0;
+        return send(res, 200, tracker.fights(url.searchParams.get('which'), url.searchParams.get('match'), after));
       }
       if (where === '/api/months') return send(res, 200, store.months());
       if (where === '/api/server') {

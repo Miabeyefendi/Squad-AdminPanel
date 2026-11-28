@@ -37,9 +37,9 @@
 ## 🎬 En acción
 
 <div align="center">
-  <img src="./screenshots/demo.gif" width="92%" alt="Recorrido animado por Squad Admin Panel: resumen, marcador, escuadras y chat, ficha de jugador, mapas, Smart Shuffle, plugins, permisos e historial">
+  <img src="./screenshots/demo.gif" width="92%" alt="Recorrido animado por Squad Admin Panel: resumen, marcador, kill feed, escuadras y chat, ficha de jugador, mapas, Smart Shuffle, plugins, permisos e historial">
   <br/>
-  <sub><b>Recorrido por el panel</b> · nueve pantallas, datos de demo</sub>
+  <sub><b>Recorrido por el panel</b> · once pantallas, datos de demo</sub>
 </div>
 
 ---
@@ -47,6 +47,8 @@
 ## ✨ Lo más destacado
 
 - **Marcador en vivo** - los dos equipos lado a lado: bajas, derribos, muertes, K/D, reanimaciones, fuego amigo, daño y número de escuadra
+- **Kill Feed** - quién alcanzó, derribó y mató a quién, con qué arma y cuánto daño; por jugador, impactos por derribo, derribos de un impacto, impacto máximo y derribos en 60 segundos, para investigar tramposos. El registro del servidor no incluye disparos fallados, así que no hay porcentaje de precisión
+- **Acciones rápidas** - una sola fila en el resumen: mensajes, recordatorios a jugadores sin escuadra y a líderes sin el kit, siguiente mapa, shuffle, reiniciar y terminar la partida
 - **Jugadores y escuadras** - listas junto al chat en vivo y mensaje privado en pantalla a un jugador
 - **Acciones de admin** - avisar, expulsar, banear, cambiar de equipo, sacar de la escuadra, siempre con confirmación
 - **Control de mapas** - mapa, modo, versión, facciones y unidades; siguiente capa o cambio inmediato
@@ -80,7 +82,7 @@
 
 ### Instalar
 
-1. Descarga `Squad-AdminPanel-v1.1.0.zip` de la [página de versiones](https://github.com/Miabeyefendi/Squad-AdminPanel/releases/latest).
+1. Descarga `Squad-AdminPanel-v1.2.0.zip` de la [página de versiones](https://github.com/Miabeyefendi/Squad-AdminPanel/releases/latest).
 2. Extrae `admin-panel.js` y la carpeta `admin-panel` en `squad-server/plugins/` de SquadJS.
 3. Añade a la lista `plugins` de `config.json`:
 
@@ -93,12 +95,12 @@
 <details>
 <summary><b>Sobre el archivo de la versión</b></summary>
 
-El zip es una copia de `src/squadjs/` (tag `v1.1.0`) con `LICENSE` y `NOTICE` dentro de `admin-panel/`. No hay compilación ni código minificado.
+El zip es una copia de `src/squadjs/` (tag `v1.2.0`) con `LICENSE` y `NOTICE` dentro de `admin-panel/`. No hay compilación ni código minificado.
 
-SHA-256 de `Squad-AdminPanel-v1.1.0.zip`:
+SHA-256 de `Squad-AdminPanel-v1.2.0.zip`:
 
 ```
-176a30cab3fc84ea552d5525b02fef8fbf80867120e8e36efaeb335b36d0e89c
+56af54a22bd82f6b3dbb1fe60e13ca19cb28c6d735fb6ff2b866f80a1a755b91
 ```
 
 </details>
@@ -120,6 +122,10 @@ El acceso remoto se explica en el [tutorial](./docs/SETUP.md#remote-access-and-m
 Nombres y cifras son de la demo. Las imágenes de mapas y facciones de estas capturas no vienen en la descarga: se añadieron en la carpeta de imágenes del panel (ver Créditos). Sin ellas el panel dibuja las suyas.
 
 <table>
+<tr>
+  <td align="center" width="50%"><img src="./screenshots/killfeed-shooter-dark.png" width="100%" alt="Kill Feed con un jugador elegido: impactos por derribo, derribos de un impacto, armas y cada derribo"/><br/><sub><b>Detectar tramposos</b> · cifras y combates de un jugador</sub></td>
+  <td align="center" width="50%"><img src="./screenshots/killfeed-dark.png" width="100%" alt="Kill Feed: atacante, víctima, arma, daño e impactos de cada derribo y muerte"/><br/><sub><b>Kill Feed</b> · quién derribó a quién y con qué</sub></td>
+</tr>
 <tr>
   <td align="center" width="50%">
     <img src="./screenshots/scoreboard-dark.png" width="100%" alt="Squad scoreboard with both teams side by side, commander strips, squad numbers and match statistics"/><br/>
@@ -171,6 +177,10 @@ Nombres y cifras son de la demo. Las imágenes de mapas y facciones de estas cap
 <tr>
   <td align="center" width="50%"><img src="./screenshots/smart-shuffle-settings-dark.png" width="100%" alt="Smart Shuffle settings grouped by topic"/><br/><sub><b>Ajustes de Shuffle</b> · grupo a grupo</sub></td>
   <td align="center" width="50%"><img src="./screenshots/ranks-dark.png" width="100%" alt="Default permissions of admin, senior mod and junior mod side by side"/><br/><sub><b>Rangos</b> · permisos lado a lado</sub></td>
+</tr>
+<tr>
+  <td align="center" width="50%"><img src="./screenshots/killfeed-players-dark.png" width="100%" alt="Tabla de jugadores del Kill Feed ordenada por derribos de un impacto"/><br/><sub><b>Tiradores</b> · ordena por cualquier cifra</sub></td>
+  <td align="center" width="50%"><img src="./screenshots/server-light.png" width="100%" alt="Página del servidor con la lista de ajustes a la izquierda"/><br/><sub><b>Servidor</b> · límites, contraseña, anuncios</sub></td>
 </tr>
 <tr>
   <td align="center" width="50%"><img src="./screenshots/phone-overview-dark.png" width="55%" alt="The overview page on a phone"/><br/><sub><b>En el móvil</b> · resumen</sub></td>
@@ -262,7 +272,7 @@ La lista de jugadores no lo indica. El panel toma al líder de la escuadra "Comm
 <details>
 <summary><b>¿Qué no está probado?</b></summary>
 
-Las acciones sobre jugadores reales, disolver escuadras y las cifras de daño en una partida real. Novedades de 1.1.0 aún sin probar en un servidor real: destituir al comandante, disolver una escuadra con el botón, banear a un jugador que ya salió, los límites de jugadores y de cola y la contraseña del servidor. Todavía no se ha enviado ningún mensaje a un canal real de Discord.
+Las acciones sobre jugadores reales, disolver escuadras y las cifras de daño en una partida real. Novedades de 1.1.0 aún sin probar en un servidor real: destituir al comandante, disolver una escuadra con el botón, banear a un jugador que ya salió, los límites de jugadores y de cola y la contraseña del servidor. Todavía no se ha enviado ningún mensaje a un canal real de Discord. Novedades de 1.2.0: el Kill Feed solo ha leído un registro emulado, así que los nombres de armas y sus cifras aún no se han comparado con una partida real; los dos botones de recordatorio no han llegado a jugadores reales.
 
 </details>
 

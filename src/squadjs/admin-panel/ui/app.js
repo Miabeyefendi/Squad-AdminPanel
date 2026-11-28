@@ -2,6 +2,7 @@
 import { $, $$, LOG_KINDS, S, api, app, ask, elapsed, gate, guard, html, may, messagePlayer, passwordField, playerAction, post, put, sendMessage, t, thisMatch, toast, wireDialog } from './core.js';
 import overview from './pages/overview.js';
 import score, { selected } from './pages/score.js';
+import killfeed from './pages/killfeed.js';
 import players, { openPlayer, wireCard } from './pages/players.js';
 import map from './pages/map.js';
 import shuffle from './pages/shuffle.js';
@@ -14,10 +15,10 @@ import serverPage from './pages/server.js';
 // build tag
 Object.defineProperty(window, Symbol.for('sa.build'), { value: String.fromCharCode(77, 105, 97, 98, 101, 121, 101, 102, 101, 110, 100, 105) });
 
-const PAGES = Object.fromEntries([overview, score, players, map, shuffle, rules, plugins, serverPage, records, logs, staffPage, ranksPage]
+const PAGES = Object.fromEntries([overview, score, killfeed, players, map, shuffle, rules, plugins, serverPage, records, logs, staffPage, ranksPage]
   .map((p) => [p.id, p]));
 // pages that need a permission; the others are for everyone who is signed in
-const NEEDS = { rules: 'rules.view', plugins: 'plugins', staff: 'staff', ranks: 'ranks.edit', records: 'records', server: 'server' };
+const NEEDS = { killfeed: 'kills.view', rules: 'rules.view', plugins: 'plugins', staff: 'staff', ranks: 'ranks.edit', records: 'records', server: 'server' };
 let events = null;
 
 const page = () => PAGES[S.view];

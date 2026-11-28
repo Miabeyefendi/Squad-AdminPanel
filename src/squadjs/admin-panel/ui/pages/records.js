@@ -1,11 +1,11 @@
 // Records and logs read the same way: first the period, then the filters, then a wide list by day.
 // Deleting is a separate place that says it is dangerous and shows what would go before it goes.
-import { $, $$, DAY, S, api, app, ask, byDay, clock, confirmField, dayName, downloadCsv, draw, entries, gate, guard, html, icon, may, periodOf, periodQuery, plural, put, stamp, t, tAction, toast } from '../core.js';
+import { $, $$, DAY, S, api, app, ask, byDay, clock, confirmField, dayName, downloadCsv, draw, entries, gate, guard, html, icon, may, periodOf, periodQuery, plural, put, stamp, t, tAction, tkLine, toast } from '../core.js';
 import { kindTag } from './players.js';
 
 const PERIODS = [['today', t('Today')], ['7d', t('7 days')], ['30d', t('30 days')], ['all', t('Everything')], ['custom', t('Pick dates')]];
 // a period bar; "state" is { id, start, end }
-export const periodBar = (state, choices = PERIODS) => html`<div class="periodbar"><span class="cap">${t('Period')}</span><div class="seg" role="group" aria-label="${t('Period')}">${choices.map(([v, n]) => html`<button type="button" data-period="${v}" data-key="p${v}" aria-pressed="${state.id === v}">${n}</button>`)}</div>
+export const periodBar = (state, choices = PERIODS) => html`<div class="periodbar"><select class="field" data-period data-key="period" aria-label="${t('Period')}" title="${t('Period')}">${choices.map(([v, n]) => html`<option value="${v}" ${state.id === v ? html`selected` : ''}>${n}</option>`)}</select>
   <span class="dates" ${state.id === 'custom' ? '' : html`hidden`}><label>${t('From')}<input class="field" type="date" data-date="start" value="${state.start}"></label><label>${t('To (included)')}<input class="field" type="date" data-date="end" value="${state.end}"></label></span></div>`;
 
 // ---------- records ----------
@@ -147,7 +147,7 @@ export const records = {
   title: t('Records'),
   shell: () => html`<div class="seg" role="tablist" aria-label="${t('Records')}" id="rec-tabs"></div>
     <div class="stackcol" id="rec-read">
-      <div class="tile filters"><div id="rec-period"></div><div class="rowline"><label class="sr" for="rec-q">${t('Search')}</label><input id="rec-q" class="field search" type="search" placeholder="${t('Player name, ID, admin or reason')}"><div class="countrow" id="rec-counts" role="group" aria-label="${t('Show only')}"></div></div></div>
+      <div class="tile filters"><div id="rec-period"></div><label class="sr" for="rec-q">${t('Search')}</label><input id="rec-q" class="field search" type="search" placeholder="${t('Player name, ID, admin or reason')}"><div class="countrow" id="rec-counts" role="group" aria-label="${t('Show only')}"></div></div>
       <div class="tile" id="rec-list"></div>
     </div>
     <div class="stackcol" id="rec-danger" hidden>${dangerShell()}</div>`,
@@ -157,11 +157,11 @@ export const records = {
       if (!b) return;
       const d = b.dataset;
       if (d.rectab) { rec.tab = d.rectab; await loadRecords(); }
-      else if (d.period) { rec.period.id = d.period; renderRecords(); await loadRecords(); }
       else if (d.type) { if (rec.types.has(d.type)) rec.types.delete(d.type); else rec.types.add(d.type); renderRecords(); }
       else if (d.reallydelete !== undefined) confirmDelete();
     }));
     root.addEventListener('change', guard(async (e) => {
+      if (e.target.dataset.period !== undefined) { rec.period.id = e.target.value; renderRecords(); await loadRecords(); return; }
       if (e.target.dataset.date) { rec.period[e.target.dataset.date] = e.target.value; await loadRecords(); return; }
       if (e.target.name === 'mode') $$('#rec-delete [data-mode]').forEach((x) => { x.hidden = x.dataset.mode !== e.target.value; });
       // a changed choice throws the old preview away, so the button never deletes something else
@@ -222,7 +222,9 @@ const logView = () => {
   return { cols, rows };
 };
 function logTable() {
-  const { cols, rows } = logView();
+  const view = logView();
+  const { rows } = view;
+  const cols = log.tab === 'tk' ? [[t('Teamkill'), 'line', 520], ...view.cols.slice(2)] : view.cols;
   if (!rows.length) return html`<span class="empty">${$('#lg-q').value ? t('No entries with this filter.') : log.period.id === 'latest' ? t('No entries yet.') : t('No entries in this period.')}</span>`;
   const player = (r, key) => (['player', 'attacker'].includes(key) && r.id ? html`<button class="linkbtn clip" data-player="${r.id}" title="${r[key]}">${r[key]}</button>` : shown(r, key));
   let day = null;
@@ -230,7 +232,7 @@ function logTable() {
     const label = new Date(r.at).toDateString();
     const head = label === day ? '' : html`<tr class="dayrow"><th colspan="${cols.length + 1}">${dayName(r.at)}</th></tr>`;
     day = label;
-    return html`${head}<tr><td class="mono sub">${clock(r.at)}</td>${cols.map(([, k]) => html`<td>${player(r, k)}</td>`)}</tr>`;
+    return html`${head}<tr><td class="mono sub">${clock(r.at)}</td>${cols.map(([, k]) => html`<td>${k === 'line' ? tkLine(r) : player(r, k)}</td>`)}</tr>`;
   })}</tbody></table></div>${rows.length > 1000 ? html`<p class="foot">${t('The newest 1000 of {total} are shown. The CSV file has them all.', { total: rows.length })}</p>` : ''}`;
 }
 function renderLogs() {
@@ -253,20 +255,20 @@ async function loadLogPage() {
 export const logs = {
   id: 'logs',
   title: t('Logs'),
-  shell: () => html`<div class="tile filters"><div id="lg-period"></div><div class="rowline"><div class="seg" role="tablist" aria-label="${t('Log type')}" id="lg-tabs"></div></div><div class="rowline"><label class="sr" for="lg-q">${t('Filter')}</label><input id="lg-q" class="field search" type="search" placeholder="${t('Filter by name or text')}"><span class="sub xs" id="lg-count"></span><span class="grow"></span><button class="btn" data-csv>${t('Export CSV')}</button><button class="btn ghost riskink" data-danger data-need="data.manage">${icon('warn')}${t('Delete records…')}</button></div></div>
+  shell: () => html`<div class="tile filters"><div id="lg-period"></div><div class="seg" role="tablist" aria-label="${t('Log type')}" id="lg-tabs"></div><label class="sr" for="lg-q">${t('Filter')}</label><input id="lg-q" class="field search" type="search" placeholder="${t('Filter by name or text')}"><span class="sub xs" id="lg-count"></span><button class="btn" data-csv>${t('Export CSV')}</button><button class="btn ghost riskink" data-danger data-need="data.manage">${icon('warn')}${t('Delete records…')}</button></div>
     <div class="tile" id="lg-list"></div>`,
   wire(root) {
     root.addEventListener('click', guard(async (e) => {
       const b = e.target.closest('button');
       if (!b) return;
       if (b.dataset.log) { log.tab = b.dataset.log; log.rows = null; await loadLogPage(); }
-      else if (b.dataset.period) { log.period.id = b.dataset.period; log.rows = null; await loadLogPage(); }
       else if (b.dataset.csv !== undefined) {
         const { cols, rows } = logView();
         downloadCsv(`squad-${log.tab}.csv`, [[t('Time'), ...cols.map(([n]) => n)], ...rows.map((r) => [new Date(r.at).toISOString(), ...cols.map(([, k]) => (k === 'reason' ? shown(r, k) : r[k]))])]);
       } else if (b.dataset.danger !== undefined) records.openDanger();
     }));
     root.addEventListener('change', guard(async (e) => {
+      if (e.target.dataset.period !== undefined) { log.period.id = e.target.value; log.rows = null; await loadLogPage(); return; }
       if (!e.target.dataset.date) return;
       log.period[e.target.dataset.date] = e.target.value;
       await loadLogPage();

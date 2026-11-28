@@ -37,9 +37,9 @@
 ## 🎬 See it in action
 
 <div align="center">
-  <img src="./screenshots/demo.gif" width="92%" alt="Animated tour of Squad Admin Panel: overview, scoreboard, squads and chat, player card, map control, Smart Shuffle, plugins, staff and records">
+  <img src="./screenshots/demo.gif" width="92%" alt="Animated tour of Squad Admin Panel: overview, scoreboard, kill feed, squads and chat, player card, map control, Smart Shuffle, plugins, staff and records">
   <br/>
-  <sub><b>A tour of the panel</b> · nine screens, demo data</sub>
+  <sub><b>A tour of the panel</b> · eleven screens, demo data</sub>
 </div>
 
 ---
@@ -47,6 +47,8 @@
 ## ✨ Highlights
 
 - **Live scoreboard** - both teams side by side: kills, downs, deaths, K/D, revives, teamkills, damage, squad numbers
+- **Kill Feed** - who hit, downed and killed whom, with which weapon and damage; per player hits per down, one hit downs, top hit and downs within 60 seconds, for looking into cheaters. The server log has no missed shots, so there is no accuracy figure
+- **Quick actions** - one row on the overview: messages, reminders to players without a squad and squad leaders without the kit, next layer, shuffle, restart and end match
 - **Players and squads** - squad lists with the live chat next to them, and a private on-screen message to one player
 - **Admin actions** - warn, kick, ban (1 hour to permanent), move team, remove from squad, one player or many, always with a confirmation
 - **Map control** - pick map, mode, version, factions and unit types, set the next layer or change now
@@ -80,7 +82,7 @@
 
 ### Install
 
-1. Download `Squad-AdminPanel-v1.1.0.zip` from the [releases page](https://github.com/Miabeyefendi/Squad-AdminPanel/releases/latest).
+1. Download `Squad-AdminPanel-v1.2.0.zip` from the [releases page](https://github.com/Miabeyefendi/Squad-AdminPanel/releases/latest).
 2. Extract `admin-panel.js` and the `admin-panel` folder into `squad-server/plugins/` of SquadJS.
 3. Add this line to the `plugins` list in `config.json`:
 
@@ -95,12 +97,12 @@ First time with SquadJS? The [tutorial](./docs/SETUP.md#-installation) starts fr
 <details>
 <summary><b>About the release file</b></summary>
 
-The zip is a plain copy of `src/squadjs/` (tag `v1.1.0`) from this repository with `LICENSE` and `NOTICE` added inside `admin-panel/`. Nothing is compiled, minified or bundled.
+The zip is a plain copy of `src/squadjs/` (tag `v1.2.0`) from this repository with `LICENSE` and `NOTICE` added inside `admin-panel/`. Nothing is compiled, minified or bundled.
 
-`Squad-AdminPanel-v1.1.0.zip` SHA-256:
+`Squad-AdminPanel-v1.2.0.zip` SHA-256:
 
 ```
-176a30cab3fc84ea552d5525b02fef8fbf80867120e8e36efaeb335b36d0e89c
+56af54a22bd82f6b3dbb1fe60e13ca19cb28c6d735fb6ff2b866f80a1a755b91
 ```
 
 </details>
@@ -122,6 +124,10 @@ For access from your own computer or for several admins, see [remote access](./d
 Names and numbers come from the built-in demo. The map and faction pictures in these screenshots are not part of the download: they were added through the panel's picture folder (see [Credits](#-credits)). Without them the panel draws its own.
 
 <table>
+<tr>
+  <td align="center" width="50%"><img src="./screenshots/killfeed-shooter-dark.png" width="100%" alt="Kill Feed with one player picked: hits per down, one hit downs, weapons and every down with its victim"/><br/><sub><b>Cheater spotting</b> · one attacker's numbers and fights</sub></td>
+  <td align="center" width="50%"><img src="./screenshots/killfeed-dark.png" width="100%" alt="Kill Feed: attacker, victim, weapon, damage and number of hits for every down and kill"/><br/><sub><b>Kill Feed</b> · who downed whom, with what</sub></td>
+</tr>
 <tr>
   <td align="center" width="50%">
     <img src="./screenshots/scoreboard-dark.png" width="100%" alt="Squad scoreboard with both teams side by side, commander strips, squad numbers and match statistics"/><br/>
@@ -173,6 +179,10 @@ Names and numbers come from the built-in demo. The map and faction pictures in t
 <tr>
   <td align="center" width="50%"><img src="./screenshots/smart-shuffle-settings-dark.png" width="100%" alt="Smart Shuffle settings grouped by topic"/><br/><sub><b>Shuffle settings</b> · one group at a time</sub></td>
   <td align="center" width="50%"><img src="./screenshots/ranks-dark.png" width="100%" alt="Default permissions of admin, senior mod and junior mod side by side"/><br/><sub><b>Ranks</b> · defaults side by side</sub></td>
+</tr>
+<tr>
+  <td align="center" width="50%"><img src="./screenshots/killfeed-players-dark.png" width="100%" alt="Kill Feed player table sorted by one hit downs"/><br/><sub><b>Shooters</b> · sort by any number</sub></td>
+  <td align="center" width="50%"><img src="./screenshots/server-light.png" width="100%" alt="Server page with the list of settings on the left and the chosen one on the right"/><br/><sub><b>Server</b> · limits, password, announcements</sub></td>
 </tr>
 <tr>
   <td align="center" width="50%"><img src="./screenshots/phone-overview-dark.png" width="55%" alt="The overview page on a phone"/><br/><sub><b>On a phone</b> · overview</sub></td>
@@ -268,7 +278,7 @@ The player list has no commander field. The panel takes the leader of the squad 
 <details>
 <summary><b>What is still untested?</b></summary>
 
-Warn, kick, ban, move team and remove from squad have not run against a real player. Disbanding a squad (locked squad rule) has not run on a real server. Damage numbers have not been checked against a real match log. New in 1.1.0 and not yet run on a real game server: demoting a commander, disbanding a squad by button, banning a player who left, the player and queue limits and the server password. No message has been sent to a real Discord channel.
+Warn, kick, ban, move team and remove from squad have not run against a real player. Disbanding a squad (locked squad rule) has not run on a real server. Damage numbers have not been checked against a real match log. New in 1.1.0 and not yet run on a real game server: demoting a commander, disbanding a squad by button, banning a player who left, the player and queue limits and the server password. No message has been sent to a real Discord channel. New in 1.2.0: the Kill Feed has only seen an emulated game log, so weapon names and its numbers still have to be compared with a real match; the two reminder buttons have not reached real players.
 
 </details>
 

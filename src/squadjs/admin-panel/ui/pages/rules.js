@@ -1,9 +1,9 @@
 // Automatic rules. Each one says in plain words what it will do with the values as they are.
-import { $, BAN_CHOICES, api, ask, gate, guard, html, may, plural, put, t, tAction } from '../core.js';
+import { $, $$, BAN_CHOICES, api, ask, gate, guard, html, may, plural, put, t, tAction } from '../core.js';
 
 let rules = null;
 let overlap = [];
-const open = new Set();
+let chosen = null;
 
 const minutes = (n) => plural(n, 'minute');
 const banText = (v) => (v === '0' ? t('permanent') : BAN_CHOICES.find(([id]) => id === v)?.[1] || v);
@@ -49,21 +49,29 @@ function card(name) {
   const off = may('rules.edit') ? '' : html`disabled`;
   const steps = info.steps(r);
   const doubled = overlap.filter((p) => SQUADJS[p] === name);
-  return html`<article class="rulecard ${r.enabled ? 'live-rule' : ''}">
+  return html`<article class="tile" data-card="${name}" ${name === chosen ? '' : html`hidden`}>
     <div class="rulehead"><div class="stack2 grow"><div class="line"><h3>${info.title}</h3><span class="tag mini ${r.enabled ? 'solid' : ''}">${r.enabled ? t('On') : t('Off')}</span></div><span class="sub">${info.watches(r)}</span></div><button type="button" class="sw" role="switch" aria-checked="${r.enabled}" aria-label="${info.title}" data-rulesw="${name}" ${off}></button></div>
     <ol class="steps">${steps.length ? steps.map(([what, when]) => html`<li><b>${what}</b><span class="sub xs">${when}</span></li>`) : html`<li><span class="sub">${t('Every step is switched off.')}</span></li>`}</ol>
     ${doubled.length ? html`<span class="tag warnish wrapany">${t('The SquadJS plugin {name} is on and watches the same thing. Players would be warned twice.', { name: doubled.join(', ') })}</span>` : ''}
     ${info.untested ? html`<span class="sub xs">${info.untested}</span>` : ''}
-    <details data-rule-open="${name}" ${open.has(name) ? html`open` : ''}><summary class="btn small">${may('rules.edit') ? t('Edit') : t('See values')}</summary>
-      <form data-rule="${name}" class="ruleform">${info.fields.map(([key, label]) => control(name, key, label, r[key], off))}<div class="wide line"><button class="btn pri" ${off}>${t('Save')}</button><span class="sub xs">${t('0 switches that step off.')}</span></div></form></details>
+    <form data-rule="${name}" class="ruleform">${info.fields.map(([key, label]) => control(name, key, label, r[key], off))}<div class="wide line"><button class="btn pri" ${off}>${t('Save')}</button><span class="sub xs">${t('0 switches that step off.')}</span></div></form>
   </article>`;
+}
+function sideList(names) {
+  put($('#rl-list'), [...new Set(names.map((n) => INFO[n].group))].map((g) => html`<span class="cap listhead">${g}</span>${names.filter((n) => INFO[n].group === g).map((n) => html`<button type="button" role="tab" class="sideitem" data-pick="${n}" aria-selected="${n === chosen}"><span class="dot ${rules[n].enabled ? 'on' : ''}" aria-hidden="true"></span><span class="grow">${INFO[n].title}</span><span class="sub xs">${rules[n].enabled ? t('On') : t('Off')}</span></button>`)}`));
 }
 function render() {
   if (!rules) return;
   const names = Object.keys(INFO).filter((n) => rules[n]);
+  if (!names.includes(chosen)) chosen = names[0] || null;
   const on = names.filter((n) => rules[n].enabled).length;
-  put($('#rl-summary'), html`<span class="cap">${t('Switched on')}</span><span class="kpiv">${on}<small> / ${names.length}</small></span>`);
-  put($('#rl-list'), [...new Set(names.map((n) => INFO[n].group))].map((g) => html`<section class="rulegroup"><h2>${g}</h2><div class="rulegrid">${names.filter((n) => INFO[n].group === g).map(card)}</div></section>`));
+  put($('#rl-summary'), html`<span class="cap">${t('Switched on')}</span> <b class="mono">${on} / ${names.length}</b>`);
+  sideList(names);
+  // every rule stays in the page, so what was typed is still there after looking at another one
+  const edited = (el) => (el.tagName === 'SELECT' ? !el.options[el.selectedIndex]?.defaultSelected : el.value !== el.defaultValue);
+  const typed = $$('#rl-detail [name]').filter(edited).map((el) => [el.id, el.value]);
+  put($('#rl-detail'), names.map(card));
+  for (const [id, value] of typed) $(`#${id}`).value = value;
   gate($('#view-rules'));
 }
 const load = async () => {
@@ -81,9 +89,19 @@ const save = async (name, values) => {
 export default {
   id: 'rules',
   title: t('Rules'),
-  shell: () => html`<div class="tile intro"><div class="stack2 grow"><h2>${t('What these rules are')}</h2><span class="sub">${t('The panel watches the game and acts by itself, the same way an admin would with a warning or a kick. Every rule starts off, server admins are never touched, and every action it takes is written to the admin log. Try a new rule with only the warning step first.')}</span></div><div class="kpi" id="rl-summary"></div></div><div class="stackcol" id="rl-list"><span class="empty">${t('Loading…')}</span></div>`,
+  shell: () => html`<div class="navsplit wide-list">
+    <div class="stackcol listcol"><div class="sidelist" id="rl-list" role="tablist" aria-label="${t('Rules')}"><span class="empty">${t('Loading…')}</span></div><span id="rl-summary"></span><p class="sub xs rulehelp">${t('The panel watches the game and acts by itself, the same way an admin would with a warning or a kick. Every rule starts off, server admins are never touched, and every action it takes is written to the admin log. Try a new rule with only the warning step first.')}</p></div>
+    <div class="stackcol" id="rl-detail"></div></div>`,
   wire(root) {
     root.addEventListener('click', (e) => {
+      const pick = e.target.closest('[data-pick]');
+      if (pick) {
+        chosen = pick.dataset.pick;
+        sideList(Object.keys(INFO).filter((n) => rules[n]));
+        $$('#rl-detail [data-card]').forEach((x) => { x.hidden = x.dataset.card !== chosen; });
+        if (window.matchMedia('(max-width:1000px)').matches) $('#rl-detail').scrollIntoView({ block: 'start' });
+        return;
+      }
       const sw = e.target.closest('[data-rulesw]');
       if (!sw || sw.disabled) return;
       const name = sw.dataset.rulesw;
@@ -91,13 +109,6 @@ export default {
       const steps = INFO[name].steps(rules[name]).map(([what, when]) => `${what} ${when}`).join(', ');
       ask({ title: enable ? t('Switch {name} on?', { name: INFO[name].title }) : t('Switch {name} off?', { name: INFO[name].title }), text: enable ? t('The panel will act on players by itself: {steps}. Unsaved field changes are not included.', { steps: steps || t('no step is set') }) : '', ok: enable ? t('Switch on') : t('Switch off'), run: () => save(name, { enabled: enable }) });
     });
-    // which cards are open survives a save
-    root.addEventListener('toggle', (e) => {
-      const name = e.target.dataset?.ruleOpen;
-      if (!name) return;
-      if (e.target.open) open.add(name);
-      else open.delete(name);
-    }, true);
     root.addEventListener('submit', (e) => {
       e.preventDefault();
       const form = e.target;
@@ -105,12 +116,16 @@ export default {
       form.querySelectorAll('input[name],select[name],textarea[name]').forEach((el) => {
         values[el.name] = el.dataset.kind === 'list' ? el.value.split('\n').map((s) => s.trim()).filter(Boolean) : el.dataset.kind === 'number' ? Number(el.value) : el.value;
       });
-      ask({ title: t('Save {name}?', { name: INFO[form.dataset.rule].title }), ok: t('Save'), run: () => save(form.dataset.rule, values) });
+      ask({ title: t('Save {name}?', { name: INFO[form.dataset.rule].title }), ok: t('Save'), run: async () => {
+        await api('/api/rules', { [form.dataset.rule]: values });
+        form.reset(); // saved: nothing typed is left to carry over
+        await load();
+      } });
     });
   },
   open: guard(load),
   render() {},
   log() {},
   reload() {},
-  reset() { rules = null; overlap = []; open.clear(); }
+  reset() { rules = null; overlap = []; chosen = null; }
 };

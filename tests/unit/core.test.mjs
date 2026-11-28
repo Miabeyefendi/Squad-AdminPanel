@@ -1,3 +1,4 @@
+import { Combat } from '../../src/squadjs/admin-panel/combat.js';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import os from 'node:os';
@@ -172,8 +173,12 @@ test('tracker counts kills, deaths, revives and teamkills and resets on a new ga
   assert.deepEqual([row(a.eosID).kills, row(a.eosID).teamkills, row(b.eosID).deaths, row(b.eosID).revives], [1, 1, 1, 1]);
   assert.equal(store.logs.kills[0].weapon, 'AK74');
   assert.equal(store.logs.chat[0].channel, 'Team');
+  const match = tracker.fights('current').match;
   server.emit('NEW_GAME', {});
   assert.equal(row(a.eosID).kills, 0);
+  // the kill feed starts again, and the match that ended can still be read
+  assert.deepEqual([tracker.fights('current').events.length, tracker.fights('previous').match], [0, match]);
+  assert.equal(tracker.fights('previous').players.find((p) => p.id === a.eosID).kills, 1);
   tracker.unmount();
   assert.equal(server.listenerCount('PLAYER_DIED'), 0);
 });
@@ -260,3 +265,34 @@ test('config editor hides secrets and server settings, and writes safely', async
   assert.ok(fs.existsSync(`${file}.bak`));
 });
 
+test('kill feed: hits per down, one-hit downs, weapons, teamkills and revives', () => {
+  let at = 0;
+  const combat = new Combat({ id: 'm1', now: () => at, limit: 5 });
+  const a = { eosID: 'a', name: 'A', teamID: 1, squadID: 2 };
+  const b = { eosID: 'b', name: 'B', teamID: 2, squadID: null };
+  const info = (extra = {}) => ({ attacker: a, victim: b, teamkill: false, damage: 50, ...extra });
+  // a hit, a revive in between, then one hit that downs
+  combat.damaged(info(), 'Rifle', 'BP_Rifle');
+  combat.revived({ victim: b });
+  combat.damaged(info({ damage: 90 }), 'Rifle', 'BP_Rifle');
+  combat.wounded(info(), 'Rifle', 'BP_Rifle');
+  combat.died(info(), 'Rifle', 'BP_Rifle');
+  // a second down more than a minute later takes two hits
+  at = 120000;
+  combat.damaged(info(), 'Nade', 'BP_Nade');
+  combat.damaged(info(), 'Nade', 'BP_Nade');
+  combat.wounded(info(), 'Nade', 'BP_Nade');
+  // friendly fire and self damage add nothing to the numbers
+  combat.damaged(info({ teamkill: true }), 'Rifle', 'BP_Rifle');
+  combat.wounded(info({ teamkill: true }), 'Rifle', 'BP_Rifle');
+  combat.damaged(info({ victim: a }), 'Rifle', 'BP_Rifle');
+  const out = combat.read();
+  const p = out.players.find((x) => x.id === 'a');
+  assert.deepEqual([p.hits, p.damage, p.maxHit, p.downs, p.kills, p.teamkills, p.victims], [4, 240, 90, 2, 1, 1, 1]);
+  assert.deepEqual([p.countedDowns, p.downHits, p.oneHitDowns, p.bestMinute], [2, 3, 1, 1]);
+  assert.deepEqual(p.weapons.map((w) => [w.name, w.hits, w.downs, w.kills]), [['Rifle', 2, 1, 1], ['Nade', 2, 1, 0]]);
+  assert.equal(out.players.find((x) => x.id === 'b').deaths, 1);
+  // only the newest events are kept, and only the new ones are read again
+  assert.equal(out.events.length, 5);
+  assert.deepEqual(combat.read(out.seq - 2).events.map((e) => e.seq), [out.seq - 1, out.seq]);
+});

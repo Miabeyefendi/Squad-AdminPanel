@@ -73,9 +73,12 @@ main>.credit{margin-top:auto;padding-top:12px}
 .main-col{gap:24px}
 .toolbar{display:flex;gap:8px 16px;align-items:center;flex-wrap:wrap}
 .rowline{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
-.quick{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
-.quick .btn{white-space:normal;text-align:center;line-height:1.2;padding:4px 10px}
-.quick .btn:last-child:nth-child(odd){grid-column:1/-1}
+.quickrow{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:8px;padding:12px}
+.quickrow .btn{white-space:normal;text-align:center;line-height:1.2;padding:4px 8px;min-width:0}
+.quickrow .btn.red{background:#C62828;border-color:#C62828;color:#fff;font-weight:700}
+.quickrow .btn.red:hover{background:#B71C1C}
+.qn{font-family:'Fira Code',monospace;font-size:11px;padding:0 6px;border-radius:999px;border:1px solid currentColor;line-height:1.6;flex-shrink:0}
+@media (max-width:1399px){.quickrow{grid-auto-flow:row;grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}}
 @media (max-width:1150px){.split,.halves{grid-template-columns:minmax(0,1fr)}}
 
 /* a row of numbers, split by lines rather than boxes */
@@ -209,6 +212,12 @@ img.flag.lg{max-width:60px}
 .feed li{display:flex;gap:10px;align-items:baseline;padding:10px 0;border-bottom:1px solid var(--line);flex-wrap:wrap}
 .feed li:last-child{border-bottom:0}
 
+/* teamkill: (squad) Name tk (squad) Name */
+.tkline{display:inline-flex;flex-wrap:wrap;align-items:center;gap:4px 8px;font-style:normal;min-width:0;vertical-align:middle}
+.tkwho{display:inline-flex;align-items:center;gap:6px;min-width:0}
+.tkname{font-weight:700;overflow-wrap:anywhere}
+.tkword{font-style:italic;color:var(--muted)}
+
 /* ---------- tables ---------- */
 .tbox{overflow-x:auto;margin:0 -20px;padding:0 20px}
 table{width:100%;border-collapse:collapse}
@@ -292,8 +301,17 @@ td.c,th.c{text-align:center}
 .over{position:relative;z-index:1}
 .nowone .over{padding:12px 16px;justify-content:center}
 .nowacts{display:flex;flex-direction:column;gap:8px;justify-content:center}
-.mapsplit{display:grid;grid-template-columns:minmax(0,3fr) minmax(340px,2fr);gap:24px;align-items:start}
-.mapgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px}
+.mapsplit{display:grid;grid-template-columns:minmax(0,1fr) clamp(420px,38%,780px);gap:24px;align-items:start}
+/* never more than five in a row, and no picture narrower than 220px */
+.mapgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(max(220px,calc((100% - 56px) / 5)),1fr));gap:12px}
+.pick{container-type:inline-size;gap:20px}
+.pickrow{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:16px}
+.sides{display:grid;grid-template-columns:minmax(0,1fr);gap:16px;align-items:start}
+@container (min-width:600px){.sides{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.chipgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px}
+.chipgrid.units{grid-template-columns:repeat(auto-fill,minmax(130px,1fr))}
+.chipgrid .chip{justify-content:center;border-radius:10px;min-height:40px;min-width:0}
+.chipgrid .whole{grid-column:1/-1}
 .mapcard{position:relative;aspect-ratio:16/10;border-radius:12px;overflow:hidden;border:0;padding:0;background:#161618;color:#FAFAFA;text-align:left;box-shadow:0 0 0 1px var(--line2)}
 .mapcard>.art{position:absolute;inset:0}
 .mapcard::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.92),rgba(0,0,0,.15) 70%)}
@@ -317,6 +335,7 @@ td.c,th.c{text-align:center}
 .sendbar code{overflow-wrap:anywhere;min-height:1.4em}
 .pickempty{display:flex;flex-direction:column;gap:8px;padding:24px 0}
 @media (max-width:1000px){.mapsplit{grid-template-columns:minmax(0,1fr)}.sendbar{position:static}}
+@media (max-width:480px){.pickrow{grid-template-columns:minmax(0,1fr)}}
 @media (max-width:480px){.mapgrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 
 /* ---------- list on the left, one thing on the right ---------- */
@@ -359,8 +378,7 @@ td.c,th.c{text-align:center}
 .savebar.sticky-bottom{position:sticky;bottom:8px;z-index:4}
 
 /* ---------- smart shuffle ---------- */
-.statusrow{flex-direction:row;flex-wrap:wrap;align-items:center}
-.statusrow .btn{background:transparent;color:inherit;border-color:currentColor}
+.statusrow{flex-direction:row;flex-wrap:wrap;align-items:center;gap:8px 16px;padding:8px 16px}
 .promo{color:inherit;font-weight:600;text-underline-offset:3px}
 .warnbox{border:2px solid var(--text)}
 .preview-text{margin:0;color:var(--muted);white-space:pre-wrap;overflow-wrap:anywhere}
@@ -368,42 +386,44 @@ td.c,th.c{text-align:center}
 .roundacts{flex:1;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;min-width:min(100%,560px)}
 .roundacts .btn{white-space:normal;line-height:1.2;padding:4px 10px}
 .roundbar .preview-text{flex-basis:100%}
-/* six to a row; a shorter last row stretches, so the box is always full */
-.presets{display:flex;flex-wrap:wrap;gap:12px}
-.presets>.presetcard{flex:1 1 calc((100% - 60px) / 6);min-width:0}
-.presetcard{display:flex;flex-direction:column;gap:12px;padding:14px;border-radius:12px;border:1px solid var(--line)}
-.meter{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 8px;align-items:baseline}
-.meter .bar{grid-column:1/-1}
+/* three to a row: the heading and eleven presets make four full rows */
+.presets{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.presethead{display:flex;flex-direction:column;gap:8px;justify-content:center;padding:4px 8px}
+.presethead h2{font-size:20px}
+.presetcard{display:flex;flex-direction:column;gap:16px;padding:20px;border-radius:16px;border:1px solid var(--line);background:var(--card);min-width:0}
+.presetcard h3{font-size:18px}
+.meters{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;align-items:end}
+.meter{display:flex;flex-direction:column;gap:4px;min-width:0}
+.meter b{font-size:20px}
 .presetcard .btn{margin-top:auto}
-@media (max-width:1200px){.presets>.presetcard{flex-basis:calc((100% - 36px) / 4)}}
-@media (max-width:760px){.presets>.presetcard{flex-basis:calc((100% - 12px) / 2)}.roundacts{grid-template-columns:repeat(2,minmax(0,1fr));min-width:100%}}
+@media (max-width:1150px){.presets{grid-template-columns:repeat(2,minmax(0,1fr))}.presethead{grid-column:1/-1}}
+@media (max-width:760px){.presets{grid-template-columns:minmax(0,1fr)}.roundacts{grid-template-columns:repeat(2,minmax(0,1fr));min-width:100%}}
 
 /* ---------- rules ---------- */
-.intro{flex-direction:row;flex-wrap:wrap;align-items:center;gap:24px}
-.intro .stack2{max-width:75ch;flex-basis:320px}
-.rulegroup{display:flex;flex-direction:column;gap:12px}
-.rulegrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;align-items:start}
-.rulecard{display:flex;flex-direction:column;gap:16px;padding:20px;border-radius:16px;border:1px solid var(--line);background:var(--card);min-width:0}
-.rulecard.live-rule{border:2px solid var(--text)}
+/* on a wide screen a setting stays next to its box */
+#rl-detail,#view-server .navsplit>.stackcol{max-width:1100px}
+#view-server .optrow .field.short{width:220px;min-height:46px}
+.rulehelp{margin:0;padding:0 12px}
+#rl-summary{padding:0 12px}
 .rulehead{display:flex;gap:16px;align-items:flex-start}
 .steps{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px 28px;counter-reset:step}
 .steps li{position:relative;display:flex;flex-direction:column;padding:8px 12px;border-radius:10px;background:var(--sunk)}
 .steps li+li::before{content:"\2192";position:absolute;left:-20px;top:50%;transform:translateY(-50%);color:var(--muted)}
-details summary{list-style:none;width:max-content;cursor:pointer}
-details summary::-webkit-details-marker{display:none}
-.ruleform{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;padding-top:16px}
+.ruleform{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 12px;padding-top:16px;border-top:1px solid var(--line)}
 .ruleform label{display:flex;flex-direction:column;justify-content:flex-end;gap:4px;font-size:12px;font-weight:500;color:var(--soft);min-width:0}
 .ruleform .field{width:100%;min-width:0}
 .ruleform .wide{grid-column:1/-1}
-@media (max-width:1100px){.rulegrid{grid-template-columns:minmax(0,1fr)}}
 @media (max-width:560px){.ruleform{grid-template-columns:minmax(0,1fr)}}
 
 /* ---------- records and logs ---------- */
-.filters{gap:12px}
+/* one row: it only breaks where the screen is too narrow for it */
+.filters{flex-direction:row;flex-wrap:wrap;align-items:center;gap:8px 12px;padding:12px 16px}
+.filters .field.search{flex:1 1 180px;width:auto;min-width:0}
+.filters .seg{align-self:center}
 .periodbar{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
 .periodbar .dates{display:flex;gap:12px;flex-wrap:wrap}
 .periodbar .dates label{display:inline-flex;gap:6px;align-items:center;font-size:12px;color:var(--soft)}
-.countrow{display:flex;gap:8px;flex-wrap:wrap;margin-left:auto}
+.countrow{display:flex;gap:8px;flex-wrap:wrap}
 .countbox{display:flex;gap:8px;align-items:center;min-height:40px;padding:0 14px;border-radius:10px;border:1px solid var(--line2);background:transparent}
 .countbox .kpiv{font-size:16px}
 .countbox[aria-pressed=true]{background:var(--inv);color:var(--oninv);border-color:var(--inv)}
@@ -413,7 +433,7 @@ details summary::-webkit-details-marker{display:none}
 .chrono li.dayhead{display:block;padding:24px 0 8px;border-bottom:2px solid var(--line2);font-weight:700}
 .chrono li.dayhead:first-child{padding-top:0}
 .chrono li:last-child{border-bottom:0}
-@media (max-width:760px){.chrono li{grid-template-columns:48px auto minmax(0,1fr)}.chrono li>:nth-child(4),.chrono li>.by{grid-column:1/-1}.countrow{margin-left:0}}
+@media (max-width:760px){.chrono li{grid-template-columns:48px auto minmax(0,1fr)}.chrono li>:nth-child(4),.chrono li>.by{grid-column:1/-1}}
 .logtable{table-layout:fixed;min-width:760px}
 .logtable td{overflow-wrap:anywhere;vertical-align:top}
 .logtable tbody tr:not(.dayrow):nth-child(even){background:var(--zebra)}
@@ -518,3 +538,20 @@ dialog.risk #act-ok{background:var(--risk);border-color:var(--risk);color:var(--
 .picks{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:4px 16px}
 .picks label{display:flex;align-items:center;gap:8px;min-height:40px}
 .tag.wrapany{white-space:normal;height:auto;max-width:100%;overflow-wrap:anywhere}
+/* ---------- kill feed ---------- */
+.filters select.field{flex:0 0 auto}
+.kftable{min-width:900px}
+.kftable th.n,.kftable td.n,#kf-shooter th.n,#kf-shooter td.n{text-align:right;font-family:'Fira Code',monospace}
+.kftable tbody tr,.kfplayers tbody tr{cursor:pointer}
+.kftable tr.tkrow{background:var(--riskbg)}
+.kftable td.one{font-weight:700}
+.kftable td{white-space:nowrap}
+.kftable td.wrapany{white-space:normal}
+.tag.tkmark{color:var(--risk);border-color:var(--risk)}
+.kfplayers{min-width:1080px}
+.kffigs{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+@media (min-width:1900px){.kffigs{grid-template-columns:repeat(10,minmax(0,1fr))}}
+@media (max-width:760px){.kffigs{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.kffig{display:flex;flex-direction:column;gap:4px;padding:8px 12px;border:1px solid var(--line);border-radius:10px;min-width:0}
+.kffig .kpiv{font-size:18px}
+.kffig .kpiv{overflow-wrap:anywhere;letter-spacing:-.8px}

@@ -2,7 +2,7 @@
 
 # 📖 Squad Admin Panel Setup Guide
 
-**v1.1.0 · Last updated 2026-11-28**
+**v1.2.0 · Last updated 2026-11-28**
 
 **English** · [Türkçe](./KURULUM_TR.md)
 
@@ -342,6 +342,16 @@ Only if SquadJS runs somewhere else. For 24/7, run SquadJS on a server as a serv
 - **Announcements:** open **Server**, add a message, choose when it is sent, then **Save announcements**.
 - **Discord:** in Discord open the channel settings, **Integrations**, **Webhooks**, create one and copy its address. Paste it on the **Server** page, tick **Send notices to Discord**, save, then **Send a test message**. Only the server owner can do this. Treat the address like a password.
 - **Server password:** the panel refuses to set it when `logger.verboseness.RCON` in the SquadJS `config.json` is 2 or higher, because SquadJS would print the password.
+
+---
+
+## Kill Feed and quick actions (1.2.0)
+
+- **Kill Feed** (needs the right to read kill logs): every down and kill with attacker, victim, weapon and damage. **Every hit** shows each hit on its own line, **Teamkills** only friendly fire.
+- Click a row, or a player on the **Players** tab, to see one attacker: hits per down, one hit downs, top hit, most downs within 60 seconds and each weapon. A name opens the player card.
+- **Last match** keeps the match that just ended. Both are held in memory: restarting SquadJS or the panel empties them. **Export CSV** saves what is on screen. The kill log under **Logs** stays on disk.
+- **Reading the numbers:** the server log has no missed shots, no hit place and no distance, so there is no accuracy. Marksmen, machine guns, explosives and vehicles change these numbers a lot. Treat them as a reason to watch a player, not as proof.
+- **Quick actions** on the overview: a number on a button says how many players it reaches. Reminders are on screen messages and are not counted as warnings.
 
 ---
 

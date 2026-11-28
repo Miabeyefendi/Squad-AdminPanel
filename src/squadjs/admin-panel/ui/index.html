@@ -45,19 +45,20 @@
   <button class="nb" data-view="overview" aria-current="page"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="8" height="10" rx="2"/><rect x="13" y="3" width="8" height="6" rx="2"/><rect x="13" y="11" width="8" height="10" rx="2"/><rect x="3" y="15" width="8" height="6" rx="2"/></svg>Overview</button>
   <div class="grp">Live</div>
   <button class="nb" data-view="score"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Scoreboard</button>
+  <button class="nb" data-view="killfeed" data-need="kills.view"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="7"/><path d="M12 2v5M12 17v5M2 12h5M17 12h5"/></svg>Kill Feed</button>
   <button class="nb" data-view="players"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.5 3.4-5.5 6.5-5.5s5.7 2 6.5 5.5"/><path d="M16 4.5a3.5 3.5 0 010 7M18.5 14.8c1.6.8 2.6 2.6 3 5.2"/></svg>Players &amp; squads</button>
   <button class="nb" data-view="map"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2z"/><path d="M9 4v14M15 6v14"/></svg>Map</button>
   <div class="grp">Control</div>
   <button class="nb" data-view="shuffle"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg>Smart Shuffle</button>
   <button class="nb" data-view="rules" data-need="rules.view"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 6h11M9 12h11M9 18h11M4 6h.01M4 12h.01M4 18h.01"/></svg>Rules</button>
   <button class="nb" data-view="plugins" data-need="plugins"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3v4M15 3v4M7 7h10v5a5 5 0 01-10 0zM12 17v4"/></svg>Plugins</button>
-  <button class="nb" data-view="server" data-need="server"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="7" rx="2"/><rect x="3" y="13" width="18" height="7" rx="2"/><path d="M7 7.5h.01M7 16.5h.01M11 7.5h6M11 16.5h6"/></svg>Server</button>
   <div class="grp">Records</div>
   <button class="nb" data-view="records" data-need="records"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg>Records</button>
   <button class="nb" data-view="logs"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 3H6a2 2 0 00-2 2v14a2 2 0 002 2h12a2 2 0 002-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg>Logs<span class="cnt" id="tkcount" hidden></span></button>
-  <div class="grp" data-need="staff">Access</div>
+  <div class="grp" data-need="access">Access</div>
   <button class="nb" data-view="staff" data-need="staff"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.5 3.4-5.5 6.5-5.5s5.7 2 6.5 5.5M18 8v6M15 11h6"/></svg>Staff</button>
   <button class="nb" data-view="ranks" data-need="ranks.edit"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6l2 2 3-3M4 17l2 2 3-3M13 7h7M13 18h7"/></svg>Ranks</button>
+  <button class="nb" data-view="server" data-need="server"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="7" rx="2"/><rect x="3" y="13" width="18" height="7" rx="2"/><path d="M7 7.5h.01M7 16.5h.01M11 7.5h6M11 16.5h6"/></svg>Server</button>
   <div style="flex:1;min-height:20px"></div>
   <div style="display:flex;flex-direction:column;gap:10px;padding:12px 4px 0;border-top:1px solid var(--line)">
     <div class="themes" role="group" aria-label="Theme"><button data-theme-set="light" aria-pressed="false">Light</button><button data-theme-set="system" aria-pressed="true">Auto</button><button data-theme-set="dark" aria-pressed="false">Dark</button></div>
@@ -76,6 +77,7 @@
 
   <section class="view on" id="view-overview" aria-label="Overview"></section>
   <section class="view" id="view-score" aria-label="Scoreboard"></section>
+  <section class="view" id="view-killfeed" aria-label="Kill Feed"></section>
   <section class="view" id="view-players" aria-label="Players and squads"></section>
   <section class="view" id="view-map" aria-label="Map"></section>
   <section class="view" id="view-shuffle" aria-label="Smart Shuffle"></section>

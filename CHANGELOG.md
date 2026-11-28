@@ -8,6 +8,24 @@ All notable changes to **Squad-AdminPanel** are recorded here. The format follow
 
 ---
 
+## [1.2.0] - 2026-11-28
+
+Checked with automated tests and real SquadJS against an emulated game, not on a live match.
+
+### Added
+
+- Kill Feed page: every hit, down and kill with attacker, victim, weapon and damage; numbers per player (hits per down, one hit downs, top hit, most downs within 60 seconds, weapons), this match and the last one, CSV export.
+- Quick actions: message the admins, remind squad leaders without the kit and players without a squad, restart the match, open the Kill Feed.
+
+### Changed
+
+- Quick actions are one row on the overview; End match is red.
+- A teamkill reads "(squad) Name tk (squad) Name" with team colours, wherever it appears.
+- Rules and Server show a list on the left and the chosen settings on the right. Server moved under Access.
+- Larger map cards in at most five columns and a wider choice panel.
+- Smart Shuffle has a slim status bar and larger presets.
+- Records and Logs filters fit in one row.
+
 ## [1.1.0] - 2026-11-28
 
 Not yet tried on a real game server; the demote, disband and offline ban actions need one with players.
@@ -45,5 +63,6 @@ First release. Not yet tested on a live match with players.
 
 - Salted scrypt password hashes, brute force protection, AES-256-GCM encrypted data, strict Content-Security-Policy, cross-site and host name checks, no-index headers.
 
+[1.2.0]: https://github.com/Miabeyefendi/Squad-AdminPanel/releases/tag/v1.2.0
 [1.1.0]: https://github.com/Miabeyefendi/Squad-AdminPanel/releases/tag/v1.1.0
 [1.0.0]: https://github.com/Miabeyefendi/Squad-AdminPanel/releases/tag/v1.0.0

@@ -99,16 +99,47 @@ for (const [chat, player, message] of [
 server.emit('PLAYER_CONNECTED', { player: d });
 // an uneven match: every player gets their own numbers, always the same ones
 const side = (team) => server.players.filter((p) => p.teamID === team);
-const WEAPONS = ['BP_AK74M_C_1', 'BP_M4A1_C_1', 'BP_PKM_C_1', 'BP_RPG7_C_1', 'BP_M249_C_1'];
+// Fights spread over the last 22 minutes, from the weapons of each side. One player is made to stand
+// out (nearly every down with one hit), so the Kill Feed has something to look into.
+const WEAPONS = { 1: ['BP_AK74M', 'BP_AK74M_1P87', 'BP_RPK74M', 'BP_PKP', 'BP_SVDM'], 2: ['BP_M4A1', 'BP_M4_M68', 'BP_M249', 'BP_M240B', 'BP_M110'] };
+const EXPLOSIVES = { 1: 'BP_RGD5_Frag', 2: 'BP_M67_Frag' };
+const odd = server.players.filter((p) => p.teamID === 2)[11];
+const fights = [];
 server.players.forEach((attacker, i) => {
   const enemies = side(3 - attacker.teamID);
-  const kills = ((i * 7 + 3) % 11) + (i % 9 === 0 ? 6 : 0);
+  const kills = attacker === odd ? 23 : ((i * 7 + 3) % 11) + (i % 9 === 0 ? 6 : 0);
   for (let j = 0; j < kills + (i % 4); j++) {
     const victim = enemies[(i * 5 + j * 11) % enemies.length];
-    server.emit('PLAYER_DAMAGED', { attacker, victim, teamkill: false, damage: 62 + ((i + j * 13) % 38) });
-    server.emit('PLAYER_WOUNDED', { attacker, victim, teamkill: false });
-    if (j < kills) server.emit('PLAYER_DIED', { attacker, victim, teamkill: false, weapon: WEAPONS[(i + j) % WEAPONS.length] });
+    const frag = attacker !== odd && (i + j * 3) % 13 === 0;
+    const weapon = frag ? EXPLOSIVES[attacker.teamID] : WEAPONS[attacker.teamID][attacker === odd ? 1 : i % 5];
+    const hits = frag ? 1 : attacker === odd ? (j % 11 === 10 ? 2 : 1) : 1 + ((i + j * 5) % 7 === 0 ? 0 : 1 + ((i * 3 + j) % 3));
+    // seconds ago; the odd one has a burst of downs close together
+    const ago = attacker === odd && j < 11 ? 400 - j * 5 : 30 + ((i * 97 + j * 151) % 1290);
+    fights.push({ at: Date.now() - ago * 1000, attacker, victim, weapon, hits, dies: j < kills, seed: i + j * 13 });
   }
+});
+// every line of every fight, in the order the server log would have them
+const lines = [];
+for (const f of fights) {
+  const { attacker, victim, weapon } = f;
+  let at = f.at;
+  let damage = 0;
+  const line = (when, event, info) => lines.push({ at: when, event, info });
+  for (let h = 0; h < f.hits; h++, at += 400) {
+    damage = attacker === odd ? 96 + ((f.seed + h) % 5) : 31 + ((f.seed + h * 7) % 42);
+    line(at, 'PLAYER_DAMAGED', { attacker, victim, teamkill: false, damage, weapon });
+  }
+  line(at, 'PLAYER_WOUNDED', { attacker, victim, teamkill: false, damage, weapon });
+  if (f.dies) line(at + 6000, 'PLAYER_DIED', { attacker, victim, teamkill: false, damage, weapon });
+  else line(at + 6000, 'PLAYER_REVIVED', { reviver: side(victim.teamID)[f.seed % 43], victim });
+}
+const clockOf = panel.tracker.now;
+for (const { at, event, info } of lines.sort((a, b) => a.at - b.at)) {
+  panel.tracker.now = () => at;
+  server.emit(event, info);
+}
+panel.tracker.now = clockOf;
+server.players.forEach((attacker, i) => {
   const revives = /Medic/.test(attacker.role) ? 3 + ((i * 3) % 12) : i % 5 === 0 ? 1 : 0;
   for (let j = 0; j < revives; j++) server.emit('PLAYER_REVIVED', { reviver: attacker, victim: side(attacker.teamID)[(i + j) % 43] });
 });
@@ -123,12 +154,18 @@ const lazy = find(1, 1);
 lazy.role = 'RGF_Rifleman_01';
 server.emit('CHAT_MESSAGE', { chat: 'ChatAll', player: find(1, 20), eosID: find(1, 20).eosID, message: `!admin SL${lazy.squadID} doesnt have kit` });
 server.admins.add(find(2, 9).eosID);
-server.emit('TEAMKILL', { attacker: find(1, 12), victim: find(1, 3), weapon: 'BP_RPG7_C' });
-server.emit('TEAMKILL', { attacker: find(1, 12), victim: find(1, 3), weapon: 'BP_Grad_C' });
+const teamkill = (attacker, victim, weapon) => {
+  const info = { attacker, victim, weapon, teamkill: true, damage: 100 };
+  server.emit('PLAYER_DAMAGED', info);
+  server.emit('PLAYER_WOUNDED', info);
+  server.emit('TEAMKILL', info);
+};
+teamkill(find(1, 12), find(1, 3), 'BP_RPG7_Projectile');
+teamkill(find(1, 12), find(1, 3), 'BP_Grad_Rocket');
 server.emit('UPDATED_PLAYER_INFORMATION');
 // someone who threw a grenade and left, for the "Recently left" list
 const gone = find(2, 30);
-server.emit('TEAMKILL', { attacker: gone, victim: find(2, 3), weapon: 'BP_F1_Grenade_C' });
+teamkill(gone, find(2, 3), 'BP_F1_Frag');
 server.emit('PLAYER_DISCONNECTED', { player: { name: gone.name }, raw: `UniqueNetId: RedpointEOS:${gone.eosID}` });
 server.players = server.players.filter((p) => p !== gone);
 server.emit('UPDATED_PLAYER_INFORMATION');

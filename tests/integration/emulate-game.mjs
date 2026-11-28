@@ -66,6 +66,8 @@ function leave(p) {
 }
 const combat = (kind, attacker, victim, weapon = 'BP_AK74M') =>
   logLine(`LogSquadTrace: [DedicatedServer]${kind}(): Player:${victim.name} KillingDamage=100.000000 from ${attacker.pc} (Online IDs: ${ids(attacker)}| ${kind === 'Die' ? 'Contoller' : 'Controller'} ID: ${attacker.pc}) caused by ${weapon}_C`);
+const hit = (attacker, victim, damage, weapon = 'BP_AK74M') =>
+  logLine(`LogSquad: Player:${victim.name} ActualDamage=${damage}.000000 from ${attacker.name} (Online IDs: ${ids(attacker)}| Player Controller ID: ${attacker.pc})caused by ${weapon}_C`);
 const revive = (reviver, victim) =>
   logLine(`LogSquad: ${reviver.name} (Online IDs: ${ids(reviver)}) has revived ${victim.name} (Online IDs: ${ids(victim)}).`);
 
@@ -208,17 +210,29 @@ await Promise.all(server.plugins.map((plugin) => plugin.mount()));
   chat('ChatTeam', c, 'need logi');
   check('chat arrives with its channel', await until(async () => (await logOf('chat')).some((m) => m.message === 'need logi' && m.channel === 'Team' && m.player === c.name)));
 
+  hit(a, enemy, 43);
+  await sleep(1000);
+  hit(a, enemy, 61);
+  await sleep(1000);
   combat('Wound', a, enemy);
+  await sleep(1000);
   combat('Die', a, enemy);
+  await sleep(1000);
   revive(medic, enemy);
   check('kill, death and revive are counted', await until(async () => (await row(a))?.kills === 1 && (await row(enemy))?.deaths === 1 && (await row(medic))?.revives === 1), JSON.stringify([await row(a), await row(medic)]));
+
+  const fights = await get('/api/combat?which=current');
+  const shooter = fights.players.find((x) => x.id === a.eos);
+  const down = fights.events.find((x) => x.type === 'down' && x.a.id === a.eos);
+  check('kill feed: hits, damage and hits per down come from the real log lines', shooter?.hits === 2 && shooter.damage === 104 && shooter.maxHit === 61 && shooter.countedDowns === 1 && shooter.downHits === 2 && down?.weapon === 'AK74M' && down.v.id === enemy.eos && down.a.team === 1 && down.a.squad === 1 && fights.events.some((x) => x.type === 'kill'), JSON.stringify([shooter, fights.events]));
+  check('kill feed: only new events are sent again', (await get(`/api/combat?match=${fights.match}&after=${fights.seq}`)).events.length === 0);
 
   logLine('LogSquad: USQGameState: Server Tick Rate: 39.50');
   const tickRate = async () => (await state()).server.tickRate;
   check('down and server tick rate are read by SquadJS', await until(async () => (await row(a))?.downs === 1 && (await tickRate()) === 39.5), JSON.stringify(await row(a)));
 
   combat('Wound', b, c, 'BP_Grad');
-  check('teamkill is counted and logged', await until(async () => (await row(b))?.teamkills === 1 && (await logOf('tk')).some((t) => t.attacker === b.name && t.victim === c.name)));
+  check('teamkill is counted and logged', await until(async () => (await row(b))?.teamkills === 1 && (await logOf('tk')).some((t) => t.attacker === b.name && t.victim === c.name && t.victimId && t.team && t.victimTeam === t.team && 'squad' in t && 'victimSquad' in t)));
 
   const newcomer = makePlayer(20, 2, null, false, 'Bot Newcomer');
   players.push(newcomer);
@@ -244,6 +258,11 @@ await Promise.all(server.plugins.map((plugin) => plugin.mount()));
   check('move team changes the team on the panel', r.status === 200 && await until(async () => (await row(d))?.team === 2), JSON.stringify(r));
   r = await act('removeFromSquad', { ids: [e.eos] });
   check('remove from squad shows on the panel', r.status === 200 && sent(`AdminRemovePlayerFromSquadById ${e.n}`) && await until(async () => (await row(e))?.squad === null), JSON.stringify(r));
+  const alone = players.filter((p) => p.squad === null);
+  await until(async () => (await state()).players.filter((p) => p.squad === null).length === alone.length);
+  const before = commands.length;
+  r = await act('messageGroup', { group: 'noSquad', message: 'join up' });
+  check('reminder reaches only the players without a squad', r.status === 200 && alone.length > 1 && commands.slice(before).filter((x) => x.endsWith(' join up')).length === alone.length, JSON.stringify([r, alone.length]));
   const victim = bot(9);
   r = await act('kick', { ids: [victim.eos], reason: 'toxic chat' });
   check('kick removes the player', r.status === 200 && await until(async () => !(await row(victim))), JSON.stringify(r));

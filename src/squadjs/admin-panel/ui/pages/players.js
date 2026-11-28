@@ -1,5 +1,5 @@
 // Squads of both teams on the left, the live chat on the right, and the card of one player.
-import { $, HOW, S, api, ask, byId, clock, deliverMessage, disbandSquad, draw, guard, html, icon, mark, matches, may, messagePlayer, nameClass, playerAction, plural, post, put, rankBadge, recipientName, recipients, squadText, stamp, t, tAction, teamName, toast } from '../core.js';
+import { $, HOW, S, api, ask, byId, clock, deliverMessage, disbandSquad, draw, guard, html, icon, mark, matches, may, messagePlayer, nameClass, playerAction, plural, post, put, rankBadge, recipientName, recipients, squadText, stamp, t, tAction, teamName, toast, thisMatch, tkLine } from '../core.js';
 import { commanderStrip, teamHead } from './score.js';
 
 // ---------- squads ----------
@@ -42,7 +42,7 @@ let target = null; // one player the next message goes to
 // only things that happen in the game or to a player; panel settings stay in the logs page
 const IN_GAME = /^(Warn|Kick|Ban|Message|Move|Remove from|Disband|Demote|Next|Change layer|End|Restart match|Smart Shuffle$)/;
 const EVENT_TEXT = {
-  tk: (r) => t('Teamkill: {attacker} killed {victim} ({weapon})', r),
+  tk: (r) => html`${tkLine(r)} <span class="xs">(${r.weapon})</span>`,
   conn: (r) => (r.event === 'Joined' ? t('{player} joined', r) : t('{player} left', r)),
   admin: (r) => `${r.by}: ${tAction(r.action)} ${r.target}${r.reason ? ` (${r.reason})` : ''}`
 };
@@ -98,6 +98,11 @@ function timeline(record) {
   return html`<div class="timeline">${rows.map((e) => html`<div class="note"><span class="sub xs">${kindTag(e.type)} ${stamp(e.at)} · ${e.by}${e.detail ? ` · ${e.detail}` : ''}</span><span class="wrapany">${e.reason}</span></div>`)}</div>`;
 }
 let cardId = null;
+// the teamkills of this match the player was on either end of
+function teamkillsOf(id) {
+  const rows = may('kills.view') ? thisMatch(S.logs.tk).filter((r) => r.id === id || r.victimId === id).slice(-8).reverse() : [];
+  return rows.length ? html`<div class="stack8"><h3>${t('Teamkills this match')}</h3><ul class="feed">${rows.map((r) => html`<li><span class="sub xs mono">${clock(r.at)}</span><span class="grow">${tkLine(r)}</span><span class="sub xs">${r.weapon}</span></li>`)}</ul></div>` : '';
+}
 export async function openPlayer(id) {
   cardId = id;
   const record = await api(`/api/player?id=${encodeURIComponent(id)}`);
@@ -110,6 +115,7 @@ export async function openPlayer(id) {
   put($('#playercard'), html`
     <div class="cardhead"><div class="stack2"><span class="cap">${t('Player')}</span><h2 id="pn">${p ? rankBadge(p) : ''}<span class="${p ? nameClass(p) : ''}">${name}</span></h2><div class="idrow"><button class="btn small" data-copy="${id}">${t('Copy EOS ID')}</button>${p?.steamID ? html`<button class="btn small" data-copy="${p.steamID}">${t('Copy Steam ID')}</button>` : ''}</div><span class="sub xs">${p ? `${t('Team {n}', { n: p.team })} ${teamName(p.team)} · ${squadText(p)} · ${p.role}` : t('Not on the server. The game may refuse a kick or ban now; you will see its answer.')}</span></div><button class="btn ghost" data-close aria-label="${t('Close')}" autofocus>${t('Close')}</button></div>
     ${stats.length ? html`<div class="stats">${stats.map(([a, b]) => html`<div class="stat"><span class="sub xs">${a}</span><span class="mono statv">${b}</span></div>`)}</div>` : ''}
+    ${teamkillsOf(id)}
     ${record.hidden ? html`<span class="sub">${t('You do not have permission to read player history and notes.')}</span>` : html`<div class="line"><span class="tag">${plural(record.warns, 'warning')}</span><span class="tag">${plural(record.kicks, 'kick')}</span><span class="tag">${plural(record.bans, 'ban')}</span>${record.firstSeen ? html`<span class="tag">${t('first seen {time}', { time: stamp(record.firstSeen) })}</span>` : ''}</div>
     <div class="stack8"><h3>${t('History')}</h3>${timeline(record)}</div>`}
     ${may('notes.add') ? html`<form id="noteform" class="noteform"><label class="sr" for="nt">${t('New note')}</label><input id="nt" class="field grow" maxlength="300" placeholder="${t('Add a note (admins only)')}"><button class="btn">${t('Add note')}</button></form>` : ''}

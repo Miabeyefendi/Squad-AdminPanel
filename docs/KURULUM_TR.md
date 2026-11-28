@@ -2,7 +2,7 @@
 
 # 📖 Squad Admin Panel Rehberi
 
-**v1.1.0 · Son güncelleme 2026-11-28**
+**v1.2.0 · Son güncelleme 2026-11-28**
 
 [English](./SETUP.md) · **Türkçe**
 
@@ -136,7 +136,7 @@ Takılırsan: [SquadJS'in resmi kurulum belgesi](https://github.com/Team-Silver-
 
 ### Adım 3: Panel dosyalarını kopyala
 
-1. [Panelin son sürüm sayfasından](https://github.com/Miabeyefendi/Squad-AdminPanel/releases/latest) `Squad-AdminPanel-v1.1.0.zip` dosyasını indir.
+1. [Panelin son sürüm sayfasından](https://github.com/Miabeyefendi/Squad-AdminPanel/releases/latest) `Squad-AdminPanel-v1.2.0.zip` dosyasını indir.
 2. Zip'i aç. İçinde **iki şey** var: `admin-panel.js` dosyası ve `admin-panel` klasörü.
 3. İkisini birden şuraya kopyala: `C:\SquadJS\squad-server\plugins\`
 
@@ -152,7 +152,7 @@ C:\SquadJS\squad-server\plugins\
 └── (SquadJS'in kendi eklentileri)
 ```
 
-**Yanlış:** `plugins\Squad-AdminPanel-v1.1.0\admin-panel.js` (araya fazladan klasör girmiş, o klasörü kaldır, içindekileri `plugins` içine taşı).
+**Yanlış:** `plugins\Squad-AdminPanel-v1.2.0\admin-panel.js` (araya fazladan klasör girmiş, o klasörü kaldır, içindekileri `plugins` içine taşı).
 
 ---
 
@@ -476,6 +476,16 @@ Hayır. SquadJS hangi bilgisayardaysa o açık olmalı. Sürekli çalışsın is
 - **Duyuru:** **Server** sayfasını aç, mesaj ekle, ne zaman gideceğini seç, **Save announcements**.
 - **Discord:** Discord'da kanal ayarları, **Entegrasyonlar**, **Webhook'lar** yolundan bir webhook oluştur ve adresini kopyala. **Server** sayfasına yapıştır, **Send notices to Discord** kutusunu işaretle, kaydet, **Send a test message**. Bunu yalnızca sunucu sahibi yapabilir. Adresi parola gibi sakla.
 - **Sunucu parolası:** SquadJS `config.json` içinde `logger.verboseness.RCON` 2 ya da üstüyse panel parolayı değiştirmez, çünkü SquadJS parolayı konsola yazar.
+
+---
+
+## Kill Feed ve hızlı işlemler (1.2.0)
+
+- **Kill Feed** (kill loglarını okuma yetkisi ister): her down ve kill; vuran, vurulan, silah ve hasar. **Every hit** her isabeti ayrı satırda, **Teamkills** yalnızca dost ateşini gösterir.
+- Bir satıra ya da **Players** sekmesinde bir oyuncuya tıklayınca tek vuran açılır: down başına isabet, tek isabetle down, en yüksek hasar, 60 saniyede en çok down ve silah dökümü. İsme tıklamak oyuncu kartını açar.
+- **Last match** biten maçı tutar. İkisi de bellektedir: SquadJS ya da panel yeniden başlarsa boşalır. **Export CSV** ekrandakini kaydeder. **Logs** altındaki kill logu diskte kalır.
+- **Sayıları okurken:** sunucu logunda ıskalanan mermi, vurulan bölge ve mesafe yoktur; accuracy gösterilemez. Keskin nişancı tüfeği, makineli, patlayıcı ve araçlar bu sayıları çok değiştirir. Bunlar oyuncuyu izlemek için sebeptir, kanıt değildir.
+- Genel bakıştaki **hızlı işlemler:** butondaki sayı kaç oyuncuya ulaşacağını söyler. Hatırlatmalar ekran mesajıdır, uyarı sayılmaz.
 
 ---
 

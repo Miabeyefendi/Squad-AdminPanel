@@ -37,9 +37,9 @@
 ## 🎬 实际演示
 
 <div align="center">
-  <img src="./screenshots/demo.gif" width="92%" alt="Squad Admin Panel 动态导览:总览、记分板、小队与聊天、玩家卡片、地图控制、Smart Shuffle、插件、权限和记录">
+  <img src="./screenshots/demo.gif" width="92%" alt="Squad Admin Panel 动态导览:总览、记分板、击杀记录、小队与聊天、玩家卡片、地图控制、Smart Shuffle、插件、权限和记录">
   <br/>
-  <sub><b>面板导览</b> · 九个页面,演示数据</sub>
+  <sub><b>面板导览</b> · 十一个页面,演示数据</sub>
 </div>
 
 ---
@@ -47,6 +47,8 @@
 ## ✨ 功能亮点
 
 - **实时记分板** - 两队并排:击杀、击倒、死亡、K/D、复活、误杀、伤害、小队编号
+- **Kill Feed** - 谁用什么武器、造成多少伤害击中、击倒、击杀了谁;按玩家统计击倒所需命中数、一击击倒、最高单发伤害和 60 秒内击倒数,用于排查外挂。服务器日志不记录未命中的子弹,因此没有命中率
+- **快捷操作** - 总览页一行完成:发消息、提醒未加入小队的玩家和未用队长装备的队长、设置下一图层、打乱队伍、重开和结束对局
 - **玩家与小队** - 小队列表旁显示实时聊天,可向单个玩家发送屏幕私信
 - **管理操作** - 警告、踢出、封禁、换队、移出小队,每次操作都需确认
 - **地图控制** - 选择地图、模式、版本、阵营和部队类型,设为下一局或立即切换
@@ -80,7 +82,7 @@
 
 ### 安装步骤
 
-1. 从[发布页面](https://github.com/Miabeyefendi/Squad-AdminPanel/releases/latest)下载 `Squad-AdminPanel-v1.1.0.zip`。
+1. 从[发布页面](https://github.com/Miabeyefendi/Squad-AdminPanel/releases/latest)下载 `Squad-AdminPanel-v1.2.0.zip`。
 2. 将 `admin-panel.js` 和 `admin-panel` 文件夹解压到 SquadJS 的 `squad-server/plugins/`。
 3. 在 `config.json` 的 `plugins` 列表中添加:
 
@@ -93,12 +95,12 @@
 <details>
 <summary><b>关于发布文件</b></summary>
 
-压缩包是本仓库 `src/squadjs/` (tag `v1.1.0`) 的原样副本,并在 `admin-panel/` 中加入了 `LICENSE` 和 `NOTICE`。没有编译、压缩或打包。
+压缩包是本仓库 `src/squadjs/` (tag `v1.2.0`) 的原样副本,并在 `admin-panel/` 中加入了 `LICENSE` 和 `NOTICE`。没有编译、压缩或打包。
 
-`Squad-AdminPanel-v1.1.0.zip` 的 SHA-256:
+`Squad-AdminPanel-v1.2.0.zip` 的 SHA-256:
 
 ```
-176a30cab3fc84ea552d5525b02fef8fbf80867120e8e36efaeb335b36d0e89c
+56af54a22bd82f6b3dbb1fe60e13ca19cb28c6d735fb6ff2b866f80a1a755b91
 ```
 
 </details>
@@ -120,6 +122,10 @@
 名称和数据来自演示模式。截图中的地图和阵营图片不包含在下载文件中,而是放入面板的图片文件夹后显示的(见"致谢")。没有这些图片时,面板使用自己绘制的图案。
 
 <table>
+<tr>
+  <td align="center" width="50%"><img src="./screenshots/killfeed-shooter-dark.png" width="100%" alt="选中单个玩家的 Kill Feed:击倒所需命中数、一击击倒、武器和每次击倒"/><br/><sub><b>排查外挂</b> · 单个玩家的数据和交战</sub></td>
+  <td align="center" width="50%"><img src="./screenshots/killfeed-dark.png" width="100%" alt="Kill Feed:每次击倒和击杀的攻击者、目标、武器、伤害和命中数"/><br/><sub><b>Kill Feed</b> · 谁用什么击倒了谁</sub></td>
+</tr>
 <tr>
   <td align="center" width="50%">
     <img src="./screenshots/scoreboard-dark.png" width="100%" alt="Squad scoreboard with both teams side by side, commander strips, squad numbers and match statistics"/><br/>
@@ -171,6 +177,10 @@
 <tr>
   <td align="center" width="50%"><img src="./screenshots/smart-shuffle-settings-dark.png" width="100%" alt="Smart Shuffle settings grouped by topic"/><br/><sub><b>Shuffle 设置</b> · 分组显示</sub></td>
   <td align="center" width="50%"><img src="./screenshots/ranks-dark.png" width="100%" alt="Default permissions of admin, senior mod and junior mod side by side"/><br/><sub><b>等级</b> · 默认权限并排</sub></td>
+</tr>
+<tr>
+  <td align="center" width="50%"><img src="./screenshots/killfeed-players-dark.png" width="100%" alt="按一击击倒排序的 Kill Feed 玩家表"/><br/><sub><b>射手排行</b> · 可按任意数据排序</sub></td>
+  <td align="center" width="50%"><img src="./screenshots/server-light.png" width="100%" alt="服务器页面:左侧设置列表,右侧所选设置"/><br/><sub><b>服务器</b> · 上限、密码、公告</sub></td>
 </tr>
 <tr>
   <td align="center" width="50%"><img src="./screenshots/phone-overview-dark.png" width="55%" alt="The overview page on a phone"/><br/><sub><b>手机端</b> · 总览</sub></td>
@@ -262,7 +272,7 @@ Squad 既不通过 RCON 发送,也不写入服务器日志。
 <details>
 <summary><b>哪些内容尚未测试?</b></summary>
 
-针对真实玩家的操作、解散小队,以及实际对局中的伤害数值。 1.1.0 新增且尚未在真实游戏服务器上测试:撤销指挥官、按钮解散小队、封禁已离开的玩家、人数与排队上限、服务器密码。也尚未向真实的 Discord 频道发送过消息。
+针对真实玩家的操作、解散小队,以及实际对局中的伤害数值。 1.1.0 新增且尚未在真实游戏服务器上测试:撤销指挥官、按钮解散小队、封禁已离开的玩家、人数与排队上限、服务器密码。也尚未向真实的 Discord 频道发送过消息。1.2.0 新增:Kill Feed 只读取过模拟的游戏日志,武器名称和统计数字尚未与真实对局对照;两个提醒按钮尚未发给过真实玩家。
 
 </details>
 

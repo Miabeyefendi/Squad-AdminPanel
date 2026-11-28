@@ -53,7 +53,7 @@ const PASSWORD = /^[A-Za-z0-9!#$%&*+.=?@^_-]{1,32}$/;
 const wholeNumber = (value, low, high, what) => (Number.isInteger(value) && value >= low && value <= high
   ? value : fail(`${what} must be a whole number from ${low} to ${high}.`));
 
-const GROUP_NAMES = { team1: 'Team 1', team2: 'Team 2', admins: 'Admins' };
+const GROUP_NAMES = { team1: 'Team 1', team2: 'Team 2', admins: 'Admins', noSquad: 'Players without a squad', noKit: 'Squad leaders without the kit' };
 
 export class Actions {
   // rconVerbosity says how much SquadJS prints about RCON; null when that cannot be told
@@ -84,6 +84,9 @@ export class Actions {
     if (name === 'team1') return players.filter((p) => p.teamID === 1);
     if (name === 'team2') return players.filter((p) => p.teamID === 2);
     if (name === 'admins') return players.filter((p) => this.server.getAdminPermsByAnyID(p.eosID));
+    if (name === 'noSquad') return players.filter((p) => p.squadID === null);
+    // the same test the panel uses to list them
+    if (name === 'noKit') return players.filter((p) => p.isLeader && p.role && !/(^|[_ ])SL/.test(p.role.replace(/_\d+$/, '').replace(/_/g, ' ')));
     return fail('Unknown group.');
   }
 

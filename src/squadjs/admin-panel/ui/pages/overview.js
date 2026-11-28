@@ -1,5 +1,5 @@
 // What is happening now and what needs an admin, from top to bottom.
-import { $, S, api, app, byId, clock, commanderOf, draw, elapsed, gate, hasLeaderKit, html, icon, mark, may, messagePlayer, nameClass, plural, rankBadge, shuffleCommand, squadText, t, tAction, teamName, thisMatch } from '../core.js';
+import { $, S, api, app, byId, clock, commanderOf, draw, elapsed, gate, hasLeaderKit, html, icon, mark, may, messagePlayer, messageTo, nameClass, plural, rankBadge, shuffleCommand, squadText, t, tAction, teamName, thisMatch, tkLine } from '../core.js';
 import { flag, mapKey, sceneArt } from '../art.js';
 
 const layerName = (l) => l?.name || t('Unknown');
@@ -44,13 +44,13 @@ function attention() {
   for (const [id, list] of [...killers].filter(([, l]) => l.length > 1).sort((a, b) => b[1].length - a[1].length).slice(0, 4)) {
     const p = byId(id);
     items.push({ kind: t('Teamkills'), strong: true,
-      body: html`<span class="line">${p ? who(p) : html`<button class="linkbtn" data-player="${id}">${list[0].attacker}</button>`}${p ? where(p) : html`<span class="sub xs">${t('left the server')}</span>`}</span><span class="sub xs">${t('{count} this match, last with {weapon}', { count: plural(list.length, 'teamkill'), weapon: list.at(-1).weapon })}</span>`,
+      body: html`${list.slice(-3).reverse().map((r) => html`<span class="line">${tkLine(r)}</span>`)}${p ? '' : html`<span class="sub xs">${t('left the server')}</span>`}<span class="sub xs">${t('{count} this match, last with {weapon}', { count: plural(list.length, 'teamkill'), weapon: list.at(-1).weapon })}</span>`,
       side: html`<button class="btn small" data-player="${id}">${t('Open')}</button>` });
   }
   for (const s of squads.filter((q) => q.copycat)) {
     items.push({ kind: t('Check squad'), body: html`<span class="line"><b>${t('Two squads are named Command Squad on team {n}', { n: s.team })}</b></span><span class="sub xs">${t("Squad {n} is the newer one. The panel treats the other as the commander's squad.", { n: s.id })}</span>`, side: html`<button class="btn small" data-go="players">${t('Squads')}</button>` });
   }
-  const noKit = players.filter((p) => p.leader && p.role && !hasLeaderKit(p));
+  const noKit = players.filter(missingKit);
   if (noKit.length) {
     items.push({ kind: t('No SL kit'), body: html`<span class="line">${noKit.slice(0, 6).map((p) => html`<button class="chipbtn" data-player="${p.id}">${mark(p.team)}SQ ${p.squad} ${p.name}</button>`)}${noKit.length > 6 ? html`<span class="sub xs">${t('+{n} more', { n: noKit.length - 6 })}</span>` : ''}</span><span class="sub xs">${t('{count} without the squad leader kit', { count: plural(noKit.length, 'squad leader') })}</span>`, side: '' });
   }
@@ -60,6 +60,36 @@ function attention() {
     ? html`<ul class="attention">${items.map((i) => html`<li><span class="tag ${i.strong ? 'solid' : ''}">${i.kind}</span><span class="what">${i.body}</span><span class="act">${i.side}</span></li>`)}</ul>`
     : html`<p class="calm">${icon('check', 20)}${t('Nothing needs you right now. Admin calls in chat, repeated teamkills and squad problems show up here.')}</p>`);
 }
+
+// one row, from the harmless to the one that ends the round; a button with nobody to reach is off
+function quickActions() {
+  const { players, shuffle } = S.state;
+  const count = (list) => (list.length ? html`<span class="qn">${list.length}</span>` : '');
+  const button = (label, attrs, need, extra = '') => (may(need) ? html`<button class="btn tall ${extra}" ${attrs}>${label}</button>` : '');
+  const off = (yes) => (yes ? html`disabled` : '');
+  const admins = players.filter((p) => p.admin);
+  const noKit = players.filter(missingKit);
+  const loose = players.filter((p) => p.squad === null);
+  return [
+    button(t('Send message'), html`data-act="message"`, 'message'),
+    button(html`${t('Message admins')}${count(admins)}`, html`data-tell="admins" ${off(!admins.length)}`, 'message.group'),
+    button(html`${t('Remind: SL kit')}${count(noKit)}`, html`data-tell="noKit" ${off(!noKit.length)}`, 'message.group'),
+    button(html`${t('Remind: join a squad')}${count(loose)}`, html`data-tell="noSquad" ${off(!loose.length)}`, 'message.group'),
+    button(t('Kill Feed'), html`data-go="killfeed"`, 'kills.view'),
+    button(t('Set next layer'), html`data-go="map"`, 'map.next'),
+    button(shuffle?.pending ? t('Cancel shuffle') : t('Shuffle at round end'), html`data-quick="${shuffle?.pending ? 'cancel' : 'now'}" ${off(!shuffle)}`, 'shuffle.round'),
+    button(t('Unlock teams'), html`data-quick="unlock" ${off(!shuffle)}`, 'shuffle.round'),
+    button(t('Restart match'), html`data-act="restartMatch"`, 'match.control'),
+    button(t('End match'), html`data-act="endMatch"`, 'match.control', 'red')
+  ].filter(Boolean);
+}
+const missingKit = (p) => p.leader && p.role && !hasLeaderKit(p);
+// who is told: the dialog's title, who counts and the text it starts with
+const TELL = {
+  admins: [t('Message admins'), (p) => p.admin, ''],
+  noKit: [t('Remind squad leaders without the kit'), missingKit, t('Squad leaders have to take the squad leader kit.')],
+  noSquad: [t('Remind players without a squad'), (p) => p.squad === null, t('Join a squad within 5 minutes.')]
+};
 
 function commanders() {
   return section(t('Commanders'), [1, 2].map((n) => {
@@ -75,7 +105,7 @@ function recentAdmin() {
 
 function recentTeamkills() {
   const rows = thisMatch(S.logs.tk).slice(-7).reverse();
-  return section(t('Teamkills this match'), html`<ul class="feed">${rows.length ? rows.map((r) => html`<li><span class="sub xs mono">${clock(r.at)}</span><span class="grow"><button class="linkbtn" data-player="${r.id}">${r.attacker}</button> <span class="sub">${t('killed')}</span> ${r.victim}</span><span class="sub xs">${r.weapon}</span></li>`) : html`<li class="empty">${t('No teamkills.')}</li>`}</ul>`, html`<button class="btn ghost small" data-golog="tk">${t('All teamkills')}</button>`);
+  return section(t('Teamkills this match'), html`<ul class="feed">${rows.length ? rows.map((r) => html`<li><span class="sub xs mono">${clock(r.at)}</span><span class="grow">${tkLine(r)}</span><span class="sub xs">${r.weapon}</span></li>`) : html`<li class="empty">${t('No teamkills.')}</li>`}</ul>`, html`<button class="btn ghost small" data-golog="tk">${t('All teamkills')}</button>`);
 }
 
 export default {
@@ -83,6 +113,7 @@ export default {
   title: t('Overview'),
   shell: () => html`<div class="hero" id="ov-hero"></div>
     <div class="tile kpis" id="ov-stats"></div>
+    <div class="tile quickrow" id="ov-quick" role="group" aria-label="${t('Quick actions')}"></div>
     <div class="split">
       <div class="stackcol main-col">
         <div class="tile" id="ov-attention"></div>
@@ -91,19 +122,17 @@ export default {
       </div>
       <div class="stackcol">
         <div class="tile" id="ov-commanders"></div>
-        <div class="tile" id="ov-quick"><h2>${t('Quick actions')}</h2><div class="quick">
-          <button class="btn tall" data-act="message" data-need="message">${t('Send message')}</button>
-          <button class="btn tall" data-go="map" data-need="map.next">${t('Set next layer')}</button>
-          <button class="btn tall" data-quick="now" data-need="shuffle.round">${t('Shuffle at round end')}</button>
-          <button class="btn tall" data-quick="unlock" data-need="shuffle.round">${t('Unlock teams')}</button>
-          <button class="btn tall danger" data-act="endMatch" data-need="match.control">${t('End match')}</button>
-        </div></div>
       </div>
     </div>`,
   wire(root) {
     root.addEventListener('click', (e) => {
       const quick = e.target.closest('[data-quick]');
       if (quick) shuffleCommand(quick.dataset.quick);
+      const tell = e.target.closest('[data-tell]');
+      if (tell) {
+        const [title, who, text] = TELL[tell.dataset.tell];
+        messageTo(tell.dataset.tell, title, S.state.players.filter(who).length, text);
+      }
       const reply = e.target.closest('[data-reply]');
       if (reply) messagePlayer(reply.dataset.reply);
     });
@@ -117,9 +146,11 @@ export default {
     draw($('#ov-commanders'), commanders());
     draw($('#ov-admin'), recentAdmin());
     draw($('#ov-tk'), recentTeamkills());
+    const quick = quickActions();
+    draw($('#ov-quick'), quick);
     gate($('#view-overview'));
     // an account with none of these gets no empty box
-    $('#ov-quick').hidden = ![...$('#ov-quick').querySelectorAll('button')].some((b) => !b.hidden);
+    $('#ov-quick').hidden = !quick.length;
     if (!may('log.admin') && may('log.ip')) $('#ov-admin').hidden = false;
   },
   log() { this.render(); },

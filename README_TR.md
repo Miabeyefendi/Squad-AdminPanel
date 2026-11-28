@@ -39,9 +39,9 @@
 ## 🎬 İş başında
 
 <div align="center">
-  <img src="./screenshots/demo.gif" width="92%" alt="Squad Admin Panel hareketli tur: genel bakış, skor tablosu, squad ve chat, oyuncu kartı, harita, Smart Shuffle, eklentiler, yetkiler ve kayıtlar">
+  <img src="./screenshots/demo.gif" width="92%" alt="Squad Admin Panel hareketli tur: genel bakış, skor tablosu, kill feed, squad ve chat, oyuncu kartı, harita, Smart Shuffle, eklentiler, yetkiler ve kayıtlar">
   <br/>
-  <sub><b>Panel turu</b> · dokuz ekran, demo verisi</sub>
+  <sub><b>Panel turu</b> · on bir ekran, demo verisi</sub>
 </div>
 
 ---
@@ -49,6 +49,8 @@
 ## ✨ Öne çıkanlar
 
 - **Canlı skor tablosu** - iki takım yan yana: kill, down, ölüm, K/D, revive, teamkill, hasar, squad numaraları
+- **Kill Feed** - kim kimi hangi silahla ve ne kadar hasarla vurdu, düşürdü, öldürdü; oyuncu başına down başına isabet, tek isabetle down, en yüksek hasar ve 60 saniyedeki down sayısı, hileci incelemek için. Sunucu logunda ıskalanan mermi yoktur, bu yüzden accuracy gösterilmez
+- **Hızlı işlemler** - genel bakışta tek sıra: mesajlar, squad'sız oyunculara ve kiti olmayan squad liderlerine hatırlatma, sıradaki harita, shuffle, maçı yeniden başlatma ve bitirme
 - **Oyuncular ve squad'lar** - squad listesi yanında canlı chat, tek oyuncuya ekranda özel mesaj
 - **Admin işlemleri** - uyarı, kick, ban (1 saatten kalıcıya), takım değiştirme, squad'dan çıkarma, tek ya da toplu, hep onaylı
 - **Harita kontrolü** - harita, mod, versiyon, faction ve birim seçimi, sıradaki harita ya da hemen değiştirme
@@ -82,7 +84,7 @@
 
 ### Kur
 
-1. [Sürüm sayfasından](https://github.com/Miabeyefendi/Squad-AdminPanel/releases/latest) `Squad-AdminPanel-v1.1.0.zip` dosyasını indir.
+1. [Sürüm sayfasından](https://github.com/Miabeyefendi/Squad-AdminPanel/releases/latest) `Squad-AdminPanel-v1.2.0.zip` dosyasını indir.
 2. İçindeki `admin-panel.js` ve `admin-panel` klasörünü SquadJS'in `squad-server/plugins/` klasörüne çıkar.
 3. `config.json` içindeki `plugins` listesine ekle:
 
@@ -95,12 +97,12 @@
 <details>
 <summary><b>Sürüm dosyası hakkında</b></summary>
 
-Zip, bu depodaki `src/squadjs/` (tag `v1.1.0`) klasörünün düz kopyasıdır, `admin-panel/` içine `LICENSE` ve `NOTICE` eklenmiştir. Derleme, küçültme ya da paketleme yoktur.
+Zip, bu depodaki `src/squadjs/` (tag `v1.2.0`) klasörünün düz kopyasıdır, `admin-panel/` içine `LICENSE` ve `NOTICE` eklenmiştir. Derleme, küçültme ya da paketleme yoktur.
 
-`Squad-AdminPanel-v1.1.0.zip` SHA-256:
+`Squad-AdminPanel-v1.2.0.zip` SHA-256:
 
 ```
-176a30cab3fc84ea552d5525b02fef8fbf80867120e8e36efaeb335b36d0e89c
+56af54a22bd82f6b3dbb1fe60e13ca19cb28c6d735fb6ff2b866f80a1a755b91
 ```
 
 </details>
@@ -122,6 +124,10 @@ Başka bilgisayardan ya da birden fazla admin için: [uzaktan giriş](./docs/KUR
 İsim ve sayılar demodandır. Görüntülerdeki harita ve faction resimleri indirmeye dahil değildir: panelin resim klasörüne sonradan eklenmiştir (bkz. Emeği geçenler). Onlar yoksa panel kendi çizimlerini gösterir.
 
 <table>
+<tr>
+  <td align="center" width="50%"><img src="./screenshots/killfeed-shooter-dark.png" width="100%" alt="Tek oyuncu seçili Kill Feed: down başına isabet, tek isabetle down, silahlar ve her down"/><br/><sub><b>Hileci tespiti</b> · tek vuranın sayıları ve çatışmaları</sub></td>
+  <td align="center" width="50%"><img src="./screenshots/killfeed-dark.png" width="100%" alt="Kill Feed: her down ve kill için vuran, vurulan, silah, hasar ve isabet sayısı"/><br/><sub><b>Kill Feed</b> · kim kimi neyle düşürdü</sub></td>
+</tr>
 <tr>
   <td align="center" width="50%">
     <img src="./screenshots/scoreboard-dark.png" width="100%" alt="Squad scoreboard with both teams side by side, commander strips, squad numbers and match statistics"/><br/>
@@ -173,6 +179,10 @@ Başka bilgisayardan ya da birden fazla admin için: [uzaktan giriş](./docs/KUR
 <tr>
   <td align="center" width="50%"><img src="./screenshots/smart-shuffle-settings-dark.png" width="100%" alt="Smart Shuffle settings grouped by topic"/><br/><sub><b>Shuffle ayarları</b> · grup grup</sub></td>
   <td align="center" width="50%"><img src="./screenshots/ranks-dark.png" width="100%" alt="Default permissions of admin, senior mod and junior mod side by side"/><br/><sub><b>Rütbeler</b> · hazır yetkiler yan yana</sub></td>
+</tr>
+<tr>
+  <td align="center" width="50%"><img src="./screenshots/killfeed-players-dark.png" width="100%" alt="Tek isabetle down sayısına göre sıralı Kill Feed oyuncu tablosu"/><br/><sub><b>Vuranlar</b> · her sayıya göre sırala</sub></td>
+  <td align="center" width="50%"><img src="./screenshots/server-light.png" width="100%" alt="Solda ayar listesi, sağda seçilen ayar olan sunucu sayfası"/><br/><sub><b>Sunucu</b> · sınırlar, parola, duyurular</sub></td>
 </tr>
 <tr>
   <td align="center" width="50%"><img src="./screenshots/phone-overview-dark.png" width="55%" alt="The overview page on a phone"/><br/><sub><b>Telefonda</b> · genel bakış</sub></td>
@@ -264,7 +274,7 @@ Oyuncu listesinde commander bilgisi yok. Panel "Command Squad" adlı squad'ın l
 <details>
 <summary><b>Neler henüz denenmedi?</b></summary>
 
-Uyarı, kick, ban, takım değiştirme ve squad'dan çıkarma gerçek oyuncuya karşı denenmedi. Squad dağıtma gerçek sunucuda çalıştırılmadı. Hasar sayısı gerçek maç loguyla karşılaştırılmadı. 1.1.0 ile gelen ve gerçek oyun sunucusunda henüz denenmeyenler: commander düşürme, butonla squad dağıtma, çıkmış oyuncuyu banlama, oyuncu ve sıra sınırı, sunucu parolası. Gerçek bir Discord kanalına henüz mesaj gönderilmedi.
+Uyarı, kick, ban, takım değiştirme ve squad'dan çıkarma gerçek oyuncuya karşı denenmedi. Squad dağıtma gerçek sunucuda çalıştırılmadı. Hasar sayısı gerçek maç loguyla karşılaştırılmadı. 1.1.0 ile gelen ve gerçek oyun sunucusunda henüz denenmeyenler: commander düşürme, butonla squad dağıtma, çıkmış oyuncuyu banlama, oyuncu ve sıra sınırı, sunucu parolası. Gerçek bir Discord kanalına henüz mesaj gönderilmedi. 1.2.0 ile gelenler: Kill Feed yalnızca emüle edilmiş oyun logu gördü; silah adları ve sayıları gerçek bir maçla henüz karşılaştırılmadı. İki hatırlatma butonu gerçek oyunculara henüz ulaşmadı.
 
 </details>
 

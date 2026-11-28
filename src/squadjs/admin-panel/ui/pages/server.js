@@ -3,22 +3,23 @@
 import { $, $$, LOCALE, api, ask, confirmField, guard, html, passwordField, post, put, stamp, t, toast } from '../core.js';
 
 let data = null;
+let part = null; // the part shown on the right
 let items = []; // announcements as they are on screen
 
 const NOTICES = [['ban', t('Bans')], ['kick', t('Kicks')], ['call', t('!admin calls in chat')], ['warn', t('Warnings')], ['teamkill', t('A player reaching the teamkill limit')], ['match', t('Map changes, match ended or restarted')]];
 const WHEN = [['every', t('Every few minutes')], ['matchStart', t('After a match starts')]];
 
+const limitRow = (kind, id, name, help, range) => html`<form class="optrow" data-form="${kind}"><label class="optlabel" for="${id}"><b>${name}</b><span class="sub xs">${help}</span></label><span class="line nowrap"><input id="${id}" class="field mono short" type="number" name="value" ${range} required><button class="btn">${t('Set')}</button></span></form>`;
 function limits() {
   const max = data.settings.maxPlayers;
   return html`<div class="tile"><div class="stack2"><h2>${t('Player limits')}</h2><span class="sub xs">${t('Sent to the running server. It may go back to the value in Server.cfg after a restart.')}</span></div>
-    <form class="set" data-form="maxPlayers"><label class="lbl" for="sv-max"><b>${t('Player limit')}</b><span class="sub xs">${max ? t('Now: {value}', { value: max }) : t('The current value is not known.')}</span></label><span class="line"><input id="sv-max" class="field mono short" type="number" name="value" min="1" max="100" required><button class="btn">${t('Set')}</button></span></form>
-    <form class="set" data-form="queueLimit"><label class="lbl" for="sv-queue"><b>${t('Public queue limit')}</b><span class="sub xs">${t('-1 means no limit. The panel cannot read the current value.')}</span></label><span class="line"><input id="sv-queue" class="field mono short" type="number" name="value" min="-1" max="100" required><button class="btn">${t('Set')}</button></span></form></div>`;
+    <div>${limitRow('maxPlayers', 'sv-max', t('Player limit'), max ? t('Now: {value}', { value: max }) : t('The current value is not known.'), html`min="1" max="100"`)}${limitRow('queueLimit', 'sv-queue', t('Public queue limit'), t('-1 means no limit. The panel cannot read the current value.'), html`min="-1" max="100"`)}</div></div>`;
 }
 
 function password() {
   const { blocked } = data.password;
   return html`<div class="tile"><div class="stack2"><h2>${t('Server password')}</h2><span class="sub xs">${t('Players need it to join. The panel does not store, log or show it.')}</span></div>
-    ${blocked ? html`<span class="tag warnish wrapany">${t(blocked)}</span>` : html`<div class="line"><button class="btn" data-password="set">${t('Set a password')}</button><button class="btn ghost" data-password="remove">${t('Remove the password')}</button></div>`}</div>`;
+    ${blocked ? html`<span class="tag warnish wrapany">${t(blocked)}</span>` : html`<div class="line"><button class="btn pri tall" data-password="set">${t('Set a password')}</button><button class="btn tall" data-password="remove">${t('Remove the password')}</button></div>`}</div>`;
 }
 
 const row = (item, i) => html`<li class="annrow" data-item="${i}">
@@ -51,12 +52,24 @@ function discord() {
     </form></div>`;
 }
 
+// id, name, the data it needs, what it draws and the short state shown in the list
+const PARTS = [
+  ['limits', t('Player limits'), 'settings', limits, () => data.settings.maxPlayers || ''],
+  ['password', t('Server password'), 'password', password, () => ''],
+  ['schedule', t('Automatic announcements'), 'schedule', announcements, () => data.schedule.length],
+  ['discord', t('Discord notices'), 'notify', discord, () => (data.notify.enabled ? t('On') : t('Off'))]
+];
+const mine = () => PARTS.filter(([, , key]) => data[key]);
+function sideList() {
+  if (!mine().some(([id]) => id === part)) part = mine()[0]?.[0] || null;
+  put($('#sv-list'), mine().map(([id, name, , , state]) => html`<button type="button" role="tab" class="sideitem" data-part="${id}" aria-selected="${id === part}"><span class="grow">${name}</span><span class="sub xs">${state()}</span></button>`));
+  PARTS.forEach(([id]) => { $(`#sv-${id}`).hidden = id !== part; });
+}
+// every part stays in the page, so what was typed in one is still there after looking at another
 function render() {
   if (!data) return;
-  put($('#sv-limits'), data.settings ? limits() : '');
-  put($('#sv-password'), data.password ? password() : '');
-  put($('#sv-schedule'), data.schedule ? announcements() : '');
-  put($('#sv-discord'), data.notify ? discord() : '');
+  PARTS.forEach(([id, , key, view]) => put($(`#sv-${id}`), data[key] ? view() : ''));
+  sideList();
 }
 // what is typed is read back before the list is drawn again
 function readItems() {
@@ -86,7 +99,8 @@ function notifyChange(form) {
 export default {
   id: 'server',
   title: t('Server'),
-  shell: () => html`<div class="halves"><div id="sv-limits"></div><div id="sv-password"></div></div><div id="sv-schedule"></div><div id="sv-discord"></div>`,
+  shell: () => html`<div class="navsplit wide-list"><div class="sidelist listcol" id="sv-list" role="tablist" aria-label="${t('Server')}"></div>
+    <div class="stackcol"><div id="sv-limits"></div><div id="sv-password"></div><div id="sv-schedule"></div><div id="sv-discord"></div></div></div>`,
   wire(root) {
     root.addEventListener('submit', (e) => {
       e.preventDefault();
@@ -108,7 +122,10 @@ export default {
       const b = e.target.closest('button');
       if (!b || b.disabled) return;
       const d = b.dataset;
-      if (d.add !== undefined) {
+      if (d.part) {
+        part = d.part;
+        sideList();
+      } else if (d.add !== undefined) {
         readItems();
         items.push({ text: '', when: 'every', minutes: 15, minPlayers: 1, enabled: true });
         render();
@@ -141,5 +158,5 @@ export default {
   render() {},
   log() {},
   reload() {},
-  reset() { data = null; items = []; }
+  reset() { data = null; items = []; part = null; }
 };

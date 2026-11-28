@@ -26,8 +26,8 @@ const SWITCHES = [
 
 function statusTile() {
   const s = S.state.shuffle;
-  return html`<div class="stack2 grow"><span class="cap">Smart Shuffle</span><span class="layer">${s ? (s.pending ? t('Shuffle at round end') : s.auto ? t('Automatic') : t('On, manual')) : t('Switched off')}</span><span class="xs">${s ? `${s.lockedNow ? t('Teams are locked') : t('Teams are open')}${s.last ? ` · ${t('last shuffle moved {n}', { n: s.last.moved })}` : ''}` : t('Nothing is shuffled while it is off.')}</span><span class="xs">${promo()}</span></div>
-    ${editable() ? html`<button class="btn" data-power>${sh.status === 'off' ? t('Switch Smart Shuffle on') : t('Switch Smart Shuffle off')}</button>` : ''}`;
+  return html`<b>Smart Shuffle</b><span class="tag ${s ? 'solid' : ''}">${s ? (s.pending ? t('Shuffle at round end') : s.auto ? t('Automatic') : t('On, manual')) : t('Switched off')}</span><span class="sub xs">${s ? `${s.lockedNow ? t('Teams are locked') : t('Teams are open')}${s.last ? ` · ${t('last shuffle moved {n}', { n: s.last.moved })}` : ''}` : t('Nothing is shuffled while it is off.')}</span><span class="grow"></span><span class="sub xs">${promo()}</span>
+    ${editable() ? html`<button class="btn small" data-power>${sh.status === 'off' ? t('Switch Smart Shuffle on') : t('Switch Smart Shuffle off')}</button>` : ''}`;
 }
 function control() {
   const s = S.state.shuffle;
@@ -43,8 +43,8 @@ function control() {
 function presets() {
   if (!editable() || !sh.presets.length) return '';
   const meter = (label, n) => html`<span class="meter"><span class="sub xs">${label}</span><b class="mono">${n}%</b><span class="bar"><i style="width:${Math.min(100, Number(n) || 0)}%"></i></span></span>`;
-  return html`<div class="stack2"><h2>${t('Presets')}</h2><span class="sub xs">${t('Measured in a simulation. Fewer lopsided matches costs more moved players. Applying one resets every setting first.')}</span></div>
-    <div class="presets">${sh.presets.map((p) => html`<article class="presetcard"><h3>${p.name}</h3>${meter(t('Lopsided matches'), p.stomped)}${meter(t('Players moved'), p.moved)}${meter(t('Parties kept'), p.kept)}<button class="btn" data-preset="${p.id}">${t('Apply')}</button></article>`)}</div>`;
+  // the heading takes the first cell, so the heading and the presets fill whole rows
+  return html`<div class="presets"><div class="presethead"><h2>${t('Presets')}</h2><span class="sub">${t('Measured in a simulation. Fewer lopsided matches costs more moved players. Applying one resets every setting first.')}</span></div>${sh.presets.map((p) => html`<article class="presetcard"><h3>${p.name}</h3><div class="meters">${meter(t('Lopsided matches'), p.stomped)}${meter(t('Players moved'), p.moved)}${meter(t('Parties kept'), p.kept)}</div><button class="btn" data-preset="${p.id}">${t('Apply')}</button></article>`)}</div>`;
 }
 
 function input(f) {
@@ -103,9 +103,9 @@ const page = {
   id: 'shuffle',
   title: 'Smart Shuffle',
   shell: () => html`<div class="tile warnbox" id="sh-missing" hidden></div>
-    <div class="tile inv statusrow" id="sh-status"></div>
+    <div class="tile statusrow" id="sh-status"></div>
     <div class="seg" role="tablist" aria-label="Smart Shuffle" id="sh-tabs"><button role="tab" data-tab="control" aria-selected="true">${t('Control')}</button><button role="tab" data-tab="settings" aria-selected="false">${t('Settings')}</button></div>
-    <div class="stackcol" id="sh-control"><div id="sh-round"></div><div class="tile" id="sh-presets"></div></div>
+    <div class="stackcol" id="sh-control"><div id="sh-round"></div><div id="sh-presets"></div></div>
     <div class="stackcol" id="sh-settings" hidden></div>`,
   wire(root) {
     root.addEventListener('click', guard(async (e) => {

@@ -93,6 +93,7 @@ export default [
   ['Commander', 'Komutan', 'Kommandant', 'Командующий', '指挥官'],
   ['Squad leader', 'Squad lideri', 'Truppführer', 'Командир отряда', '队长'],
   ['No squad', "Squad'sız", 'Ohne Trupp', 'Без отряда', '无小队'],
+  ['Squad {n}', 'Squad {n}', 'Trupp {n}', 'Отряд {n}', '小队 {n}'],
   ['Your password', 'Parolan', 'Dein Passwort', 'Ваш пароль', '你的密码'],
   ['Fill in the empty field.', 'Boş alanı doldur.', 'Fülle das leere Feld aus.', 'Заполните пустое поле.', '请填写空白项。'],
   ['{done} done, {failed} failed.', '{done} tamam, {failed} başarısız.', '{done} erledigt, {failed} fehlgeschlagen.', 'Выполнено: {done}, ошибок: {failed}.', '{done} 项成功,{failed} 项失败。'],
