@@ -41,12 +41,12 @@ async function panel() {
 
 test('every UI module is served, and every import points at a served file', async () => {
   const { base } = await panel();
-  const files = ['app.js', 'core.js', 'art.js', ...fs.readdirSync(path.join(UI, 'pages')).map((f) => `pages/${f}`)];
+  const files = ['app.js', 'core.js', 'art.js', 'i18n.js', ...['pages', 'lang'].flatMap((dir) => fs.readdirSync(path.join(UI, dir)).map((f) => `${dir}/${f}`))];
   for (const file of files) {
     const res = await fetch(`${base}/${file}`);
     assert.equal(res.status, 200, file);
     const text = await res.text();
-    for (const [, target] of text.matchAll(/from '(\.[^']+)'/g)) {
+    for (const [, target] of text.matchAll(/^import [^\n]*?from '(\.[^']+)'/gm)) {
       const resolved = path.posix.join(path.posix.dirname(file), target);
       assert.ok(files.includes(resolved), `${file} imports ${target}`);
     }

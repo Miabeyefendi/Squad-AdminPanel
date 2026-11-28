@@ -55,6 +55,9 @@
 - **记录与日志** - 警告、踢出、封禁和备注在重启后保留,支持导出 CSV
 - **自动规则** - 默认全部关闭
 - **SquadJS 插件管理** - 在浏览器中启用和设置其他插件
+- **服务器页面** - 人数上限、排队上限和服务器密码,自动公告,以及单向 Discord 通知(封禁、踢出、`!admin` 呼叫),默认关闭
+- **刚离开的玩家** - 列出最近 30 分钟离开者及其误杀和记录,仍可封禁;一键撤销指挥官或解散小队
+- **五种界面语言** - English、Türkçe、Deutsch、Русский 和中文,点右上角旗帜切换;插件设置名称保持插件原文
 - **自行托管** - 无需账号和云服务,无额外 npm 依赖,数据加密
 
 ---
@@ -77,7 +80,7 @@
 
 ### 安装步骤
 
-1. 从[发布页面](https://github.com/Miabeyefendi/Squad-AdminPanel/releases/latest)下载 `Squad-AdminPanel-v1.0.0.zip`。
+1. 从[发布页面](https://github.com/Miabeyefendi/Squad-AdminPanel/releases/latest)下载 `Squad-AdminPanel-v1.1.0.zip`。
 2. 将 `admin-panel.js` 和 `admin-panel` 文件夹解压到 SquadJS 的 `squad-server/plugins/`。
 3. 在 `config.json` 的 `plugins` 列表中添加:
 
@@ -90,12 +93,12 @@
 <details>
 <summary><b>关于发布文件</b></summary>
 
-压缩包是本仓库 `src/squadjs/` (tag `v1.0.0`) 的原样副本,并在 `admin-panel/` 中加入了 `LICENSE` 和 `NOTICE`。没有编译、压缩或打包。
+压缩包是本仓库 `src/squadjs/` (tag `v1.1.0`) 的原样副本,并在 `admin-panel/` 中加入了 `LICENSE` 和 `NOTICE`。没有编译、压缩或打包。
 
-`Squad-AdminPanel-v1.0.0.zip` 的 SHA-256:
+`Squad-AdminPanel-v1.1.0.zip` 的 SHA-256:
 
 ```
-804c8b6210586f9fe7dad42c4ddf0527a5a22f91e4a699e141de704c67c47af5
+176a30cab3fc84ea552d5525b02fef8fbf80867120e8e36efaeb335b36d0e89c
 ```
 
 </details>
@@ -259,7 +262,7 @@ Squad 既不通过 RCON 发送,也不写入服务器日志。
 <details>
 <summary><b>哪些内容尚未测试?</b></summary>
 
-针对真实玩家的操作、解散小队,以及实际对局中的伤害数值。
+针对真实玩家的操作、解散小队,以及实际对局中的伤害数值。 1.1.0 新增且尚未在真实游戏服务器上测试:撤销指挥官、按钮解散小队、封禁已离开的玩家、人数与排队上限、服务器密码。也尚未向真实的 Discord 频道发送过消息。
 
 </details>
 

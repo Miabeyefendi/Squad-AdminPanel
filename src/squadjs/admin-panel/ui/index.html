@@ -12,6 +12,7 @@
 <body data-build="TWlhYmV5ZWZlbmRp">
 <!-- 4d69616265796566656e6469 -->
 <div class="login" id="login" hidden>
+  <div class="langpick corner" data-langpick></div>
   <form class="tile" id="loginform">
     <h1>Sign in</h1>
     <label>Name<input class="field" name="name" autocomplete="username" required></label>
@@ -23,6 +24,7 @@
 </div>
 
 <div class="login" id="setup" hidden>
+  <div class="langpick corner" data-langpick></div>
   <form class="tile" id="setupform" novalidate>
     <h1>Set your sign in</h1>
     <p class="sub" style="margin:0">This password is temporary. Choose your own before you use the panel.</p>
@@ -49,6 +51,7 @@
   <button class="nb" data-view="shuffle"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg>Smart Shuffle</button>
   <button class="nb" data-view="rules" data-need="rules.view"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 6h11M9 12h11M9 18h11M4 6h.01M4 12h.01M4 18h.01"/></svg>Rules</button>
   <button class="nb" data-view="plugins" data-need="plugins"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3v4M15 3v4M7 7h10v5a5 5 0 01-10 0zM12 17v4"/></svg>Plugins</button>
+  <button class="nb" data-view="server" data-need="server"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="7" rx="2"/><rect x="3" y="13" width="18" height="7" rx="2"/><path d="M7 7.5h.01M7 16.5h.01M11 7.5h6M11 16.5h6"/></svg>Server</button>
   <div class="grp">Records</div>
   <button class="nb" data-view="records" data-need="records"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg>Records</button>
   <button class="nb" data-view="logs"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 3H6a2 2 0 00-2 2v14a2 2 0 002 2h12a2 2 0 002-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg>Logs<span class="cnt" id="tkcount" hidden></span></button>
@@ -67,6 +70,7 @@
     <div style="flex:1 1 260px;display:flex;flex-direction:column;gap:3px"><h1 id="vtitle">Overview</h1><span class="sub" id="subtitle"></span></div>
     <div role="status" style="display:flex;flex-wrap:wrap;gap:8px"><span class="pill"><span class="live off" id="livedot" aria-hidden="true"></span><span id="livetext">Connecting</span></span><span class="pill mono" id="pcount"></span><span class="pill" id="pqueue"></span></div>
     <button class="pill pillbtn" data-act="message" data-need="message">Send message</button>
+    <div class="langpick" data-langpick></div>
   </header>
   <div class="firstpw" id="firstpw" role="alert" hidden><span><b>You are signed in with the first password, admin / admin.</b> It only works on this computer. Change it before anyone else can reach the panel.</span><button class="btn" id="firstpw-change">Change password</button></div>
 
@@ -77,6 +81,7 @@
   <section class="view" id="view-shuffle" aria-label="Smart Shuffle"></section>
   <section class="view" id="view-rules" aria-label="Rules"></section>
   <section class="view" id="view-plugins" aria-label="Plugins"></section>
+  <section class="view" id="view-server" aria-label="Server"></section>
   <section class="view" id="view-records" aria-label="Records"></section>
   <section class="view" id="view-logs" aria-label="Logs"></section>
   <section class="view" id="view-staff" aria-label="Staff"></section>

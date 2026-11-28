@@ -32,7 +32,8 @@ const needText = (value, what) => cleanText(value) || fail(`${what} is empty.`);
 
 // the only things a request can run
 const HANDLERS = Object.fromEntries(['warn', 'messagePlayer', 'messageGroup', 'broadcast', 'kick', 'ban', 'moveTeam', 'removeFromSquad',
-  'note', 'nextLayer', 'changeLayer', 'endMatch', 'restartMatch', 'shuffle'].map((n) => [n, `do_${n}`]));
+  'note', 'nextLayer', 'changeLayer', 'endMatch', 'restartMatch', 'shuffle', 'demoteCommander', 'disbandSquad',
+  'maxPlayers', 'queueLimit'].map((n) => [n, `do_${n}`]));
 
 const ROUND_COMMANDS = ['now', 'cancel', 'unlock', 'preview'];
 // The permission each request needs. Bans and Smart Shuffle depend on what exactly is asked.
@@ -42,13 +43,22 @@ const NEEDS = {
   moveTeam: () => 'team.move', removeFromSquad: () => 'squad.remove', note: () => 'notes.add',
   nextLayer: () => 'map.next', changeLayer: () => 'map.now', endMatch: () => 'match.control',
   restartMatch: () => 'match.control',
+  demoteCommander: () => 'commander.demote', disbandSquad: () => 'squad.disband',
+  maxPlayers: () => 'server.settings', queueLimit: () => 'server.settings',
   shuffle: ({ command }) => (ROUND_COMMANDS.includes(command) ? 'shuffle.round' : 'shuffle.switches')
 };
+
+// A server password: no spaces or quotes, which would change the command.
+const PASSWORD = /^[A-Za-z0-9!#$%&*+.=?@^_-]{1,32}$/;
+const wholeNumber = (value, low, high, what) => (Number.isInteger(value) && value >= low && value <= high
+  ? value : fail(`${what} must be a whole number from ${low} to ${high}.`));
 
 const GROUP_NAMES = { team1: 'Team 1', team2: 'Team 2', admins: 'Admins' };
 
 export class Actions {
-  constructor({ server, store, shuffle = null, getLayers = async () => [] }) {
+  // rconVerbosity says how much SquadJS prints about RCON; null when that cannot be told
+  constructor({ server, store, shuffle = null, getLayers = async () => [], rconVerbosity = async () => null }) {
+    this.rconVerbosity = rconVerbosity;
     this.server = server;
     this.store = store;
     this.shuffle = shuffle;
@@ -106,8 +116,9 @@ export class Actions {
     return handler.call(this, body, user);
   }
 
-  audit(user, action, target, reason = '') {
-    this.store.log('admin', { by: user.name, action, target, reason });
+  audit(user, action, target, reason = '', note = '') {
+    // a note is for admins only; it has its own field so it is never passed on with the reason
+    this.store.log('admin', { by: user.name, action, target, reason, ...(note ? { note } : {}) });
   }
 
   async do_warn({ ids, message }, user) {
@@ -165,7 +176,7 @@ export class Actions {
       const who = this.nameOf(id);
       await accepted(this.server.rcon.ban(id, length, text));
       this.store.record(id, 'ban', { by: user.name, reason: text, detail: `${length === '0' ? 'permanent' : length}${extra ? ` · ${extra}` : ''}`, name: who });
-      this.audit(user, `Ban ${length === '0' ? 'permanent' : length}`, who, extra ? `${text} (${extra})` : text);
+      this.audit(user, `Ban ${length === '0' ? 'permanent' : length}`, who, text, extra);
     });
   }
 
@@ -252,6 +263,68 @@ export class Actions {
   async do_restartMatch(_, user) {
     await accepted(this.server.rcon.execute('AdminRestartMatch'));
     this.audit(user, 'Restart match', 'Server');
+    return { done: 1 };
+  }
+
+  async do_demoteCommander({ id }, user) {
+    const player = this.target(id);
+    const squad = this.server.squads.find((s) => s.teamID === player.teamID && s.squadID === player.squadID);
+    if (!player.isLeader || !/^command squad$/i.test(String(squad?.squadName).trim())) fail('That player is not a commander.', 409);
+    await accepted(this.server.rcon.execute(`AdminDemoteCommanderById ${Number(player.playerID)}`));
+    this.audit(user, 'Demote commander', player.name);
+    return { done: 1 };
+  }
+
+  // the numbers in the command come from the server's own squad list, not from the request
+  async do_disbandSquad({ team, squad }, user) {
+    const found = this.server.squads.find((s) => s.teamID === team && s.squadID === squad) || fail('That squad is not on the server.', 404);
+    await accepted(this.server.rcon.execute(`AdminDisbandSquad ${Number(found.teamID)} ${Number(found.squadID)}`));
+    this.audit(user, 'Disband squad', `Team ${found.teamID} squad ${found.squadID} (${cleanText(found.squadName, 60)})`);
+    this.server.updateSquadList?.().then(() => this.server.updatePlayerList?.()).catch(() => {});
+    return { done: 1 };
+  }
+
+  async do_maxPlayers({ value }, user) {
+    wholeNumber(value, 1, 100, 'The player limit');
+    await accepted(this.server.rcon.execute(`AdminSetMaxNumPlayers ${value}`));
+    this.audit(user, 'Server setting', 'Player limit', String(value));
+    this.server.updateServerInformation?.();
+    return { done: 1 };
+  }
+
+  async do_queueLimit({ value }, user) {
+    wholeNumber(value, -1, 100, 'The queue limit');
+    await accepted(this.server.rcon.execute(`AdminSetPublicQueueLimit ${value}`));
+    this.audit(user, 'Server setting', 'Public queue limit', String(value));
+    return { done: 1 };
+  }
+
+  // Why the password cannot be set from the panel right now, or null.
+  async passwordBlock() {
+    if (typeof this.server.rcon?.write !== 'function') return 'This SquadJS version cannot send the command without logging it.';
+    const level = await this.rconVerbosity();
+    if (level === null) return 'The SquadJS log settings cannot be read, so the password could end up in its log.';
+    if (level >= 2) return 'SquadJS logs every RCON command at this level. Set logger.verboseness.RCON to 1 in config.json.';
+    return null;
+  }
+
+  // Not in HANDLERS: the route asks for the account password first. The server password is never
+  // logged, never returned, and no error text of the game or SquadJS is passed on.
+  async setPassword(user, password) {
+    if (!user.perms.has('server.password')) fail('You do not have permission for this.', 403);
+    if (typeof password !== 'string' || (password && !PASSWORD.test(password))) {
+      fail('Use 1 to 32 letters, digits or ! # $ % & * + . = ? @ ^ _ - (no spaces or quotes), or leave it empty to remove it.');
+    }
+    const blocked = await this.passwordBlock();
+    if (blocked) fail(blocked, 409);
+    let ok = false;
+    try {
+      // rcon.execute prints the whole command when it fails; write (0x02 = run a command) does not
+      await accepted(this.server.rcon.write(0x02, `AdminSetServerPassword ${password || '""'}`));
+      ok = true;
+    } catch { /* replaced below */ }
+    if (!ok) fail('The password was not changed. Check the connection to the game server.', 502);
+    this.audit(user, 'Server setting', 'Server password', password ? 'set' : 'removed');
     return { done: 1 };
   }
 

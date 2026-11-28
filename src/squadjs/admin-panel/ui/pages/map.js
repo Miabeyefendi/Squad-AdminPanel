@@ -1,5 +1,5 @@
 // Pick a layer: the maps as pictures on the left, the choice built up on the right.
-import { $, S, api, ask, draw, gate, guard, html, may, plural, post } from '../core.js';
+import { $, S, api, ask, draw, gate, guard, html, may, plural, post, t } from '../core.js';
 import { factionName, flag, mapArt, mapKey, sceneArt } from '../art.js';
 
 let layers = null;
@@ -32,9 +32,9 @@ function pickMap(name) {
 
 function nowBar() {
   const { server } = S.state;
-  const one = (label, layer, factions) => html`<div class="nowone">${layer ? sceneArt(mapKey(layer.id || layer.name)) : ''}<span class="stack2 over"><span class="cap">${label}</span><b>${layer ? layer.name : 'Not set'}</b><span class="line">${factions.map((f) => (f ? flag(f) : ''))}</span></span></div>`;
-  return html`${one('Now playing', server.layer, server.factions)}${one('Next layer', server.next, server.nextFactions)}
-    ${may('match.control') ? html`<div class="nowacts"><button class="btn" data-act="endMatch">End match</button><button class="btn" data-act="restartMatch">Restart match</button></div>` : ''}`;
+  const one = (label, layer, factions) => html`<div class="nowone">${layer ? sceneArt(mapKey(layer.id || layer.name)) : ''}<span class="stack2 over"><span class="cap">${label}</span><b>${layer ? layer.name : t('Not set')}</b><span class="line">${factions.map((f) => (f ? flag(f) : ''))}</span></span></div>`;
+  return html`${one(t('Now playing'), server.layer, server.factions)}${one(t('Next layer'), server.next, server.nextFactions)}
+    ${may('match.control') ? html`<div class="nowacts"><button class="btn" data-act="endMatch">${t('End match')}</button><button class="btn" data-act="restartMatch">${t('Restart match')}</button></div>` : ''}`;
 }
 
 function cards() {
@@ -42,48 +42,48 @@ function cards() {
   const inMode = mode ? layers.filter((l) => l.mode === mode) : layers;
   const maps = uniq(inMode.map((l) => l.map)).sort().filter((m) => m.toLowerCase().includes(q));
   $('#mp-count').textContent = `${plural(maps.length, 'map')} · ${plural(inMode.filter((l) => maps.includes(l.map)).length, 'layer')}`;
-  if (!maps.length) return html`<span class="empty">No map matches.</span>`;
+  if (!maps.length) return html`<span class="empty">${t('No map matches.')}</span>`;
   return maps.map((m) => {
     const own = inMode.filter((l) => l.map === m);
     return html`<button class="mapcard" data-map="${m}" data-key="${m}" aria-pressed="${sel.map === m}">${mapArt(keyOfMap(m))}<span class="over"><b>${m}</b><span class="xs">${plural(uniq(own.map((l) => l.mode)).length, 'mode')} · ${plural(own.length, 'layer')}</span></span></button>`;
   });
 }
-const filterChips = () => [['', 'All modes'], ...uniq(layers.map((l) => l.mode)).sort().map((m) => [m, m])]
+const filterChips = () => [['', t('All modes')], ...uniq(layers.map((l) => l.mode)).sort().map((m) => [m, m])]
   .map(([v, n]) => html`<button class="chip" data-filter="${v}" data-key="f${v}" aria-pressed="${v === mode}">${n}</button>`);
 
 function faction(i) {
   const list = factionsFor(i);
   const current = list.find((f) => f.id === sel.f[i]);
-  const t = i + 1;
-  return html`<fieldset class="side-pick t${t}"><legend>Team ${t} faction</legend>
-    ${list.length ? html`<div class="chips"><button class="chip" data-fac="${i}" data-id="" data-key="fac${i}" aria-pressed="${!sel.f[i]}">Layer default</button>${list.map((f) => html`<button class="chip flagchip" data-fac="${i}" data-id="${f.id}" data-key="fac${i}${f.id}" aria-pressed="${sel.f[i] === f.id}" title="${factionName(f.id)}">${flag(f.id)}${f.id}</button>`)}</div>` : html`<span class="sub">This layer lists no factions, the layer's own are used.</span>`}
-    ${current ? html`<span class="sub xs">${factionName(current.id)} · unit type</span><div class="chips">${current.types.map((u) => html`<button class="chip" data-unit="${i}" data-id="${u}" data-key="unit${i}${u}" aria-pressed="${sel.u[i] === u}">${spaced(u)}</button>`)}</div>` : ''}</fieldset>`;
+  const team = i + 1;
+  return html`<fieldset class="side-pick t${team}"><legend>${t('Team {n} faction', { n: team })}</legend>
+    ${list.length ? html`<div class="chips"><button class="chip" data-fac="${i}" data-id="" data-key="fac${i}" aria-pressed="${!sel.f[i]}">${t('Layer default')}</button>${list.map((f) => html`<button class="chip flagchip" data-fac="${i}" data-id="${f.id}" data-key="fac${i}${f.id}" aria-pressed="${sel.f[i] === f.id}" title="${factionName(f.id)}">${flag(f.id)}${f.id}</button>`)}</div>` : html`<span class="sub">${t("This layer lists no factions, the layer's own are used.")}</span>`}
+    ${current ? html`<span class="sub xs">${factionName(current.id)} · ${t('unit type')}</span><div class="chips">${current.types.map((u) => html`<button class="chip" data-unit="${i}" data-id="${u}" data-key="unit${i}${u}" aria-pressed="${sel.u[i] === u}">${spaced(u)}</button>`)}</div>` : ''}</fieldset>`;
 }
 function panel() {
-  if (!sel.map) return html`<div class="pickempty"><h2>Pick a map</h2><span class="sub">Then choose the mode, version and, if you want, the factions. Nothing is sent until you press a button below.</span></div>`;
+  if (!sel.map) return html`<div class="pickempty"><h2>${t('Pick a map')}</h2><span class="sub">${t('Then choose the mode, version and, if you want, the factions. Nothing is sent until you press a button below.')}</span></div>`;
   const inMap = layers.filter((l) => l.map === sel.map);
   const layer = chosen();
   const half = !sel.f[0] && !!sel.f[1];
-  return html`<div class="preview">${mapArt(keyOfMap(sel.map))}<span class="over"><span class="cap">Your pick</span><b class="layer">${sel.map}</b><span class="mono xs">${layer ? layer.id : ''}</span></span></div>
-    <fieldset><legend>Mode</legend><div class="chips">${uniq(inMap.map((l) => l.mode)).sort().map((m) => html`<button class="chip" data-mode="${m}" data-key="m${m}" aria-pressed="${sel.mode === m}">${m}</button>`)}</div></fieldset>
-    <fieldset><legend>Version</legend><div class="chips">${uniq(inMap.filter((l) => l.mode === sel.mode).map((l) => l.version)).sort().map((v) => html`<button class="chip mono" data-ver="${v}" data-key="v${v}" aria-pressed="${sel.ver === v}">${String(v).toUpperCase()}</button>`)}</div></fieldset>
+  return html`<div class="preview">${mapArt(keyOfMap(sel.map))}<span class="over"><span class="cap">${t('Your pick')}</span><b class="layer">${sel.map}</b><span class="mono xs">${layer ? layer.id : ''}</span></span></div>
+    <fieldset><legend>${t('Mode')}</legend><div class="chips">${uniq(inMap.map((l) => l.mode)).sort().map((m) => html`<button class="chip" data-mode="${m}" data-key="m${m}" aria-pressed="${sel.mode === m}">${m}</button>`)}</div></fieldset>
+    <fieldset><legend>${t('Version')}</legend><div class="chips">${uniq(inMap.filter((l) => l.mode === sel.mode).map((l) => l.version)).sort().map((v) => html`<button class="chip mono" data-ver="${v}" data-key="v${v}" aria-pressed="${sel.ver === v}">${String(v).toUpperCase()}</button>`)}</div></fieldset>
     ${faction(0)}${faction(1)}
-    <div class="sendbar"><code>${layer ? layerArgs().text : ''}</code>${half ? html`<span class="err">Pick the team 1 faction too: the game reads the factions in order.</span>` : ''}
-      <div class="line">${may('map.next') ? html`<button class="btn pri tall grow" data-send="next" ${!layer || half ? html`disabled` : ''}>Set as next</button>` : ''}${may('map.now') ? html`<button class="btn danger tall" data-send="now" ${!layer || half ? html`disabled` : ''}>Change now</button>` : ''}</div>
-      ${!may('map.next') && !may('map.now') ? html`<span class="sub xs">You can look at the layers. Changing them needs a higher permission.</span>` : ''}</div>`;
+    <div class="sendbar"><code>${layer ? layerArgs().text : ''}</code>${half ? html`<span class="err">${t('Pick the team 1 faction too: the game reads the factions in order.')}</span>` : ''}
+      <div class="line">${may('map.next') ? html`<button class="btn pri tall grow" data-send="next" ${!layer || half ? html`disabled` : ''}>${t('Set as next')}</button>` : ''}${may('map.now') ? html`<button class="btn danger tall" data-send="now" ${!layer || half ? html`disabled` : ''}>${t('Change now')}</button>` : ''}</div>
+      ${!may('map.next') && !may('map.now') ? html`<span class="sub xs">${t('You can look at the layers. Changing them needs a higher permission.')}</span>` : ''}</div>`;
 }
 
 const page = {
   id: 'map',
-  title: 'Map',
+  title: t('Map'),
   shell: () => html`<div class="tile nowbar" id="mp-now"></div>
     <div class="mapsplit">
       <div class="stackcol">
-        <div class="toolbar"><label class="sr" for="mp-q">Search maps</label><input id="mp-q" class="field search" type="search" placeholder="Search a map"><span class="sub xs" id="mp-count"></span></div>
-        <div class="chips" id="mp-modes" role="group" aria-label="Show maps with this mode"></div>
-        <div class="mapgrid" id="mp-maps"><span class="empty">Loading the layer list…</span></div>
+        <div class="toolbar"><label class="sr" for="mp-q">${t('Search maps')}</label><input id="mp-q" class="field search" type="search" placeholder="${t('Search a map')}"><span class="sub xs" id="mp-count"></span></div>
+        <div class="chips" id="mp-modes" role="group" aria-label="${t('Show maps with this mode')}"></div>
+        <div class="mapgrid" id="mp-maps"><span class="empty">${t('Loading the layer list…')}</span></div>
       </div>
-      <aside class="tile pick" id="mp-pick" aria-label="Chosen layer" data-keep-scroll="pick"></aside>
+      <aside class="tile pick" id="mp-pick" aria-label="${t('Chosen layer')}" data-keep-scroll="pick"></aside>
     </div>`,
   wire(root) {
     root.addEventListener('input', (e) => { if (e.target.id === 'mp-q' && layers) this.render(); });
@@ -105,7 +105,7 @@ const page = {
       else if (d.send) {
         const { body, text } = layerArgs();
         const now = d.send === 'now';
-        ask({ title: now ? 'Change the match now?' : 'Set this layer as next?', text: now ? `Everyone leaves the current match. ${text}` : text, danger: now, ok: now ? 'Yes, change now' : 'Set as next', run: () => post(now ? 'changeLayer' : 'nextLayer', body) });
+        ask({ title: now ? t('Change the match now?') : t('Set this layer as next?'), text: now ? `${t('Everyone leaves the current match.')} ${text}` : text, danger: now, ok: now ? t('Yes, change now') : t('Set as next'), run: () => post(now ? 'changeLayer' : 'nextLayer', body) });
         return;
       } else return;
       this.render();
@@ -120,7 +120,7 @@ const page = {
     if (!S.state) return;
     draw($('#mp-now'), nowBar());
     if (!layers) return;
-    if (!layers.length) { draw($('#mp-maps'), html`<span class="empty">SquadJS gave no layer list.</span>`); return; }
+    if (!layers.length) { draw($('#mp-maps'), html`<span class="empty">${t('SquadJS gave no layer list.')}</span>`); return; }
     draw($('#mp-modes'), filterChips());
     draw($('#mp-maps'), cards());
     draw($('#mp-pick'), panel());

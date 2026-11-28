@@ -494,3 +494,27 @@ dialog.risk #act-ok{background:var(--risk);border-color:var(--risk);color:var(--
 
 @media (max-width:760px){main{padding:14px 16px}.tile{padding:16px}.tbox{margin:0 -16px;padding:0 16px}.chatlog{margin:0 -16px;padding:0 16px}.sendbar{margin:0 -16px -16px;padding:12px 16px 16px}.field.search{width:100%}}
 @media (prefers-reduced-motion:reduce){.sw::after{transition:none}.live{animation:none}}
+/* language picker, top right */
+.langpick{position:relative}
+.langpick.corner{position:fixed;top:16px;right:16px;z-index:2}
+.langpick summary{display:inline-flex;align-items:center;gap:7px;list-style:none;cursor:pointer;min-height:32px;user-select:none}
+.langpick summary::-webkit-details-marker{display:none}
+.langpick .flag{width:21px;height:14px;border-radius:2px;flex-shrink:0;box-shadow:0 0 0 1px var(--line2)}
+.langmenu{position:absolute;right:0;top:calc(100% + 6px);z-index:30;display:flex;flex-direction:column;gap:2px;min-width:164px;padding:6px;border-radius:12px;border:1px solid var(--line2);background:var(--card);box-shadow:0 12px 32px rgba(0,0,0,.28)}
+.langmenu button{display:flex;align-items:center;gap:10px;min-height:40px;padding:0 10px;border:0;border-radius:8px;background:none;color:var(--text);text-align:left;cursor:pointer}
+.langmenu button:hover{background:var(--hover)}
+.langmenu button[aria-pressed=true]{background:var(--sel);font-weight:600}
+/* server page */
+.annlist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px}
+.annrow{display:grid;grid-template-columns:minmax(180px,1fr) 150px 190px auto;gap:12px;align-items:end;padding:12px;border:1px solid var(--line);border-radius:12px}
+.annrow label,.ruleform label{font-size:12px;font-weight:500;color:var(--soft)}
+.annrow label{display:flex;flex-direction:column;gap:4px;min-width:0}
+.annrow .field{width:100%;min-width:0}
+.annrow .wide{grid-column:1/-1}
+.annrow label.tick,label.tick{display:flex;flex-direction:row;align-items:center;gap:8px;min-height:40px}
+.annacts{display:flex;align-items:center;gap:12px;justify-content:flex-end}
+#sv-limits:empty,#sv-password:empty,#sv-schedule:empty,#sv-discord:empty{display:none}
+@media (max-width:760px){.annrow{grid-template-columns:minmax(0,1fr)}.annacts{justify-content:space-between}}
+.picks{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:4px 16px}
+.picks label{display:flex;align-items:center;gap:8px;min-height:40px}
+.tag.wrapany{white-space:normal;height:auto;max-width:100%;overflow-wrap:anywhere}

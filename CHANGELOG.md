@@ -8,6 +8,23 @@ All notable changes to **Squad-AdminPanel** are recorded here. The format follow
 
 ---
 
+## [1.1.0] - 2026-11-28
+
+Not yet tried on a real game server; the demote, disband and offline ban actions need one with players.
+
+### Added
+
+- Panel languages: English, Turkish, German, Russian and Chinese, picked with a flag at the top right.
+- Server page: player limit, public queue limit, server password, automatic announcements and one way Discord notices (off by default).
+- "Recently left" list on Players and squads.
+- Demote commander and disband squad buttons, with new permissions.
+
+### Security
+
+- The Discord webhook address is stored encrypted, only discord.com addresses are accepted, and no message can ping anyone except one role chosen for admin calls.
+- The server password is never stored or logged. It is refused when SquadJS would print RCON commands.
+- A ban's private note is kept in its own log field and is never sent to Discord.
+
 ## [1.0.0] - 2026-11-27
 
 First release. Not yet tested on a live match with players.
@@ -28,4 +45,5 @@ First release. Not yet tested on a live match with players.
 
 - Salted scrypt password hashes, brute force protection, AES-256-GCM encrypted data, strict Content-Security-Policy, cross-site and host name checks, no-index headers.
 
+[1.1.0]: https://github.com/Miabeyefendi/Squad-AdminPanel/releases/tag/v1.1.0
 [1.0.0]: https://github.com/Miabeyefendi/Squad-AdminPanel/releases/tag/v1.0.0

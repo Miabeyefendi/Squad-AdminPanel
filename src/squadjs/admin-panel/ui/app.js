@@ -1,5 +1,5 @@
 // The shell: sign in, navigation, the header, the live stream and what an account may see.
-import { $, $$, LOG_KINDS, S, api, app, ask, confirmField, elapsed, gate, guard, html, may, messagePlayer, passwordField, playerAction, post, put, sendMessage, thisMatch, toast, wireDialog } from './core.js';
+import { $, $$, LOG_KINDS, S, api, app, ask, elapsed, gate, guard, html, may, messagePlayer, passwordField, playerAction, post, put, sendMessage, t, thisMatch, toast, wireDialog } from './core.js';
 import overview from './pages/overview.js';
 import score, { selected } from './pages/score.js';
 import players, { openPlayer, wireCard } from './pages/players.js';
@@ -9,14 +9,15 @@ import rules from './pages/rules.js';
 import plugins from './pages/plugins.js';
 import { logs, records } from './pages/records.js';
 import { ranksPage, staffPage } from './pages/staff.js';
+import serverPage from './pages/server.js';
 
 // build tag
 Object.defineProperty(window, Symbol.for('sa.build'), { value: String.fromCharCode(77, 105, 97, 98, 101, 121, 101, 102, 101, 110, 100, 105) });
 
-const PAGES = Object.fromEntries([overview, score, players, map, shuffle, rules, plugins, records, logs, staffPage, ranksPage]
+const PAGES = Object.fromEntries([overview, score, players, map, shuffle, rules, plugins, serverPage, records, logs, staffPage, ranksPage]
   .map((p) => [p.id, p]));
 // pages that need a permission; the others are for everyone who is signed in
-const NEEDS = { rules: 'rules.view', plugins: 'plugins', staff: 'staff', ranks: 'ranks.edit', records: 'records' };
+const NEEDS = { rules: 'rules.view', plugins: 'plugins', staff: 'staff', ranks: 'ranks.edit', records: 'records', server: 'server' };
 let events = null;
 
 const page = () => PAGES[S.view];
@@ -32,9 +33,9 @@ function rebuild() {
 function renderHeader() {
   if (!S.state) return;
   const { server } = S.state;
-  $('#subtitle').textContent = [server.name, server.layer?.name || 'Unknown layer', elapsed()].filter(Boolean).join(' · ');
+  $('#subtitle').textContent = [server.name, server.layer?.name || t('Unknown layer'), elapsed()].filter(Boolean).join(' · ');
   $('#pcount').textContent = `${server.players} / ${server.maxPlayers}`;
-  $('#pqueue').textContent = `Queue ${server.queue}`;
+  $('#pqueue').textContent = t('Queue {n}', { n: server.queue });
   const teamkills = thisMatch(S.logs.tk).length;
   $('#tkcount').hidden = !teamkills;
   $('#tkcount').textContent = `${teamkills} TK`;
@@ -42,7 +43,7 @@ function renderHeader() {
 setInterval(() => {
   renderHeader();
   const time = $('#ov-time');
-  if (time && S.state) time.textContent = elapsed() || 'Match time unknown';
+  if (time && S.state) time.textContent = elapsed() || t('Match time unknown');
 }, 1000);
 
 // A redraw between press and release would swallow the click, so it waits for the release.
@@ -95,8 +96,8 @@ function wireGlobal() {
     const name = act.dataset.act;
     if (name === 'message') sendMessage();
     else if (name === 'messagePlayer') messagePlayer(act.dataset.id);
-    else if (name === 'endMatch') ask({ title: 'End the match now?', text: 'The round ends for everyone.', ok: 'End match', danger: true, run: () => post('endMatch') });
-    else if (name === 'restartMatch') ask({ title: 'Restart the match now?', text: 'Everyone starts this layer again.', ok: 'Restart match', danger: true, run: () => post('restartMatch') });
+    else if (name === 'endMatch') ask({ title: t('End the match now?'), text: t('The round ends for everyone.'), ok: t('End match'), danger: true, run: () => post('endMatch') });
+    else if (name === 'restartMatch') ask({ title: t('Restart the match now?'), text: t('Everyone starts this layer again.'), ok: t('Restart match'), danger: true, run: () => post('restartMatch') });
     else playerAction(name, [act.dataset.id]);
   });
 }
@@ -118,7 +119,7 @@ function wireTheme() {
 // ---------- what this account may see ----------
 function showMe() {
   $('#me-name').textContent = S.me.name;
-  $('#me-role').textContent = S.me.rankName;
+  $('#me-role').textContent = t(S.me.rankName);
   $('#firstpw').hidden = !S.me.defaultPassword;
 }
 function applyAccess() {
@@ -139,13 +140,13 @@ async function accessChanged(user) {
   applyAccess();
   await loadLogs();
   show(S.view);
-  toast('Your permissions changed.');
+  toast(t('Your permissions changed.'));
 }
 
 // ---------- live data ----------
 function setLive(on) {
   $('#livedot').classList.toggle('off', !on);
-  $('#livetext').textContent = on ? 'Live' : 'Reconnecting';
+  $('#livetext').textContent = on ? t('Live') : t('Reconnecting');
 }
 function connect() {
   events?.close();
@@ -196,7 +197,7 @@ function signedOut() {
   rebuild();
   $$('dialog[open]').forEach((d) => d.close());
   ['#playercard', '#act-body', '#act-fields', '#toasts', '#subtitle', '#me-name', '#me-role'].forEach((s) => { $(s).textContent = ''; });
-  document.title = 'Sign in';
+  document.title = t('Sign in');
   $('#setup').hidden = true;
   $('#app').hidden = true;
   $('#login').hidden = false;
@@ -223,13 +224,13 @@ function wireAccount() {
     const form = e.currentTarget;
     const f = form.elements;
     $('#setuperr').textContent = '';
-    if (f.newPassword.value !== f.repeat.value) { $('#setuperr').textContent = 'The two new passwords differ.'; return; }
+    if (f.newPassword.value !== f.repeat.value) { $('#setuperr').textContent = t('The two new passwords differ.'); return; }
     try {
       const user = await api('/api/account', { name: f.name.value, currentPassword: f.currentPassword.value, newPassword: f.newPassword.value });
       form.reset();
       await start(user);
     } catch (err) {
-      $('#setuperr').textContent = err.message;
+      $('#setuperr').textContent = t(err.message);
     }
   });
   $('#loginform').addEventListener('submit', async (e) => {
@@ -248,10 +249,10 @@ function wireAccount() {
   $('#signout').addEventListener('click', signOut);
   $('#setupout').addEventListener('click', signOut);
   $('#firstpw-change').addEventListener('click', () => $('#myaccount').click());
-  $('#myaccount').addEventListener('click', () => ask({ title: 'My account', text: 'Change your user name, your password or both. Other places where you are signed in are signed out.', ok: 'Save',
-    fields: html`<label>User name<input class="field" name="name" maxlength="32" autocomplete="username" value="${S.me.name}" required></label>${passwordField('currentPassword', 'Current password')}<label>New password (empty keeps the old one)<input class="field" type="password" name="newPassword" autocomplete="new-password" maxlength="200"></label><label>New password again<input class="field" type="password" name="repeat" autocomplete="new-password" maxlength="200"></label>`,
+  $('#myaccount').addEventListener('click', () => ask({ title: t('My account'), text: t('Change your user name, your password or both. Other places where you are signed in are signed out.'), ok: t('Save'),
+    fields: html`<label>${t('User name')}<input class="field" name="name" maxlength="32" autocomplete="username" value="${S.me.name}" required></label>${passwordField('currentPassword', t('Current password'))}<label>${t('New password (empty keeps the old one)')}<input class="field" type="password" name="newPassword" autocomplete="new-password" maxlength="200"></label><label>${t('New password again')}<input class="field" type="password" name="repeat" autocomplete="new-password" maxlength="200"></label>`,
     run: async (v) => {
-      if (v.newPassword !== v.repeat) throw new Error('The two new passwords differ.');
+      if (v.newPassword !== v.repeat) throw new Error(t('The two new passwords differ.'));
       S.me = await api('/api/account', { name: v.name, currentPassword: v.currentPassword, newPassword: v.newPassword });
       showMe();
       connect(); // the old session is gone, the stream has to use the new one

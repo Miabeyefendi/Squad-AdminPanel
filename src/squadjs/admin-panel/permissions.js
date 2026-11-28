@@ -25,6 +25,8 @@ const TABLE = [
   ['broadcast', 30, 'Players', 'Send a message to everyone'],
   ['kick', 35, 'Players', 'Kick'],
   ['team.move', 35, 'Players', 'Move to the other team'],
+  ['commander.demote', 40, 'Players', 'Demote a commander'],
+  ['squad.disband', 40, 'Players', 'Disband a squad'],
   ['shuffle.round', 40, 'Smart Shuffle', 'This round: shuffle, cancel, preview, unlock'],
   ['ban.short', 50, 'Bans', 'Ban for 1 hour or 1 day'],
   ['map.next', 50, 'Map and match', 'Set the next layer'],
@@ -37,6 +39,8 @@ const TABLE = [
   ['match.control', 75, 'Map and match', 'End or restart the match'],
   ['rules.edit', 75, 'Rules', 'Edit automatic rules'],
   ['shuffle.settings', 75, 'Smart Shuffle', 'All settings, presets, on and off'],
+  ['messages.schedule', 75, 'Server', 'Automatic announcements'],
+  ['server.settings', 80, 'Server', 'Player limit and queue limit'],
   ['staff.manage', 80, 'Management', 'Register, reset and remove mod accounts'],
   ['perm.grant', 85, 'Management', 'Give and take permissions of lower ranks'],
   ['log.ip', 85, 'Logs', 'See sign in records with IP addresses'],
@@ -45,7 +49,9 @@ const TABLE = [
   ['staff.admins', 100, 'Server owner only', 'Admin accounts and ranks'],
   ['ranks.edit', 100, 'Server owner only', 'Default permissions of each rank'],
   ['owner.transfer', 100, 'Server owner only', 'Hand over server ownership'],
-  ['data.manage', 100, 'Server owner only', 'Delete records and set how long they are kept']
+  ['data.manage', 100, 'Server owner only', 'Delete records and set how long they are kept'],
+  ['server.password', 100, 'Server owner only', 'Server password'],
+  ['notify.manage', 100, 'Server owner only', 'Discord notices']
 ];
 
 // A basic: everyone, cannot be switched off. B free: junior and up. C senior: senior and up.
@@ -69,7 +75,7 @@ export const assignable = (id) => isPermission(id) && ['B', 'C', 'D'].includes(P
 const pick = (...ids) => ids;
 const classB = IDS.filter((id) => PERMISSIONS[id].class === 'B');
 export const RANK_DEFAULTS = Object.freeze({
-  admin: [...classB, ...IDS.filter((id) => PERMISSIONS[id].class === 'C'), ...pick('map.now', 'match.control', 'rules.edit', 'shuffle.settings')],
+  admin: [...classB, ...IDS.filter((id) => PERMISSIONS[id].class === 'C'), ...pick('map.now', 'match.control', 'rules.edit', 'shuffle.settings', 'messages.schedule')],
   senior: [...classB, ...pick('ban.short', 'map.next', 'rules.view')],
   junior: pick('chat.view', 'kills.view', 'notes.view', 'notes.add', 'warn')
 });

@@ -154,6 +154,27 @@ export class Tracker {
     return this.rules.onPlayers();
   }
 
+  // Players who left in the last half hour and have not come back, newest first. The log keeps
+  // their IDs, so they can still be banned.
+  recentlyLeft(minutes = 30) {
+    const since = this.now() - minutes * 60000;
+    const online = new Set(this.server.players.map((p) => p.eosID));
+    const seen = new Set();
+    const out = [];
+    for (let i = this.store.logs.conn.length - 1; i >= 0; i--) {
+      const row = this.store.logs.conn[i];
+      if (row.at < since) break;
+      const key = row.id || row.player;
+      if (seen.has(key)) continue;
+      seen.add(key);
+      if (row.event !== 'Left' || online.has(row.id)) continue;
+      const record = row.id ? this.store.player(row.id) : null;
+      out.push({ id: row.id || null, name: row.player, at: row.at, teamkills: (row.id && this.stats.get(row.id)?.teamkills) || 0,
+        notes: record?.notes.length || 0, warns: record?.warns || 0, kicks: record?.kicks || 0, bans: record?.bans || 0 });
+    }
+    return out;
+  }
+
   snapshot() {
     const s = this.server;
     // Squad has no commander field in its player list: the commander leads the squad named "Command Squad"

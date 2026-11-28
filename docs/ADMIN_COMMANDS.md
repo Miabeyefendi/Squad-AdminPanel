@@ -24,7 +24,7 @@ Syntax and access levels follow the [Server Administration](https://squad.fandom
 | `AdminBanById <Id> <Length> <Reason>` | Bans by player number | `ban` | same |
 | `AdminWarn <NameOrSteamId> <Reason>` | Shows a warning on the player's screen | `kick` | Player card, **Warn** or **Message** |
 | `AdminWarnById <Id> <Reason>` | Warns by player number | `kick` | same |
-| `AdminListDisconnectedPlayers` | Lists players who left recently | `kick` | not in the panel (**Records** finds players with a history) |
+| `AdminListDisconnectedPlayers` | Lists players who left recently | `kick` | **Players & squads**, Recently left (from the panel's own log, not this command) |
 
 ## Squads, teams and commander
 
@@ -34,8 +34,8 @@ Syntax and access levels follow the [Server Administration](https://squad.fandom
 | `AdminForceTeamChangeById <Id>` | Moves by player number | `forceteamchange` | same |
 | `AdminRemovePlayerFromSquad <Name>` | Removes a player from the squad | `kick` | **Remove from squad** |
 | `AdminRemovePlayerFromSquadById <Id>` | Removes by player number | `kick` | same |
-| `AdminDisbandSquad <1 or 2> <SquadIndex>` | Disbands a squad of that team | `kick` | only as the automatic locked squad rule, not yet tried on a real server |
-| `AdminDemoteCommander <Name>` | Removes the commander | `kick` | not in the panel |
+| `AdminDisbandSquad <1 or 2> <SquadIndex>` | Disbands a squad of that team | `kick` | squad header, **Disband**, and the locked squad rule; not yet tried on a real server |
+| `AdminDemoteCommander <Name>` | Removes the commander | `kick` | Commander's player card, **Demote commander** (sends the `ById` form, not yet tried on a real server) |
 
 ## Messages
 
@@ -60,9 +60,9 @@ A layer name is the map, mode and version together, such as `Narva_RAAS_v1`. On 
 
 | Command | What it does | Permission | In the panel |
 |---|---|---|---|
-| `AdminSetMaxNumPlayers <Number>` | Player limit | `config` | not in the panel |
-| `AdminSetPublicQueueLimit <Number>` | Public queue limit; `-1` is no limit | `config` | not in the panel |
-| `AdminSetServerPassword <Password>` | Sets or, with `""`, removes the server password | `private` | not in the panel |
+| `AdminSetMaxNumPlayers <Number>` | Player limit | `config` | **Server**, Player limits |
+| `AdminSetPublicQueueLimit <Number>` | Public queue limit; `-1` is no limit | `config` | **Server**, Player limits |
+| `AdminSetServerPassword <Password>` | Sets or, with `""`, removes the server password | `private` | **Server**, Server password |
 | `AdminSlomo <Speed>` | Game speed, `1` is normal | `cheat` | not in the panel |
 
 ## Useful commands without a permission

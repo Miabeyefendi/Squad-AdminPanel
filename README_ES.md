@@ -55,6 +55,9 @@
 - **Historial y registros** - avisos, expulsiones, baneos y notas que sobreviven a los reinicios; exportación CSV
 - **Reglas automáticas** - todas desactivadas al principio
 - **Gestor de plugins de SquadJS** - activa y configura otros plugins desde el navegador
+- **Página del servidor** - límite de jugadores y de cola, contraseña del servidor, anuncios automáticos y avisos a Discord en un solo sentido (baneos, expulsiones, llamadas `!admin`), desactivados por defecto
+- **Jugadores que acaban de salir** - los últimos 30 minutos con sus teamkills e historial, para poder banearlos; botones para destituir al comandante o disolver una escuadra
+- **Cinco idiomas en el panel** - inglés, turco, alemán, ruso y chino, con una bandera arriba a la derecha; los nombres de ajustes de los plugins no se traducen
 - **Autoalojado** - sin cuentas ni nube, sin paquetes npm adicionales, datos cifrados
 
 ---
@@ -77,7 +80,7 @@
 
 ### Instalar
 
-1. Descarga `Squad-AdminPanel-v1.0.0.zip` de la [página de versiones](https://github.com/Miabeyefendi/Squad-AdminPanel/releases/latest).
+1. Descarga `Squad-AdminPanel-v1.1.0.zip` de la [página de versiones](https://github.com/Miabeyefendi/Squad-AdminPanel/releases/latest).
 2. Extrae `admin-panel.js` y la carpeta `admin-panel` en `squad-server/plugins/` de SquadJS.
 3. Añade a la lista `plugins` de `config.json`:
 
@@ -90,12 +93,12 @@
 <details>
 <summary><b>Sobre el archivo de la versión</b></summary>
 
-El zip es una copia de `src/squadjs/` (tag `v1.0.0`) con `LICENSE` y `NOTICE` dentro de `admin-panel/`. No hay compilación ni código minificado.
+El zip es una copia de `src/squadjs/` (tag `v1.1.0`) con `LICENSE` y `NOTICE` dentro de `admin-panel/`. No hay compilación ni código minificado.
 
-SHA-256 de `Squad-AdminPanel-v1.0.0.zip`:
+SHA-256 de `Squad-AdminPanel-v1.1.0.zip`:
 
 ```
-804c8b6210586f9fe7dad42c4ddf0527a5a22f91e4a699e141de704c67c47af5
+176a30cab3fc84ea552d5525b02fef8fbf80867120e8e36efaeb335b36d0e89c
 ```
 
 </details>
@@ -259,7 +262,7 @@ La lista de jugadores no lo indica. El panel toma al líder de la escuadra "Comm
 <details>
 <summary><b>¿Qué no está probado?</b></summary>
 
-Las acciones sobre jugadores reales, disolver escuadras y las cifras de daño en una partida real.
+Las acciones sobre jugadores reales, disolver escuadras y las cifras de daño en una partida real. Novedades de 1.1.0 aún sin probar en un servidor real: destituir al comandante, disolver una escuadra con el botón, banear a un jugador que ya salió, los límites de jugadores y de cola y la contraseña del servidor. Todavía no se ha enviado ningún mensaje a un canal real de Discord.
 
 </details>
 

@@ -24,7 +24,7 @@ Sözdizimi ve yetkiler Squad Wiki'nin [Server Administration](https://squad.fand
 | `AdminBanById <Id> <Süre> <Sebep>` | Numarayla banlar | `ban` | aynı |
 | `AdminWarn <NameOrSteamId> <Sebep>` | Oyuncunun ekranına uyarı | `kick` | **Warn** ya da **Message** |
 | `AdminWarnById <Id> <Sebep>` | Numarayla uyarır | `kick` | aynı |
-| `AdminListDisconnectedPlayers` | Yeni çıkan oyuncular | `kick` | panelde yok (**Records** geçmişi olanları bulur) |
+| `AdminListDisconnectedPlayers` | Yeni çıkan oyuncular | `kick` | **Players & squads**, Recently left (bu komutla değil, panelin kendi logundan) |
 
 ## Squad, takım ve commander
 
@@ -34,8 +34,8 @@ Sözdizimi ve yetkiler Squad Wiki'nin [Server Administration](https://squad.fand
 | `AdminForceTeamChangeById <Id>` | Numarayla geçirir | `forceteamchange` | aynı |
 | `AdminRemovePlayerFromSquad <İsim>` | Squad'dan çıkarır | `kick` | **Remove from squad** |
 | `AdminRemovePlayerFromSquadById <Id>` | Numarayla çıkarır | `kick` | aynı |
-| `AdminDisbandSquad <1 ya da 2> <SquadNo>` | O takımdaki squad'ı dağıtır | `kick` | yalnızca otomatik kilitli squad kuralında, gerçek sunucuda denenmedi |
-| `AdminDemoteCommander <İsim>` | Commander'ı düşürür | `kick` | panelde yok |
+| `AdminDisbandSquad <1 ya da 2> <SquadNo>` | O takımdaki squad'ı dağıtır | `kick` | squad başlığında **Disband** ve kilitli squad kuralı; gerçek sunucuda denenmedi |
+| `AdminDemoteCommander <İsim>` | Commander'ı düşürür | `kick` | Commander'ın oyuncu kartı, **Demote commander** (`ById` biçimini gönderir, gerçek sunucuda denenmedi) |
 
 ## Mesaj
 
@@ -60,9 +60,9 @@ Layer adı harita, mod ve versiyonun birlikte yazılışıdır: `Narva_RAAS_v1`.
 
 | Komut | Ne yapar | Yetki | Panelde |
 |---|---|---|---|
-| `AdminSetMaxNumPlayers <Sayı>` | Oyuncu sınırı | `config` | panelde yok |
-| `AdminSetPublicQueueLimit <Sayı>` | Sıra sınırı; `-1` sınırsız | `config` | panelde yok |
-| `AdminSetServerPassword <Parola>` | Sunucu parolası, `""` ile kaldırılır | `private` | panelde yok |
+| `AdminSetMaxNumPlayers <Sayı>` | Oyuncu sınırı | `config` | **Server**, Player limits |
+| `AdminSetPublicQueueLimit <Sayı>` | Sıra sınırı; `-1` sınırsız | `config` | **Server**, Player limits |
+| `AdminSetServerPassword <Parola>` | Sunucu parolası, `""` ile kaldırılır | `private` | **Server**, Server password |
 | `AdminSlomo <Hız>` | Oyun hızı, `1` normal | `cheat` | panelde yok |
 
 ## Yetki istemeyen komutlar

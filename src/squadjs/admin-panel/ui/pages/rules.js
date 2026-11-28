@@ -1,35 +1,38 @@
 // Automatic rules. Each one says in plain words what it will do with the values as they are.
-import { $, BAN_CHOICES, api, ask, gate, guard, html, may, plural, put } from '../core.js';
+import { $, BAN_CHOICES, api, ask, gate, guard, html, may, plural, put, t, tAction } from '../core.js';
 
 let rules = null;
 let overlap = [];
 const open = new Set();
 
 const minutes = (n) => plural(n, 'minute');
-const banText = (v) => (v === '0' ? 'permanent' : BAN_CHOICES.find(([id]) => id === v)?.[1] || v);
-const countSteps = (r, unit) => [r.warnAt > 0 && ['Warn', `at ${r.warnAt} ${unit}`], r.kickAt > 0 && ['Kick', `at ${r.kickAt}`], r.banAt > 0 && [`Ban ${banText(r.banLength)}`, `at ${r.banAt}`]].filter(Boolean);
+const banText = (v) => (v === '0' ? t('permanent') : BAN_CHOICES.find(([id]) => id === v)?.[1] || v);
+const at = (n) => t('at {n}', { n });
+const after = (n) => t('after {time}', { time: minutes(n) });
+const banStep = (r) => r.banAt > 0 && [`${t('Ban')} ${banText(r.banLength)}`, at(r.banAt)];
+const countSteps = (r, unit) => [r.warnAt > 0 && [t('Warn'), t('at {count}', { count: plural(r.warnAt, unit) })], r.kickAt > 0 && [t('Kick'), at(r.kickAt)], banStep(r)].filter(Boolean);
 
 // title, what it watches, the steps it takes with these values, and the values to edit
 const INFO = {
-  teamkill: { group: 'Behaviour', title: 'Teamkill limit', watches: (r) => `Counts each player's teamkills over ${minutes(r.windowMinutes)}.`,
-    steps: (r) => countSteps(r, r.warnAt === 1 ? 'teamkill' : 'teamkills'),
-    fields: [['windowMinutes', 'Count over (minutes)'], ['warnAt', 'Warn at (teamkills)'], ['kickAt', 'Kick at'], ['banAt', 'Ban at'], ['banLength', 'Ban length'], ['warnMessage', 'Warning message']] },
-  squadless: { group: 'Behaviour', title: 'Players without a squad', watches: (r) => `Only while at least ${r.minPlayers} players are on.`,
-    steps: (r) => [r.warnAfterMinutes > 0 && ['Warn', `after ${minutes(r.warnAfterMinutes)}`], r.kickAfterMinutes > 0 && ['Kick', `after ${minutes(r.kickAfterMinutes)}`]].filter(Boolean),
-    fields: [['minPlayers', 'Only from this many players'], ['warnAfterMinutes', 'Warn after (minutes)'], ['kickAfterMinutes', 'Kick after (minutes)'], ['warnMessage', 'Warning message']] },
-  slKit: { group: 'Behaviour', title: 'Squad leader without the SL kit', watches: (r) => `Squad leaders only, while at least ${r.minPlayers} players are on.`,
-    steps: (r) => [['Warn', r.warnAfterMinutes ? `after ${minutes(r.warnAfterMinutes)}` : 'at once'], r.removeAfterMinutes > 0 && ['Remove from squad', `after ${minutes(r.removeAfterMinutes)}`]].filter(Boolean),
-    fields: [['minPlayers', 'Only from this many players'], ['warnAfterMinutes', 'Warn after (minutes)'], ['removeAfterMinutes', 'Remove from squad after (minutes)'], ['warnMessage', 'Warning message']] },
-  lockedSquad: { group: 'Behaviour', title: 'Small locked squads', watches: (r) => `Locked squads with fewer than ${r.minMembers} players, while at least ${r.minPlayers} are on. The commander's squad is left alone.`,
-    steps: (r) => [['Warn the leader', r.warnAfterMinutes ? `after ${minutes(r.warnAfterMinutes)}` : 'at once'], r.disbandAfterMinutes > 0 && ['Disband', `after ${minutes(r.disbandAfterMinutes)}`]].filter(Boolean),
-    untested: 'Disbanding has not been tried on a real server.',
-    fields: [['minPlayers', 'Only from this many players'], ['minMembers', 'A locked squad needs (players)'], ['warnAfterMinutes', 'Warn after (minutes)'], ['disbandAfterMinutes', 'Disband after (minutes)'], ['warnMessage', 'Warning message']] },
-  chatFilter: { group: 'Chat and names', title: 'Chat filter', watches: (r) => `${r.words.length ? plural(r.words.length, 'blocked word') : 'No blocked words yet'}, matched as whole words in every chat but admin chat.`,
-    steps: (r) => [['Warn', 'first time'], r.kickAt > 0 && ['Kick', `at ${r.kickAt}`], r.banAt > 0 && [`Ban ${banText(r.banLength)}`, `at ${r.banAt}`]].filter(Boolean),
-    fields: [['words', 'Blocked words, one per line'], ['kickAt', 'Kick at (hits)'], ['banAt', 'Ban at (hits)'], ['banLength', 'Ban length'], ['warnMessage', 'Warning message']] },
-  nameFilter: { group: 'Chat and names', title: 'Name filter', watches: (r) => `${r.patterns.length ? plural(r.patterns.length, 'blocked text') : 'No blocked texts yet'}, looked for anywhere in a player name.`,
-    steps: (r) => [['Warn', 'on joining'], ['Kick', r.kickAfterMinutes ? `after ${minutes(r.kickAfterMinutes)}` : 'at the next check']],
-    fields: [['patterns', 'Blocked texts, one per line'], ['kickAfterMinutes', 'Kick after (minutes)'], ['warnMessage', 'Warning message']] }
+  teamkill: { group: t('Behaviour'), title: t('Teamkill limit'), watches: (r) => t("Counts each player's teamkills over {time}.", { time: minutes(r.windowMinutes) }),
+    steps: (r) => countSteps(r, 'teamkill'),
+    fields: [['windowMinutes', t('Count over (minutes)')], ['warnAt', t('Warn at (teamkills)')], ['kickAt', t('Kick at')], ['banAt', t('Ban at')], ['banLength', t('Ban length')], ['warnMessage', t('Warning message')]] },
+  squadless: { group: t('Behaviour'), title: t('Players without a squad'), watches: (r) => t('Only while at least {n} players are on.', { n: r.minPlayers }),
+    steps: (r) => [r.warnAfterMinutes > 0 && [t('Warn'), after(r.warnAfterMinutes)], r.kickAfterMinutes > 0 && [t('Kick'), after(r.kickAfterMinutes)]].filter(Boolean),
+    fields: [['minPlayers', t('Only from this many players')], ['warnAfterMinutes', t('Warn after (minutes)')], ['kickAfterMinutes', t('Kick after (minutes)')], ['warnMessage', t('Warning message')]] },
+  slKit: { group: t('Behaviour'), title: t('Squad leader without the SL kit'), watches: (r) => t('Squad leaders only, while at least {n} players are on.', { n: r.minPlayers }),
+    steps: (r) => [[t('Warn'), r.warnAfterMinutes ? after(r.warnAfterMinutes) : t('at once')], r.removeAfterMinutes > 0 && [t('Remove from squad'), after(r.removeAfterMinutes)]].filter(Boolean),
+    fields: [['minPlayers', t('Only from this many players')], ['warnAfterMinutes', t('Warn after (minutes)')], ['removeAfterMinutes', t('Remove from squad after (minutes)')], ['warnMessage', t('Warning message')]] },
+  lockedSquad: { group: t('Behaviour'), title: t('Small locked squads'), watches: (r) => t("Locked squads with fewer than {members} players, while at least {n} are on. The commander's squad is left alone.", { members: r.minMembers, n: r.minPlayers }),
+    steps: (r) => [[t('Warn the leader'), r.warnAfterMinutes ? after(r.warnAfterMinutes) : t('at once')], r.disbandAfterMinutes > 0 && [t('Disband'), after(r.disbandAfterMinutes)]].filter(Boolean),
+    untested: t('Disbanding has not been tried on a real server.'),
+    fields: [['minPlayers', t('Only from this many players')], ['minMembers', t('A locked squad needs (players)')], ['warnAfterMinutes', t('Warn after (minutes)')], ['disbandAfterMinutes', t('Disband after (minutes)')], ['warnMessage', t('Warning message')]] },
+  chatFilter: { group: t('Chat and names'), title: t('Chat filter'), watches: (r) => t('{count}, matched as whole words in every chat but admin chat.', { count: r.words.length ? plural(r.words.length, 'blocked word') : t('No blocked words yet') }),
+    steps: (r) => [[t('Warn'), t('first time')], r.kickAt > 0 && [t('Kick'), at(r.kickAt)], banStep(r)].filter(Boolean),
+    fields: [['words', t('Blocked words, one per line')], ['kickAt', t('Kick at (hits)')], ['banAt', t('Ban at (hits)')], ['banLength', t('Ban length')], ['warnMessage', t('Warning message')]] },
+  nameFilter: { group: t('Chat and names'), title: t('Name filter'), watches: (r) => t('{count}, looked for anywhere in a player name.', { count: r.patterns.length ? plural(r.patterns.length, 'blocked text') : t('No blocked texts yet') }),
+    steps: (r) => [[t('Warn'), t('on joining')], [t('Kick'), r.kickAfterMinutes ? after(r.kickAfterMinutes) : t('at the next check')]],
+    fields: [['patterns', t('Blocked texts, one per line')], ['kickAfterMinutes', t('Kick after (minutes)')], ['warnMessage', t('Warning message')]] }
 };
 const SQUADJS = { AutoTKWarn: 'teamkill', AutoKickUnassigned: 'squadless' };
 
@@ -47,19 +50,19 @@ function card(name) {
   const steps = info.steps(r);
   const doubled = overlap.filter((p) => SQUADJS[p] === name);
   return html`<article class="rulecard ${r.enabled ? 'live-rule' : ''}">
-    <div class="rulehead"><div class="stack2 grow"><div class="line"><h3>${info.title}</h3><span class="tag mini ${r.enabled ? 'solid' : ''}">${r.enabled ? 'On' : 'Off'}</span></div><span class="sub">${info.watches(r)}</span></div><button type="button" class="sw" role="switch" aria-checked="${r.enabled}" aria-label="${info.title}" data-rulesw="${name}" ${off}></button></div>
-    <ol class="steps">${steps.length ? steps.map(([what, when]) => html`<li><b>${what}</b><span class="sub xs">${when}</span></li>`) : html`<li><span class="sub">Every step is switched off.</span></li>`}</ol>
-    ${doubled.length ? html`<span class="tag warnish wrapany">The SquadJS plugin ${doubled.join(', ')} is on and watches the same thing. Players would be warned twice.</span>` : ''}
+    <div class="rulehead"><div class="stack2 grow"><div class="line"><h3>${info.title}</h3><span class="tag mini ${r.enabled ? 'solid' : ''}">${r.enabled ? t('On') : t('Off')}</span></div><span class="sub">${info.watches(r)}</span></div><button type="button" class="sw" role="switch" aria-checked="${r.enabled}" aria-label="${info.title}" data-rulesw="${name}" ${off}></button></div>
+    <ol class="steps">${steps.length ? steps.map(([what, when]) => html`<li><b>${what}</b><span class="sub xs">${when}</span></li>`) : html`<li><span class="sub">${t('Every step is switched off.')}</span></li>`}</ol>
+    ${doubled.length ? html`<span class="tag warnish wrapany">${t('The SquadJS plugin {name} is on and watches the same thing. Players would be warned twice.', { name: doubled.join(', ') })}</span>` : ''}
     ${info.untested ? html`<span class="sub xs">${info.untested}</span>` : ''}
-    <details data-rule-open="${name}" ${open.has(name) ? html`open` : ''}><summary class="btn small">${may('rules.edit') ? 'Edit' : 'See values'}</summary>
-      <form data-rule="${name}" class="ruleform">${info.fields.map(([key, label]) => control(name, key, label, r[key], off))}<div class="wide line"><button class="btn pri" ${off}>Save</button><span class="sub xs">0 switches that step off.</span></div></form></details>
+    <details data-rule-open="${name}" ${open.has(name) ? html`open` : ''}><summary class="btn small">${may('rules.edit') ? t('Edit') : t('See values')}</summary>
+      <form data-rule="${name}" class="ruleform">${info.fields.map(([key, label]) => control(name, key, label, r[key], off))}<div class="wide line"><button class="btn pri" ${off}>${t('Save')}</button><span class="sub xs">${t('0 switches that step off.')}</span></div></form></details>
   </article>`;
 }
 function render() {
   if (!rules) return;
   const names = Object.keys(INFO).filter((n) => rules[n]);
   const on = names.filter((n) => rules[n].enabled).length;
-  put($('#rl-summary'), html`<span class="cap">Switched on</span><span class="kpiv">${on}<small> / ${names.length}</small></span>`);
+  put($('#rl-summary'), html`<span class="cap">${t('Switched on')}</span><span class="kpiv">${on}<small> / ${names.length}</small></span>`);
   put($('#rl-list'), [...new Set(names.map((n) => INFO[n].group))].map((g) => html`<section class="rulegroup"><h2>${g}</h2><div class="rulegrid">${names.filter((n) => INFO[n].group === g).map(card)}</div></section>`));
   gate($('#view-rules'));
 }
@@ -77,8 +80,8 @@ const save = async (name, values) => {
 
 export default {
   id: 'rules',
-  title: 'Rules',
-  shell: () => html`<div class="tile intro"><div class="stack2 grow"><h2>What these rules are</h2><span class="sub">The panel watches the game and acts by itself, the same way an admin would with a warning or a kick. Every rule starts off, server admins are never touched, and every action it takes is written to the admin log. Try a new rule with only the warning step first.</span></div><div class="kpi" id="rl-summary"></div></div><div class="stackcol" id="rl-list"><span class="empty">Loading…</span></div>`,
+  title: t('Rules'),
+  shell: () => html`<div class="tile intro"><div class="stack2 grow"><h2>${t('What these rules are')}</h2><span class="sub">${t('The panel watches the game and acts by itself, the same way an admin would with a warning or a kick. Every rule starts off, server admins are never touched, and every action it takes is written to the admin log. Try a new rule with only the warning step first.')}</span></div><div class="kpi" id="rl-summary"></div></div><div class="stackcol" id="rl-list"><span class="empty">${t('Loading…')}</span></div>`,
   wire(root) {
     root.addEventListener('click', (e) => {
       const sw = e.target.closest('[data-rulesw]');
@@ -86,7 +89,7 @@ export default {
       const name = sw.dataset.rulesw;
       const enable = sw.getAttribute('aria-checked') !== 'true';
       const steps = INFO[name].steps(rules[name]).map(([what, when]) => `${what} ${when}`).join(', ');
-      ask({ title: `Switch ${INFO[name].title} ${enable ? 'on' : 'off'}?`, text: enable ? `The panel will act on players by itself: ${steps || 'no step is set'}. Unsaved field changes are not included.` : '', ok: enable ? 'Switch on' : 'Switch off', run: () => save(name, { enabled: enable }) });
+      ask({ title: enable ? t('Switch {name} on?', { name: INFO[name].title }) : t('Switch {name} off?', { name: INFO[name].title }), text: enable ? t('The panel will act on players by itself: {steps}. Unsaved field changes are not included.', { steps: steps || t('no step is set') }) : '', ok: enable ? t('Switch on') : t('Switch off'), run: () => save(name, { enabled: enable }) });
     });
     // which cards are open survives a save
     root.addEventListener('toggle', (e) => {
@@ -102,7 +105,7 @@ export default {
       form.querySelectorAll('input[name],select[name],textarea[name]').forEach((el) => {
         values[el.name] = el.dataset.kind === 'list' ? el.value.split('\n').map((s) => s.trim()).filter(Boolean) : el.dataset.kind === 'number' ? Number(el.value) : el.value;
       });
-      ask({ title: `Save ${INFO[form.dataset.rule].title}?`, ok: 'Save', run: () => save(form.dataset.rule, values) });
+      ask({ title: t('Save {name}?', { name: INFO[form.dataset.rule].title }), ok: t('Save'), run: () => save(form.dataset.rule, values) });
     });
   },
   open: guard(load),

@@ -11,8 +11,8 @@ import { PERMISSIONS, RANKS } from './permissions.js';
 import { ALL_KINDS, LOG_KINDS } from './store.js';
 
 // the only files of the UI folder that are ever served
-const SCRIPTS = ['app.js', 'core.js', 'art.js', ...['overview', 'score', 'players', 'map', 'shuffle', 'rules', 'plugins',
-  'records', 'staff'].map((page) => `pages/${page}.js`)];
+const SCRIPTS = ['app.js', 'core.js', 'art.js', 'i18n.js', ...['overview', 'score', 'players', 'map', 'shuffle', 'rules', 'plugins',
+  'records', 'staff', 'server'].map((page) => `pages/${page}.js`), ...['common', 'pages', 'server'].map((part) => `lang/${part}.js`)];
 const UI = {
   '/': ['index.html', 'text/html; charset=utf-8'],
   '/style.css': ['style.css', 'text/css; charset=utf-8'],
@@ -45,6 +45,7 @@ const MAX_STREAMS_PER_SESSION = 3;
 const FIRST = ['/api/me', '/api/account', '/api/logout'];
 
 const may = (user, id) => user.perms.has(id);
+const SERVER_PAGE = ['messages.schedule', 'server.settings', 'server.password', 'notify.manage'];
 const mayStaff = (user) => may(user, 'staff.admins') || may(user, 'staff.manage') || may(user, 'perm.grant');
 const whoAmI = (u) => ({ name: u.name, rank: u.rank, rankName: RANKS[u.rank].name, mustChange: u.mustChange,
   defaultPassword: u.defaultPassword, can: [...u.perms] });
@@ -74,7 +75,7 @@ function artList(dataDir) {
 }
 
 export function createPanelServer(deps) {
-  const { auth, actions, tracker, store, rules, shuffle, configFile, getLayers, restart, options, uiDir, tls } = deps;
+  const { auth, actions, tracker, store, rules, shuffle, schedule, notifier, configFile, getLayers, restart, options, uiDir, tls } = deps;
   const streams = new Set();
   const secure = !!tls || !!options.secureCookie;
   const cookieName = secure ? '__Host-sa_session' : 'sa_session';
@@ -248,6 +249,38 @@ export function createPanelServer(deps) {
 
   const shufflePage = (user) => shuffle.describe(may(user, 'shuffle.settings'));
 
+  // only the parts this account may change
+  async function serverPage(user) {
+    const page = {};
+    if (may(user, 'server.settings')) page.settings = { maxPlayers: tracker.server.maxPlayers || null };
+    if (may(user, 'server.password')) page.password = { blocked: await actions.passwordBlock() };
+    if (may(user, 'messages.schedule')) page.schedule = schedule.items;
+    if (may(user, 'notify.manage')) page.notify = notifier.describe();
+    return page;
+  }
+
+  async function serverChange(user, body, ip) {
+    const op = String(body.op ?? '');
+    const need = { schedule: 'messages.schedule', notify: 'notify.manage', notifyTest: 'notify.manage', password: 'server.password' };
+    if (!has(need, op)) fail('Unknown change.');
+    if (!may(user, need[op])) fail('You do not have permission for this.', 403);
+    if (op === 'schedule') {
+      const items = schedule.save(body.items);
+      audit(user.name, 'Announcements', `${items.filter((i) => i.enabled).length} on, ${items.length} saved`);
+    } else if (op === 'notify') {
+      await auth.confirm(user, body.confirmPassword, ip);
+      const saved = notifier.save(body.change);
+      // the address itself is never written down
+      audit(user.name, 'Discord notices', saved.enabled ? 'on' : 'off', body.change?.url === undefined ? '' : 'address changed');
+    } else if (op === 'notifyTest') {
+      await notifier.test();
+    } else {
+      await auth.confirm(user, body.confirmPassword, ip);
+      await actions.setPassword(user, body.password);
+    }
+    return serverPage(user);
+  }
+
   const staffPage = (user) => ({ ...auth.staff(user), catalog: Object.values(PERMISSIONS),
     ranks: Object.fromEntries(Object.entries(RANKS).map(([id, r]) => [id, r])) });
 
@@ -328,6 +361,14 @@ export function createPanelServer(deps) {
         return send(res, 200, list.filter((entry) => visibleLog(user, entry)));
       }
       if (where === '/api/months') return send(res, 200, store.months());
+      if (where === '/api/server') {
+        return SERVER_PAGE.some((p) => may(user, p)) ? send(res, 200, await serverPage(user)) : denied();
+      }
+      if (where === '/api/recent') {
+        return send(res, 200, tracker.recentlyLeft().map((p) => ({ ...p,
+          teamkills: may(user, 'kills.view') ? p.teamkills : 0,
+          ...(may(user, 'notes.view') ? {} : { notes: 0, warns: 0, kicks: 0, bans: 0 }) })));
+      }
       if (where === '/api/shuffle') return send(res, 200, shufflePage(user));
       if (where === '/api/records') return may(user, 'data.manage') ? send(res, 200, store.overview()) : denied();
       if (where === '/api/records/timeline') {
@@ -396,6 +437,7 @@ export function createPanelServer(deps) {
       if (!may(user, 'data.manage')) return denied();
       return send(res, 200, await recordsChange(user, body, ip));
     }
+    if (where === '/api/server') return send(res, 200, await serverChange(user, body, ip));
     if (where === '/api/shuffle') {
       if (!may(user, 'shuffle.settings')) return denied();
       const op = String(body.op ?? '');

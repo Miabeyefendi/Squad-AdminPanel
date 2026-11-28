@@ -10,7 +10,9 @@ import { Actions } from './admin-panel/actions.js';
 import { Auth, ensureDefaultAdmin, loadUsers } from './admin-panel/auth.js';
 import { ConfigFile } from './admin-panel/config-file.js';
 import { createPanelServer, isLoopback } from './admin-panel/http.js';
+import { Notifier } from './admin-panel/notify.js';
 import { Rules } from './admin-panel/rules.js';
+import { Schedule } from './admin-panel/schedule.js';
 import { ShuffleHost } from './admin-panel/shuffle.js';
 import { Tracker } from './admin-panel/state.js';
 import { Store } from './admin-panel/store.js';
@@ -61,6 +63,8 @@ export default class AdminPanel extends BasePlugin {
       vault = openVault(dataDir);
       loadUsers(vault);
       this.store = new Store(vault, { retentionDays: +o.retentionDays || 0 });
+      this.schedule = new Schedule({ server: this.server, vault, store: this.store });
+      this.notifier = new Notifier({ vault, serverName: () => this.server.serverName || 'Squad server' });
     } catch (err) {
       // never start over data that cannot be read: it would be overwritten
       this.verbose(1, `Not started: ${err.message}`);
@@ -81,7 +85,10 @@ export default class AdminPanel extends BasePlugin {
     this.web = createPanelServer({
       auth: new Auth({ vault, sessionHours: +o.sessionHours || 12, idleMinutes: +o.idleMinutes || 60 }),
       tls,
-      actions: new Actions({ server: this.server, store: this.store, shuffle: this.shuffle, getLayers: () => this.layerList() }),
+      actions: new Actions({ server: this.server, store: this.store, shuffle: this.shuffle, getLayers: () => this.layerList(),
+        rconVerbosity: () => this.rconVerbosity() }),
+      schedule: this.schedule,
+      notifier: this.notifier,
       shuffle: this.shuffle,
       tracker: this.tracker,
       store: this.store,
@@ -99,6 +106,10 @@ export default class AdminPanel extends BasePlugin {
     this.tracker.onPlayers();
     await this.tracker.readMaps();
     this.store.listeners.add((entry) => this.web.broadcast('log', entry));
+    this.store.listeners.add((entry) => this.notifier.onLog(entry));
+    this.newGame = () => this.schedule.onNewGame();
+    this.server.on('NEW_GAME', this.newGame);
+    this.scheduleTimer = setInterval(() => this.schedule.tick().catch((err) => this.verbose(1, err.message)), 15000);
 
     let sent = -1;
     let beat = 0;
@@ -126,6 +137,16 @@ export default class AdminPanel extends BasePlugin {
     );
   }
 
+  // How much SquadJS prints about RCON, from its own logger; null when it cannot be read.
+  async rconVerbosity() {
+    try {
+      const { default: logger } = await import('core/logger');
+      return logger.verboseness.RCON || 1;
+    } catch {
+      return null;
+    }
+  }
+
   loadTls(dataDir) {
     const [cert, key] = ['cert.pem', 'key.pem'].map((f) => path.join(dataDir, 'tls', f));
     if (!fs.existsSync(cert) || !fs.existsSync(key)) return null;
@@ -144,6 +165,9 @@ export default class AdminPanel extends BasePlugin {
   async unmount() {
     clearInterval(this.pushTimer);
     clearInterval(this.refreshTimer);
+    clearInterval(this.scheduleTimer);
+    if (this.newGame) this.server.removeListener('NEW_GAME', this.newGame);
+    this.notifier?.close();
     this.tracker?.unmount();
     await this.shuffle?.unmount();
     this.store?.flush();

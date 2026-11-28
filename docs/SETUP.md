@@ -2,7 +2,7 @@
 
 # 📖 Squad Admin Panel Setup Guide
 
-**v1.0.0 · Last updated 2026-11-27**
+**v1.1.0 · Last updated 2026-11-28**
 
 **English** · [Türkçe](./KURULUM_TR.md)
 
@@ -333,6 +333,15 @@ Squad sends neither over RCON nor in the log.
 
 **Does the panel work while my PC is off?**
 Only if SquadJS runs somewhere else. For 24/7, run SquadJS on a server as a service, for example with pm2.
+
+---
+
+## Languages, announcements and Discord (1.1.0)
+
+- **Language:** click the flag at the top right. The choice is kept in that browser.
+- **Announcements:** open **Server**, add a message, choose when it is sent, then **Save announcements**.
+- **Discord:** in Discord open the channel settings, **Integrations**, **Webhooks**, create one and copy its address. Paste it on the **Server** page, tick **Send notices to Discord**, save, then **Send a test message**. Only the server owner can do this. Treat the address like a password.
+- **Server password:** the panel refuses to set it when `logger.verboseness.RCON` in the SquadJS `config.json` is 2 or higher, because SquadJS would print the password.
 
 ---
 

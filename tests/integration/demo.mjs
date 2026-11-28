@@ -126,6 +126,12 @@ server.admins.add(find(2, 9).eosID);
 server.emit('TEAMKILL', { attacker: find(1, 12), victim: find(1, 3), weapon: 'BP_RPG7_C' });
 server.emit('TEAMKILL', { attacker: find(1, 12), victim: find(1, 3), weapon: 'BP_Grad_C' });
 server.emit('UPDATED_PLAYER_INFORMATION');
+// someone who threw a grenade and left, for the "Recently left" list
+const gone = find(2, 30);
+server.emit('TEAMKILL', { attacker: gone, victim: find(2, 3), weapon: 'BP_F1_Grenade_C' });
+server.emit('PLAYER_DISCONNECTED', { player: { name: gone.name }, raw: `UniqueNetId: RedpointEOS:${gone.eosID}` });
+server.players = server.players.filter((p) => p !== gone);
+server.emit('UPDATED_PLAYER_INFORMATION');
 console.log('Demo ready. RCON commands are printed here and not sent anywhere.');
 let shown = 0;
 setInterval(() => { for (; shown < server.sent.length; shown++) console.log(`RCON> ${server.sent[shown]}`); }, 500);

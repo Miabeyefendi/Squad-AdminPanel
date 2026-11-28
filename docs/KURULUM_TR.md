@@ -2,7 +2,7 @@
 
 # 📖 Squad Admin Panel Rehberi
 
-**v1.0.0 · Son güncelleme 2026-11-27**
+**v1.1.0 · Son güncelleme 2026-11-28**
 
 [English](./SETUP.md) · **Türkçe**
 
@@ -136,7 +136,7 @@ Takılırsan: [SquadJS'in resmi kurulum belgesi](https://github.com/Team-Silver-
 
 ### Adım 3: Panel dosyalarını kopyala
 
-1. [Panelin son sürüm sayfasından](https://github.com/Miabeyefendi/Squad-AdminPanel/releases/latest) `Squad-AdminPanel-v1.0.0.zip` dosyasını indir.
+1. [Panelin son sürüm sayfasından](https://github.com/Miabeyefendi/Squad-AdminPanel/releases/latest) `Squad-AdminPanel-v1.1.0.zip` dosyasını indir.
 2. Zip'i aç. İçinde **iki şey** var: `admin-panel.js` dosyası ve `admin-panel` klasörü.
 3. İkisini birden şuraya kopyala: `C:\SquadJS\squad-server\plugins\`
 
@@ -152,7 +152,7 @@ C:\SquadJS\squad-server\plugins\
 └── (SquadJS'in kendi eklentileri)
 ```
 
-**Yanlış:** `plugins\Squad-AdminPanel-v1.0.0\admin-panel.js` (araya fazladan klasör girmiş, o klasörü kaldır, içindekileri `plugins` içine taşı).
+**Yanlış:** `plugins\Squad-AdminPanel-v1.1.0\admin-panel.js` (araya fazladan klasör girmiş, o klasörü kaldır, içindekileri `plugins` içine taşı).
 
 ---
 
@@ -467,6 +467,15 @@ Oyun bunu vermiyor. Panel "Command Squad" adlı squad'ın liderini commander say
 
 **Bilgisayarımı kapatırsam panel çalışır mı?**
 Hayır. SquadJS hangi bilgisayardaysa o açık olmalı. Sürekli çalışsın istiyorsan VDS kullan ve SquadJS'i pm2 gibi bir araçla servis olarak çalıştır.
+
+---
+
+## Dil, duyurular ve Discord (1.1.0)
+
+- **Dil:** sağ üstteki bayrağa tıkla. Seçim o tarayıcıda saklanır.
+- **Duyuru:** **Server** sayfasını aç, mesaj ekle, ne zaman gideceğini seç, **Save announcements**.
+- **Discord:** Discord'da kanal ayarları, **Entegrasyonlar**, **Webhook'lar** yolundan bir webhook oluştur ve adresini kopyala. **Server** sayfasına yapıştır, **Send notices to Discord** kutusunu işaretle, kaydet, **Send a test message**. Bunu yalnızca sunucu sahibi yapabilir. Adresi parola gibi sakla.
+- **Sunucu parolası:** SquadJS `config.json` içinde `logger.verboseness.RCON` 2 ya da üstüyse panel parolayı değiştirmez, çünkü SquadJS parolayı konsola yazar.
 
 ---
 

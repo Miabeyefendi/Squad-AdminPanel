@@ -55,6 +55,9 @@
 - **Player records and logs** - warnings, kicks, bans and notes that survive restarts, plus chat, kill, teamkill, admin and join logs with CSV export
 - **Automatic rules** - teamkills, players without a squad, squad leaders without the SL kit, small locked squads, chat and name filters, all off by default
 - **SquadJS plugin manager** - switch other plugins on and off and edit their settings from the browser
+- **Server page** - player limit, queue limit and server password, automatic announcements, and one way Discord notices (bans, kicks, `!admin` calls), off by default
+- **Players who just left** - the last 30 minutes with their teamkills and record, so they can still be banned; demote a commander or disband a squad with a button
+- **Five languages** - English, Türkçe, Deutsch, Русский and 中文, picked with a flag at the top right; plugin setting names stay as the plugins write them
 - **Self-hosted** - no account, no cloud service, no extra npm packages; encrypted data and brute force protection
 
 ---
@@ -77,7 +80,7 @@
 
 ### Install
 
-1. Download `Squad-AdminPanel-v1.0.0.zip` from the [releases page](https://github.com/Miabeyefendi/Squad-AdminPanel/releases/latest).
+1. Download `Squad-AdminPanel-v1.1.0.zip` from the [releases page](https://github.com/Miabeyefendi/Squad-AdminPanel/releases/latest).
 2. Extract `admin-panel.js` and the `admin-panel` folder into `squad-server/plugins/` of SquadJS.
 3. Add this line to the `plugins` list in `config.json`:
 
@@ -92,12 +95,12 @@ First time with SquadJS? The [tutorial](./docs/SETUP.md#-installation) starts fr
 <details>
 <summary><b>About the release file</b></summary>
 
-The zip is a plain copy of `src/squadjs/` (tag `v1.0.0`) from this repository with `LICENSE` and `NOTICE` added inside `admin-panel/`. Nothing is compiled, minified or bundled.
+The zip is a plain copy of `src/squadjs/` (tag `v1.1.0`) from this repository with `LICENSE` and `NOTICE` added inside `admin-panel/`. Nothing is compiled, minified or bundled.
 
-`Squad-AdminPanel-v1.0.0.zip` SHA-256:
+`Squad-AdminPanel-v1.1.0.zip` SHA-256:
 
 ```
-804c8b6210586f9fe7dad42c4ddf0527a5a22f91e4a699e141de704c67c47af5
+176a30cab3fc84ea552d5525b02fef8fbf80867120e8e36efaeb335b36d0e89c
 ```
 
 </details>
@@ -265,7 +268,7 @@ The player list has no commander field. The panel takes the leader of the squad 
 <details>
 <summary><b>What is still untested?</b></summary>
 
-Warn, kick, ban, move team and remove from squad have not run against a real player. Disbanding a squad (locked squad rule) has not run on a real server. Damage numbers have not been checked against a real match log.
+Warn, kick, ban, move team and remove from squad have not run against a real player. Disbanding a squad (locked squad rule) has not run on a real server. Damage numbers have not been checked against a real match log. New in 1.1.0 and not yet run on a real game server: demoting a commander, disbanding a squad by button, banning a player who left, the player and queue limits and the server password. No message has been sent to a real Discord channel.
 
 </details>
 

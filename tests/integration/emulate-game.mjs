@@ -276,6 +276,22 @@ await Promise.all(server.plugins.map((plugin) => plugin.mount()));
   check('rule squadless: kicks later, squad members are left alone', await until(async () => kicked(loose), 60) && !kicked(a));
   await post('/api/rules', { squadless: { enabled: false } });
 
+  // ---------- 1.1.0 ----------
+  const left = await get('/api/recent');
+  check('players who left are listed with their IDs', left.some((x) => x.id === victim.eos && x.kicks === 1), JSON.stringify(left));
+  r = await act('disbandSquad', { team: 1, squad: 1 });
+  check('disband squad sends the team and squad number', r.status === 200 && commands.includes('AdminDisbandSquad 1 1'), JSON.stringify(r));
+  r = await act('maxPlayers', { value: 90 });
+  const q = await act('queueLimit', { value: -1 });
+  check('player and queue limits reach the game', r.status === 200 && q.status === 200 && commands.includes('AdminSetMaxNumPlayers 90') && commands.includes('AdminSetPublicQueueLimit -1'), JSON.stringify([r, q]));
+  const page = await get('/api/server');
+  check('the real SquadJS logger is readable, so the password is allowed', page.password?.blocked === null, JSON.stringify(page.password));
+  const secret = `Emu-${crypto.randomBytes(6).toString('hex')}`;
+  r = await post('/api/server', { op: 'password', password: secret, confirmPassword: password });
+  await sleep(1500);
+  check('server password reaches the game and not the SquadJS console', r.status === 200 && commands.includes(`AdminSetServerPassword ${secret}`) && !squadjsLog.includes(secret), JSON.stringify([r.status, r.error]));
+  check('nor the panel logs', !JSON.stringify(await logOf('admin')).includes(secret));
+
   const audit = await logOf('admin');
   check('audit log has the admin and the rule actions', audit.some((x) => x.by === 'emu' && x.action === 'Kick') && audit.some((x) => x.by === 'Auto: Teamkill limit' && x.action === 'Kick') && !audit.some((x) => x.action === 'Failed'), JSON.stringify(audit.filter((x) => x.action === 'Failed')));
   stream.abort();

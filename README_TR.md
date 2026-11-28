@@ -57,6 +57,9 @@
 - **Kayıtlar ve loglar** - yeniden başlatmada silinmeyen uyarı, kick, ban, not; chat, kill, teamkill logları, CSV
 - **Otomatik kurallar** - teamkill, squad'sız oyuncu, kitsiz SL, küçük kilitli squad, chat ve isim filtresi, hepsi kapalı gelir
 - **SquadJS eklenti yöneticisi** - diğer eklentileri tarayıcıdan aç, kapat, ayarla
+- **Sunucu sayfası** - oyuncu sınırı, sıra sınırı ve sunucu parolası, otomatik duyurular, tek yönlü Discord bildirimleri (ban, kick, `!admin` çağrısı), varsayılan olarak kapalı
+- **Yeni çıkan oyuncular** - son 30 dakikada çıkanlar teamkill ve sicilleriyle listelenir, yine banlanabilir; commander düşürme ve squad dağıtma butonları
+- **Beş dil** - English, Türkçe, Deutsch, Русский ve 中文, sağ üstteki bayraktan seçilir; eklenti ayar adları eklentinin yazdığı gibi kalır
 - **Kendi sunucunda** - hesap yok, bulut yok, ek npm paketi yok; şifreli veri ve deneme-yanılma koruması
 
 ---
@@ -79,7 +82,7 @@
 
 ### Kur
 
-1. [Sürüm sayfasından](https://github.com/Miabeyefendi/Squad-AdminPanel/releases/latest) `Squad-AdminPanel-v1.0.0.zip` dosyasını indir.
+1. [Sürüm sayfasından](https://github.com/Miabeyefendi/Squad-AdminPanel/releases/latest) `Squad-AdminPanel-v1.1.0.zip` dosyasını indir.
 2. İçindeki `admin-panel.js` ve `admin-panel` klasörünü SquadJS'in `squad-server/plugins/` klasörüne çıkar.
 3. `config.json` içindeki `plugins` listesine ekle:
 
@@ -92,12 +95,12 @@
 <details>
 <summary><b>Sürüm dosyası hakkında</b></summary>
 
-Zip, bu depodaki `src/squadjs/` (tag `v1.0.0`) klasörünün düz kopyasıdır, `admin-panel/` içine `LICENSE` ve `NOTICE` eklenmiştir. Derleme, küçültme ya da paketleme yoktur.
+Zip, bu depodaki `src/squadjs/` (tag `v1.1.0`) klasörünün düz kopyasıdır, `admin-panel/` içine `LICENSE` ve `NOTICE` eklenmiştir. Derleme, küçültme ya da paketleme yoktur.
 
-`Squad-AdminPanel-v1.0.0.zip` SHA-256:
+`Squad-AdminPanel-v1.1.0.zip` SHA-256:
 
 ```
-804c8b6210586f9fe7dad42c4ddf0527a5a22f91e4a699e141de704c67c47af5
+176a30cab3fc84ea552d5525b02fef8fbf80867120e8e36efaeb335b36d0e89c
 ```
 
 </details>
@@ -261,7 +264,7 @@ Oyuncu listesinde commander bilgisi yok. Panel "Command Squad" adlı squad'ın l
 <details>
 <summary><b>Neler henüz denenmedi?</b></summary>
 
-Uyarı, kick, ban, takım değiştirme ve squad'dan çıkarma gerçek oyuncuya karşı denenmedi. Squad dağıtma gerçek sunucuda çalıştırılmadı. Hasar sayısı gerçek maç loguyla karşılaştırılmadı.
+Uyarı, kick, ban, takım değiştirme ve squad'dan çıkarma gerçek oyuncuya karşı denenmedi. Squad dağıtma gerçek sunucuda çalıştırılmadı. Hasar sayısı gerçek maç loguyla karşılaştırılmadı. 1.1.0 ile gelen ve gerçek oyun sunucusunda henüz denenmeyenler: commander düşürme, butonla squad dağıtma, çıkmış oyuncuyu banlama, oyuncu ve sıra sınırı, sunucu parolası. Gerçek bir Discord kanalına henüz mesaj gönderilmedi.
 
 </details>
 
